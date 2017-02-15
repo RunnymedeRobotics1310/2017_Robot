@@ -54,20 +54,25 @@ public class OI {
 	private T_Toggle motorPidToggle = new T_Toggle(driverController, T_Button.LEFT_STICK, true);
 	
 	private T_Toggle gearToggle = new T_Toggle(driverController, T_Button.RIGHT_STICK, false);
+	
+	private T_Toggle intakeToggle = new T_Toggle(driverController, T_Button.X, false);
+	
+	private T_Toggle outtakeToggle = new T_Toggle(driverController, T_Button.A, false);
 
 	public boolean getDriverRumbleStart() {
 		return driverController.getButton(T_Button.RIGHT_BUMPER);
 	}
 	
+	
 	public double getSpeed() {
 		return driverController.getAxis(T_Stick.RIGHT, T_Axis.Y);
 	}
 	
-	public boolean getCLimbCatch() {
+	public boolean getClimbCatch() {
 		return driverController.getButton(T_Trigger.RIGHT);
 	}
 	
-	public boolean getFastCLimb() {
+	public boolean getFastClimb() {
 		return driverController.getButton(T_Trigger.LEFT);
 	}
 	
@@ -78,6 +83,7 @@ public class OI {
 	public boolean getDriverToggle() {
 		return driverTestToggle.getToggleState();
 	}
+
 	
 	public boolean getMotorPidEnabled() {
 		return motorPidToggle.getToggleState();
@@ -115,12 +121,22 @@ public class OI {
 		return gearToggle.getToggleState();
 	}
 	
+	public boolean getIntakeToggleState(){
+		return intakeToggle.getToggleState();
+	}
+	
+	public boolean getOuttakeToggleState(){
+		return outtakeToggle.getToggleState();
+	}
+	
 	public void updatePeriodic() {
 		
 		// Update all toggles
 		driverTestToggle.update();
 		motorPidToggle.update();
 		gearToggle.update();
+		intakeToggle.update();
+		outtakeToggle.update();
 		
 		// Update all smartdashboard values
 		autoSelector.updateSmartDashboard();
@@ -134,5 +150,6 @@ public class OI {
 	public void setGearButton(boolean b) {
 		gearToggle.setToggleState(b);
 	}
+
 }
 

@@ -1,46 +1,42 @@
 
 package robot.commands;
 
+import com.toronto.oi.T_OiController;
+import com.toronto.oi.T_Toggle;
+
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
+import robot.RobotConst;
 import robot.commands.JoystickCommand.ButtonState;
 import robot.subsystems.GearSubsystem.GearState;
 
 /**
  *
  */
-public class DefaultClimbCommand extends Command {
+public class OuttakeCommand extends Command {
 
-	ButtonState climbButtonState = ButtonState.RELEASED;
 
-	public DefaultClimbCommand() {
+	public OuttakeCommand() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.climbSubsystem);
+		requires(Robot.intakeSubsystem);
 	}
 
 	// Called just before this Command runs the first time
-	protected void initialize() {
-
-	}
+	protected void initialize() {}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		
-    	if (Robot.oi.getClimbCatch()) {
-    		Robot.climbSubsystem.catchRope();
-    	} 
-    	else if (Robot.oi.getFastClimb()){
-    		Robot.climbSubsystem.climb();
+		if (Robot.oi.getOuttakeToggleState()) {
+    		Robot.intakeSubsystem.outtake();
     	}
     	else {
-    		Robot.climbSubsystem.stop();
-    	} 
-
+    		Robot.intakeSubsystem.stop();
+    	}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return timeSinceInitialized() > 1.0;
+		return false;
 	}
 
 	@Override

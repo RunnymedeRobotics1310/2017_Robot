@@ -3,6 +3,7 @@ package robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
+import robot.RobotConst;
 import robot.commands.JoystickCommand.ButtonState;
 import robot.subsystems.GearSubsystem.GearState;
 
@@ -33,7 +34,7 @@ public class DefaultGearCommand extends Command {
     	}
     	
 		if (       Robot.gearSubsystem.getCurrentState() == GearState.OPEN
-				&& Robot.chassisSubsystem.getSpeed() > 0.2) {
+				&& Robot.chassisSubsystem.getSpeed() > 0.2 * RobotConst.DRIVE_ENCODER_MAX_SPEED) {
 			Robot.oi.setGearButton(false);
 			return;
 		}

@@ -43,7 +43,7 @@ public class AutonomousCommand extends CommandGroup {
         	
         	if (robotPosition == RobotPosition.LEFT) {
         		// Do Gear
-        		addSequential(new DriveToEncoderDistanceCommand(0, .5, 94));
+        		addSequential(new DriveToEncoderDistanceCommand(0, .5, 100));
         		addSequential(new RotateToHeadingCommand(59));
     			addSequential(new DriveToLimitSwitchCommand(59, .2, Robot.chassisSubsystem.getTowerSensor(), 28));
     			addSequential(new GearReleaseCommand());
@@ -99,11 +99,11 @@ public class AutonomousCommand extends CommandGroup {
         	if (robotPosition == RobotPosition.LEFT) {
         	
         		// Do Gear
-        		addSequential(new DriveToEncoderDistanceCommand(0, .5, 96));
+        		addSequential(new DriveToEncoderDistanceCommand(0, .5, 97));
         		addSequential(new RotateToHeadingCommand(60));
         		addSequential(new DriveToLimitSwitchCommand(60, .2, Robot.chassisSubsystem.getTowerSensor(), 38));
         		addSequential(new GearReleaseCommand());
-        		addSequential(new DriveToEncoderDistanceCommand(60, -.5, 29));
+        		addSequential(new DriveToEncoderDistanceCommand(60, -.5, 30));
         		
         		if (shootMode == ShootMode.GEAR_ONLY) {
         			addSequential(new RotateToHeadingCommand(0));
