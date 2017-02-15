@@ -6,6 +6,7 @@ import com.toronto.oi.T_Logitech_GameController;
 import com.toronto.oi.T_OiController;
 import com.toronto.oi.T_Stick;
 import com.toronto.oi.T_Toggle;
+import com.toronto.oi.T_Trigger;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,8 +23,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 
  * Triggers
  * ---------
- * Left:
- * Right:
+ * Left:		Climb Motor (Full Speed)
+ * Right:		Climb Motor (Catch Speed)
  * 
  * Buttons
  * ---------
@@ -60,6 +61,14 @@ public class OI {
 	
 	public double getSpeed() {
 		return driverController.getAxis(T_Stick.RIGHT, T_Axis.Y);
+	}
+	
+	public boolean getCLimbCatch() {
+		return driverController.getButton(T_Trigger.RIGHT);
+	}
+	
+	public boolean getFastCLimb() {
+		return driverController.getButton(T_Trigger.LEFT);
 	}
 	
 	public boolean getStartDriveStraightCommand() {

@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.commands.auto.AutonomousCommand;
 import robot.oi.OI;
 import robot.subsystems.ChassisSubsystem;
+import robot.subsystems.ClimbSubsystem;
 import robot.subsystems.GearSubsystem;
 
 /**
@@ -28,6 +29,7 @@ public class Robot extends IterativeRobot {
 	public static List<T_Subsystem> subsystemLs = new ArrayList<T_Subsystem>();
 	public static final ChassisSubsystem chassisSubsystem = new ChassisSubsystem();
 	public static final GearSubsystem    gearSubsystem    = new GearSubsystem();
+	public static final ClimbSubsystem    climbSubsystem    = new ClimbSubsystem();
 	public static OI oi;
 	
 
@@ -41,6 +43,7 @@ public class Robot extends IterativeRobot {
     	
     	subsystemLs.add(chassisSubsystem);
     	subsystemLs.add(gearSubsystem);
+    	subsystemLs.add(climbSubsystem);
 		oi = new OI();
 //		oi.robotInit();
     	for (T_Subsystem subsystem: subsystemLs) {
