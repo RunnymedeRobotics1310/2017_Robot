@@ -67,7 +67,7 @@ public class RobotConst {
     	// SET THE ROBOT NUMBER HERE
     	//****************************
     	
-    	ROBOT = 1310;
+    	ROBOT = 1321;
     	
     	// Robot 1310 is the production robot
     	if (ROBOT == 1310) {

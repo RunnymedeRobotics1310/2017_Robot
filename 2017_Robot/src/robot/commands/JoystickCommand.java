@@ -1,6 +1,8 @@
 
 package robot.commands;
 
+import javax.xml.bind.annotation.XmlEnumValue;
+
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
@@ -60,6 +62,8 @@ public class JoystickCommand extends Command {
     		}
     		break;
     	}
+    	
+    	
     	
     	if (Robot.oi.getDriverRumbleStart()) { Robot.oi.setDriverRumble(0.8); }
     	else  								 { Robot.oi.setDriverRumble(0); }
@@ -132,6 +136,25 @@ public class JoystickCommand extends Command {
 					rightSpeed  = speed;
 				}
     		}
+    	}
+    	
+    	if (Robot.oi.getVisionTrackButton()) {
+    		Scheduler.getInstance().add(new VisionTrackTestCommand());
+//    		double minX = 131;
+//    		double minY = 145;
+//    		double maxX = 192;
+//    		double maxY = 157;
+//    		double distance = 32;
+//    		
+//    		double currentX = Robot.oi.getVisionTargetCenterX();
+//    		double currentY = Robot.oi.getVisionTargetCenterY();
+//    		
+//   
+//    		// Means it's centered...
+//    		if ((currentX >= minX && currentX <= maxX) && currentY >= minY && currentY <= maxY) {
+//    			leftSpeed = 0.3;
+//    			rightSpeed = 0.3;
+//    		}
     	}
     	
     	Robot.chassisSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
