@@ -53,16 +53,27 @@ public class OI {
 		return driverController.getButton(T_Button.A);
 	}
 	
-	public double getVisionTargetCenterX() {
+	public double[] getVisionTargetCenterX() {
 		double[] xValues = visionTable.getNumberArray("centerX", new double[0]);
-		return xValues.length != 1 ? -1 : xValues[0];
+		return xValues.length == 2 ? xValues : new double[0];
 	}
 	
-	public double getVisionTargetCenterY() {
-		double[] yValues = visionTable.getNumberArray("centerY", new double[1]);
-		return yValues.length != 1 ? -1 : yValues[0];
+	public double[] getVisionTargetCenterY() {
+		double[] yValues = visionTable.getNumberArray("centerY", new double[0]);
+		return yValues.length == 2 ? yValues : new double[0];
 	}
 	
+//	
+//	public double getVisionTargetCenterX() {
+//		double[] xValues = visionTable.getNumberArray("centerX", new double[0]);
+//		return xValues.length != 1 ? -1 : xValues[0];
+//	}
+	
+//	public double getVisionTargetCenterY() {
+//		double[] yValues = visionTable.getNumberArray("centerY", new double[1]);
+//		return yValues.length != 1 ? -1 : yValues[0];
+//	}
+//	
 	
 	
 	
@@ -151,8 +162,16 @@ public class OI {
 		SmartDashboard.putString("Driver Controller", driverController.toString());
 		SmartDashboard.putBoolean("Toggle", getDriverToggle());
 		SmartDashboard.putBoolean("MotorPidToggle", getMotorPidEnabled());
-		SmartDashboard.putNumber("Vision center X", getVisionTargetCenterX());
-		SmartDashboard.putNumber("Vision center Y", getVisionTargetCenterY());
+		
+		if (getVisionTargetCenterX().length == 2) {
+			double cc = (getVisionTargetCenterX()[0] + getVisionTargetCenterX()[1]) / 2;
+			SmartDashboard.putNumber("Vision dead center bro", cc);
+			SmartDashboard.putNumber("degree to turn to get to center ",  -0.1033 * cc + 16.398);
+		}
+//		SmartDashboard.putString("Center X", getVisionTargetCenterX()[0] + " " + getVisionTargetCenterX()[1]);
+//		SmartDashboard.putString("Center Y", getVisionTargetCenterY()[0] + " " + getVisionTargetCenterY()[1]);
+//		SmartDashboard.putNumber("Vision center X", getVisionTargetCenterX());
+//		SmartDashboard.putNumber("Vision center Y", getVisionTargetCenterY());
 	}
 
 	public void setGearButton(boolean b) {

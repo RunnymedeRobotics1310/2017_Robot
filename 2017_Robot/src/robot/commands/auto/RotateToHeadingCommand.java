@@ -30,7 +30,6 @@ public class RotateToHeadingCommand extends Command {
 	 * This Command is used as the base for all Auto commands and 
 	 * should be extended to stop using the isFinished method.
 	 * @param heading to drive in degrees (0 to 360)
-	 * @param speed to drive (-1.0 to 1.0).
 	 */
     public RotateToHeadingCommand(double heading) {
         // Use requires() here to declare subsystem dependencies

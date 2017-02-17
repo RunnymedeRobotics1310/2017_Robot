@@ -1,21 +1,20 @@
 
 package robot.commands;
 
-import javax.xml.bind.annotation.XmlEnumValue;
-
-import com.toronto.oi.T_OiController;
-import com.toronto.oi.T_Toggle;
-
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.Robot;
-import robot.RobotConst;
-import robot.commands.JoystickCommand.ButtonState;
-import robot.subsystems.GearSubsystem.GearState;
+import robot.commands.auto.RotateToHeadingCommand;
 
 /**
  *
  */
 public class VisionTrackTestCommand extends Command {
+
+	double degreeToTurn;
+	double currentAvgX;
+	double[] currentX;
 
 	// ButtonState intakeButtonState = ButtonState.RELEASED;
 	// T_Toggle toggle = new T_Toggle(Robot.oi.driver, button, start)
@@ -27,43 +26,34 @@ public class VisionTrackTestCommand extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		currentX = Robot.oi.getVisionTargetCenterX();
+		if (currentX.length == 2) {
+			currentAvgX = (currentX[0] + currentX[1]) / 2;
+			degreeToTurn = calculateAngle(currentAvgX);
+		}
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 
-		double minX = 131;
-		double minY = 145;
-		double maxX = 192;
-		double maxY = 157;
-		double distance = 32;
-
-		double currentX = Robot.oi.getVisionTargetCenterX();
-		double currentY = Robot.oi.getVisionTargetCenterY();
-
-		// if (Robot.oi.getVisionTrackButton()) {
-
-		// // Means it's centered...
-
-		boolean xCentered = (currentX >= minX && currentX <= maxX);
-		boolean yCentered = (currentY >= minY && currentY <= maxY);
-
-		double leftSpeed = 0, rightSpeed = 0;
-		System.out.println(xCentered + " " + yCentered);
-		if (!xCentered) {
-			if (currentX < minX) {
-				leftSpeed = -0.15;
-				rightSpeed = 0.15;
-			} else if (currentX > maxX) {
-				leftSpeed = 0.15;
-				rightSpeed = -0.15;
-			} else {
-				leftSpeed = 0;
-				rightSpeed = 0;
-			}
+		if (currentX.length == 2) {
+			SmartDashboard.putNumber("degree to turn", degreeToTurn);
+			SmartDashboard.putNumber("current X", currentAvgX);
+			Scheduler.getInstance().add(new RotateToHeadingCommand(degreeToTurn));
 		}
-		Robot.chassisSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
-		// }
+	}
+
+	protected double calculateAngle(double xValue) {
+		double angle = -0.1033 * xValue + 16.398;
+		SmartDashboard.putNumber("calculated angle", angle);
+		double currentAngle = Robot.chassisSubsystem.getAngle();
+		
+		if (angle < 0) {
+			angle = 360 - angle;
+		}
+		
+		return (angle + currentAngle) % 360;
+	
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
