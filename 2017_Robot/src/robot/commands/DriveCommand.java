@@ -30,7 +30,7 @@ public class DriveCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    
+    /*
     	switch (driveStraightState) {
     	case RELEASED:
 	    	if (Robot.oi.getStartDriveStraightCommand()) {
@@ -45,7 +45,8 @@ public class DriveCommand extends Command {
     		}
     		break;
     	}
-    	
+    	*/
+    	/*
     	switch (povState) {
     	case RELEASED:
     		double angle = Robot.oi.getRotateToAngle();
@@ -60,7 +61,7 @@ public class DriveCommand extends Command {
     			povState = ButtonState.RELEASED;
     		}
     		break;
-    	}
+    	}*/
     	
     	
     	

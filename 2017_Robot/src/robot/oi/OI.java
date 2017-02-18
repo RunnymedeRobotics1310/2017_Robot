@@ -28,12 +28,25 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * 
  * POV: RotateToAngle
  *
+ *
+ *
+ *
+ *For Operator:
+ *Buttons 
+ *A: Slow shooter motor speed
+ *Y: Increase shooter motor speed
+ *X: Shooter main motor toggle
+ *LBumper: While pressed shooter intake motor runs
+ *POV:
+ *0: Shooter adjust flap up
+ *180: Shooter adjust flap down
  */
 public class OI {
 
 	public AutoSelector autoSelector = new AutoSelector();
 
 	private T_OiController driverController = new T_Logitech_GameController(0);
+	private T_OiController operatorController = new T_Logitech_GameController(1);
 
 	private T_Toggle driverTestToggle = new T_Toggle(driverController, T_Button.BACK, false);
 
@@ -43,7 +56,7 @@ public class OI {
 
 	private T_Toggle intakeToggle = new T_Toggle(driverController, T_Button.X, false);
 
-	private T_Toggle shooterToggle = new T_Toggle(driverController, T_Button.A, false);
+	private T_Toggle shooterToggle = new T_Toggle(operatorController, T_Button.X, false);
 
 	private NetworkTable visionTable = NetworkTable.getTable("GRIP/TargetInfo");
 
@@ -128,7 +141,7 @@ public class OI {
 	}
 
 	public boolean getShootIntakeTrigger() {
-		return driverController.getButton(T_Button.LEFT_BUMPER);
+		return operatorController.getButton(T_Button.LEFT_BUMPER);
 	}
 
 	public boolean getShooterToggleState() {
@@ -137,13 +150,18 @@ public class OI {
 
 	public boolean getShootAngleUpCommand() {
 		System.out.println("Up");
-		return driverController.getPov() == 0;
+		return operatorController.getPov() == 0;
 	}
 
 	public boolean getShootAngleDownCommand() {
-		return driverController.getPov() == 180;
+		return operatorController.getPov() == 180;
 	}
-
+	public boolean getChangeSpeedUp() {
+		return operatorController.getButton(T_Button.Y);
+	}
+	public boolean getChangeSpeedDown() {
+		return operatorController.getButton(T_Button.A);
+	}
 	public void updatePeriodic() {
 
 		// Update all toggles
