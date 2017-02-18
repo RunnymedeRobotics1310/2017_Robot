@@ -5,6 +5,7 @@ import com.ctre.CANTalon;
 import com.toronto.sensors.T_Encoder;
 import com.toronto.subsystems.T_Subsystem;
 
+import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,9 +24,18 @@ public class ShooterSubsystem extends T_Subsystem {
 	private SpeedController shooterIntakeMotor = new VictorSP (RobotMap.SHOOTER_INTAKE_MOTOR_PORT);
 	private SpeedController shooterAdjustMotor = new CANTalon(RobotMap.SHOOTER_ADJUST_CAN_ADDRESS);
     private T_Encoder shooterAdjustEncoder = new T_SrxEncoder((CANTalon) shooterAdjustMotor);
+//	private Counter shooterSpeedEncoder = new Counter(2);
+	private double shootSpeedChange = -.5;
+	private SpeedController hopperAdjitatorMotor = new VictorSP (4);
 	
-    //private VictorSP shooterAdjustEncoder  = new VictorSP(0);
-
+	public double getShootSpeed(){
+		return shootSpeedChange;
+	}
+	public void setShootSpeed(double speed){
+		shootSpeedChange = speed;
+	}
+	
+	
 	public void initDefaultCommand() {
 		setDefaultCommand(new DefaultShootCommand());
 	}
@@ -42,10 +52,12 @@ public class ShooterSubsystem extends T_Subsystem {
 	
 	public void intake(){
 		shooterIntakeMotor.set(1);
+		hopperAdjitatorMotor.set(-0.5);
 		
 	}
 	public void intakeStop(){
 		shooterIntakeMotor.set(0);
+		hopperAdjitatorMotor.set(0);
 	}
 	public double getCurrentEncoder(){
 		return shooterAdjustEncoder.get();
@@ -57,7 +69,9 @@ public class ShooterSubsystem extends T_Subsystem {
 	@Override
 	public void updatePeriodic() {
 		// Update all SmartDashboard values
-		SmartDashboard.putString("Shooter Speed", String.valueOf(shooterMotor.get()));
+		SmartDashboard.putString("Shooter Speed", String.valueOf(Math.abs(shooterMotor.get())));
+		SmartDashboard.putString("Shooter adjust encoder", String.valueOf(shooterAdjustEncoder.get()));
+	
 	}
 
 	@Override
