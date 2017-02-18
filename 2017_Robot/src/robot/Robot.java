@@ -17,6 +17,7 @@ import robot.subsystems.ChassisSubsystem;
 import robot.subsystems.ClimbSubsystem;
 import robot.subsystems.GearSubsystem;
 import robot.subsystems.IntakeSubsystem;
+import robot.subsystems.ShooterSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,6 +33,7 @@ public class Robot extends IterativeRobot {
 	public static final GearSubsystem    	gearSubsystem    = new GearSubsystem();
 	public static final ClimbSubsystem    	climbSubsystem   = new ClimbSubsystem();
 	public static final IntakeSubsystem 	intakeSubsystem  = new IntakeSubsystem();
+	public static final ShooterSubsystem 	shooterSubsystem = new ShooterSubsystem();
 	public static OI oi;
 	
 
@@ -47,6 +49,8 @@ public class Robot extends IterativeRobot {
     	subsystemLs.add(gearSubsystem);
     	subsystemLs.add(climbSubsystem);
     	subsystemLs.add(intakeSubsystem);
+    	subsystemLs.add(shooterSubsystem);
+    	
 		oi = new OI();
 //		oi.robotInit();
     	for (T_Subsystem subsystem: subsystemLs) {

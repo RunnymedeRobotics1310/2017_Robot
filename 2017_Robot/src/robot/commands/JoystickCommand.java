@@ -44,7 +44,7 @@ public class JoystickCommand extends Command {
     		}
     		break;
     	}
-    	
+    	/*
     	switch (povState) {
     	case RELEASED:
     		double angle = Robot.oi.getRotateToAngle();
@@ -59,6 +59,16 @@ public class JoystickCommand extends Command {
     			povState = ButtonState.RELEASED;
     		}
     		break;
+    	}
+    	*/
+    	if(Robot.oi.getShootIntakeTrigger()){
+    		Scheduler.getInstance().add(new ShooterIntakeCommand());
+    	}
+    	if(Robot.oi.getShootAngleDownCommand()){
+    		Scheduler.getInstance().add(new ShootAngleMoveDownCommand());
+    	}
+    	if(Robot.oi.getShootAngleUpCommand()){
+    		Scheduler.getInstance().add(new ShooterAngleMoveUpCommand());
     	}
     	
     	if (Robot.oi.getDriverRumbleStart()) { Robot.oi.setDriverRumble(0.8); }

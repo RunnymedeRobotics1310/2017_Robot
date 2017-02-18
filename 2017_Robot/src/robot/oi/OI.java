@@ -44,55 +44,75 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class OI {
-	
+
 	public AutoSelector autoSelector = new AutoSelector();
 
 	private T_OiController driverController = new T_Logitech_GameController(0);
-	
+
 	private T_Toggle driverTestToggle = new T_Toggle(driverController, T_Button.BACK, false);
-	
+
 	private T_Toggle motorPidToggle = new T_Toggle(driverController, T_Button.LEFT_STICK, true);
-	
+
 	private T_Toggle gearToggle = new T_Toggle(driverController, T_Button.RIGHT_STICK, false);
-	
+
 	private T_Toggle intakeToggle = new T_Toggle(driverController, T_Button.X, false);
+
+	private T_Toggle outtakeToggle = new T_Toggle(driverController, T_Button.B, false);
+
+	//Check if button is being used
+	private T_Toggle shooterToggle = new T_Toggle(driverController, T_Button.A, false);
+
+	public boolean getShootIntakeTrigger(){
+		return driverController.getButton(T_Button.LEFT_BUMPER);
+	}
 	
-	private T_Toggle outtakeToggle = new T_Toggle(driverController, T_Button.A, false);
+	//B is for shooter rev toggle
+	public boolean getShooterToggleState(){
+		return shooterToggle.getToggleState();
+	}
+
 
 	public boolean getDriverRumbleStart() {
 		return driverController.getButton(T_Button.RIGHT_BUMPER);
 	}
-	
-	
+	public boolean getShootAngleUpCommand(){
+		System.out.println("Up");
+		return driverController.getPov() == 0;
+	}
+
+	public boolean getShootAngleDownCommand(){
+		return driverController.getPov() == 180;
+	}
+
 	public double getSpeed() {
 		return driverController.getAxis(T_Stick.RIGHT, T_Axis.Y);
 	}
-	
+
 	public boolean getClimbCatch() {
 		return driverController.getButton(T_Trigger.RIGHT);
 	}
-	
+
 	public boolean getFastClimb() {
 		return driverController.getButton(T_Trigger.LEFT);
 	}
-	
+
 	public boolean getStartDriveStraightCommand() {
 		return driverController.getButton(T_Button.Y);
 	}
-	
+
 	public boolean getDriverToggle() {
 		return driverTestToggle.getToggleState();
 	}
 
-	
+
 	public boolean getMotorPidEnabled() {
 		return motorPidToggle.getToggleState();
 	}
-	
+	/*
 	public int getRotateToAngle() {
 		return driverController.getPov();
-	}
-	
+	}*/
+
 	public double getTurn() {
 		return driverController.getAxis(T_Stick.LEFT, T_Axis.X);
 	}
@@ -108,39 +128,40 @@ public class OI {
 	public boolean getCancel() {
 		return driverController.getButton(T_Button.BACK);
 	}
-	
+
 	public boolean getStartGearCommand() {
 		return driverController.getButton(T_Button.B);
 	}
-	
+
 	public boolean getCalibrate() {
 		return driverController.getButton(T_Button.START);
 	}
-	
+
 	public boolean getGearToggleState() {
 		return gearToggle.getToggleState();
 	}
-	
+
 	public boolean getIntakeToggleState(){
 		return intakeToggle.getToggleState();
 	}
-	
+
 	public boolean getOuttakeToggleState(){
 		return outtakeToggle.getToggleState();
 	}
-	
+
 	public void updatePeriodic() {
-		
+
 		// Update all toggles
 		driverTestToggle.update();
 		motorPidToggle.update();
 		gearToggle.update();
 		intakeToggle.update();
 		outtakeToggle.update();
-		
+		shooterToggle.update();
+
 		// Update all smartdashboard values
 		autoSelector.updateSmartDashboard();
-		
+
 		SmartDashboard.putString("Driver Controller", 
 				driverController.toString());
 		SmartDashboard.putBoolean("Toggle", getDriverToggle());
