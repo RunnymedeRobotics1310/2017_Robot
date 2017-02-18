@@ -154,7 +154,6 @@ public class OI {
 		motorPidToggle.update();
 		gearToggle.update();
 		intakeToggle.update();
-//		outtakeToggle.update();
 
 		// Update all smartdashboard values
 		autoSelector.updateSmartDashboard();
@@ -162,16 +161,8 @@ public class OI {
 		SmartDashboard.putString("Driver Controller", driverController.toString());
 		SmartDashboard.putBoolean("Toggle", getDriverToggle());
 		SmartDashboard.putBoolean("MotorPidToggle", getMotorPidEnabled());
-		
-		if (getVisionTargetCenterX().length == 2) {
-			double cc = (getVisionTargetCenterX()[0] + getVisionTargetCenterX()[1]) / 2;
-			SmartDashboard.putNumber("Vision dead center bro", cc);
-			SmartDashboard.putNumber("degree to turn to get to center ",  -0.1033 * cc + 16.398);
-		}
-//		SmartDashboard.putString("Center X", getVisionTargetCenterX()[0] + " " + getVisionTargetCenterX()[1]);
-//		SmartDashboard.putString("Center Y", getVisionTargetCenterY()[0] + " " + getVisionTargetCenterY()[1]);
-//		SmartDashboard.putNumber("Vision center X", getVisionTargetCenterX());
-//		SmartDashboard.putNumber("Vision center Y", getVisionTargetCenterY());
+	
+
 	}
 
 	public void setGearButton(boolean b) {

@@ -37,27 +37,31 @@ public class VisionTrackTestCommand extends Command {
 	protected void execute() {
 
 		if (currentX.length == 2) {
-			SmartDashboard.putNumber("degree to turn", degreeToTurn);
-			SmartDashboard.putNumber("current X", currentAvgX);
 			Scheduler.getInstance().add(new RotateToHeadingCommand(degreeToTurn));
 		}
 	}
 
 	protected double calculateAngle(double xValue) {
 		double angle = -0.1033 * xValue + 16.398;
-		SmartDashboard.putNumber("calculated angle", angle);
+		
 		double currentAngle = Robot.chassisSubsystem.getAngle();
 		
+	
+		// If angle is less than 0, subtract from 360 and add it to the current angle do % 360
 		if (angle < 0) {
 			angle = 360 - angle;
+			return (angle + currentAngle) % 360;
 		}
 		
-		return (angle + currentAngle) % 360;
+		return Math.abs(currentAngle - angle % 360);
 	
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
+		if (currentX.length != 2) {
+			return true;
+		}
 		return false;
 	}
 
