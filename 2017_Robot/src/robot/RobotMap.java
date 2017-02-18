@@ -36,6 +36,10 @@ public class RobotMap {
     // Intake Ports
     public static final int INTAKE_PWM_PORT = 1;
    
-     
+    // Shooter Ports
+    public static final int SHOOTER_MOTOR_PORT = 2;
+    public static final int SHOOTER_INTAKE_MOTOR_PORT = 3;
+    public static final int SHOOTER_ADJUST_CAN_ADDRESS = 5;
+    
     // 51117, 50385 50,751.5 396.49609375
 }

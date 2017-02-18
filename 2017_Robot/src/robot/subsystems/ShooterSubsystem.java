@@ -19,9 +19,9 @@ public class ShooterSubsystem extends T_Subsystem {
 	 * 
 	 * Declare all motors and sensors here
 	 ******************************************************************************/
-	private SpeedController shooterMotor = new VictorSP (2);
-	private SpeedController shooterIntakeMotor = new VictorSP (3);
-	private SpeedController shooterAdjustMotor = new CANTalon(5);
+	private SpeedController shooterMotor = new VictorSP (RobotMap.SHOOTER_MOTOR_PORT);
+	private SpeedController shooterIntakeMotor = new VictorSP (RobotMap.SHOOTER_INTAKE_MOTOR_PORT);
+	private SpeedController shooterAdjustMotor = new CANTalon(RobotMap.SHOOTER_ADJUST_CAN_ADDRESS);
     private T_Encoder shooterAdjustEncoder = new T_SrxEncoder((CANTalon) shooterAdjustMotor);
 	
     //private VictorSP shooterAdjustEncoder  = new VictorSP(0);
