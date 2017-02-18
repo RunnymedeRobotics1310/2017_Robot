@@ -10,7 +10,6 @@ import com.toronto.oi.T_Trigger;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import robot.RobotMap;
 
 /**
  * This class is the glue that binds the controls on the physical operator

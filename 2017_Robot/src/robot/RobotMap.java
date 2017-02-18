@@ -33,7 +33,7 @@ public class RobotMap {
     public static final int GEAR_SOLENOID_A = 1;
     public static final int GEAR_SOLENOID_B = 2;
     
-    // Intake Ports
+    // In-take Ports
     public static final int INTAKE_PWM_PORT = 1;
     
     // Shooter Ports

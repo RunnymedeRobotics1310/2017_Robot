@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.RobotConst;
 import robot.RobotMap;
-import robot.commands.JoystickCommand;
+import robot.commands.DriveCommand;
 
 public class ChassisSubsystem extends T_Subsystem {
 
@@ -121,7 +121,7 @@ public class ChassisSubsystem extends T_Subsystem {
 	 ******************************************************************************/
 
 	public void initDefaultCommand() {
-		setDefaultCommand(new JoystickCommand());
+		setDefaultCommand(new DriveCommand());
 	}
 
 	public boolean atTower() {

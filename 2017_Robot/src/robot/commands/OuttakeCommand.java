@@ -1,20 +1,13 @@
 
 package robot.commands;
 
-import com.toronto.oi.T_OiController;
-import com.toronto.oi.T_Toggle;
-
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
-import robot.RobotConst;
-import robot.commands.JoystickCommand.ButtonState;
-import robot.subsystems.GearSubsystem.GearState;
 
 /**
- *
+ * Outtake command spins the intake mechanism in the opposite direction
  */
 public class OuttakeCommand extends Command {
-
 
 	public OuttakeCommand() {
 		// Use requires() here to declare subsystem dependencies
@@ -22,16 +15,16 @@ public class OuttakeCommand extends Command {
 	}
 
 	// Called just before this Command runs the first time
-	protected void initialize() {}
+	protected void initialize() {
+	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-//		if (Robot.oi.getOuttakeToggleState()) {
-//    		Robot.intakeSubsystem.outtake();
-//    	}
-//    	else {
-//    		Robot.intakeSubsystem.stop();
-//    	}
+		if (Robot.oi.getIntakeToggleState()) {
+			Robot.intakeSubsystem.outtake();
+		} else {
+			Robot.intakeSubsystem.stop();
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

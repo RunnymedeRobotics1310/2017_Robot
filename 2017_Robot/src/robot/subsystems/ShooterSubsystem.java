@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.RobotMap;
-import robot.commands.DefaultShootCommand;
+import robot.commands.shooter.DefaultShootCommand;
 
 public class ShooterSubsystem extends T_Subsystem {
 

@@ -4,7 +4,7 @@ package robot.commands.auto;
 import robot.Robot;
 
 /**
- *
+ * This command is used to drive to a certain heading at a certain speed with perfect accuracy.
  */
 public class DriveToEncoderDistanceCommand extends DriveOnHeadingCommand {
 
@@ -36,9 +36,6 @@ public class DriveToEncoderDistanceCommand extends DriveOnHeadingCommand {
 //		}
 		if(Math.abs(Robot.chassisSubsystem.getEncoderDistanceInches()) > Math.abs(this.encoderDistanceInches)){
 			Robot.chassisSubsystem.setMotorSpeeds(0, 0);
-			System.out.println("Chassis subsystem Encoder distance inches:" + Math.abs(Robot.chassisSubsystem.getEncoderDistanceInches()));
-			System.out.println(" Encoder distance inches:" + Math.abs(this.encoderDistanceInches));
-//			System.out.println("ending drive to encoder");
 			return true;
 			
 		}

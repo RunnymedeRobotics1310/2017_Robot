@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
     	subsystemLs.add(shooterSubsystem);
 
 		oi = new OI();
-//		oi.robotInit();
+
     	for (T_Subsystem subsystem: subsystemLs) {
     		subsystem.robotInit();
     	}
@@ -123,5 +123,5 @@ public class Robot extends IterativeRobot {
     		subsystem.updatePeriodic();
     	}
     }
-    		
+    
 }

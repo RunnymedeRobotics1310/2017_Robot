@@ -1,14 +1,9 @@
 
-package robot.commands;
-
-import com.toronto.oi.T_OiController;
-import com.toronto.oi.T_Toggle;
+package robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
-import robot.RobotConst;
-import robot.commands.JoystickCommand.ButtonState;
-import robot.subsystems.GearSubsystem.GearState;
 
 /**
  *
@@ -26,6 +21,18 @@ public class DefaultShootCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		
+		// Shooter
+    	if(Robot.oi.getShootIntakeTrigger()){
+    		Scheduler.getInstance().add(new ShootIntakeCommand());
+    	}
+    	if(Robot.oi.getShootAngleDownCommand()){
+    		Scheduler.getInstance().add(new ShootAngleMoveDownCommand());
+    	}
+    	if(Robot.oi.getShootAngleUpCommand()){
+    		Scheduler.getInstance().add(new ShootAngleMoveUpCommand());
+    	}
+    	
 		if (Robot.oi.getShooterToggleState()) {
     		Robot.shooterSubsystem.startSpin();
     	}

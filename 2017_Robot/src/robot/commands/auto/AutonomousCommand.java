@@ -2,12 +2,10 @@ package robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import robot.Robot;
-import robot.commands.DefaultGearCommand;
 import robot.commands.GearReleaseCommand;
 import robot.oi.AutoSelector.BoilerPosition;
 import robot.oi.AutoSelector.RobotPosition;
 import robot.oi.AutoSelector.ShootMode;
-import robot.subsystems.ChassisSubsystem;
 
 
 /**

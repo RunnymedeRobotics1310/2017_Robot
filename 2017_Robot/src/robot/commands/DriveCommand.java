@@ -6,14 +6,12 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
 import robot.commands.auto.DriveToEncoderDistanceCommand;
 import robot.commands.auto.RotateToHeadingCommand;
-import robot.commands.shooter.ShootAngleMoveDownCommand;
-import robot.commands.shooter.ShootAngleMoveUpCommand;
-import robot.commands.shooter.ShootIntakeCommand;
 
 /**
- *
+ * Drive command handles all commands related to driving
+ * Such as resetting encoders and driving straight
  */
-public class JoystickCommand extends Command {
+public class DriveCommand extends Command {
 
 	enum ButtonState { PRESSED, RELEASED };
 	
@@ -21,7 +19,7 @@ public class JoystickCommand extends Command {
 	ButtonState povState           = ButtonState.RELEASED;
 	ButtonState calibrateState     = ButtonState.RELEASED;
 	
-    public JoystickCommand() {
+    public DriveCommand() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.chassisSubsystem);
     }
@@ -140,20 +138,9 @@ public class JoystickCommand extends Command {
     	}
     	
     	if (Robot.oi.getVisionTrackButton()) {
-    		Scheduler.getInstance().add(new VisionTrackTestCommand());
+    		Scheduler.getInstance().add(new VisionTrackCommand());
     	}
-    	
-    	// Shooter
-    	if(Robot.oi.getShootIntakeTrigger()){
-    		Scheduler.getInstance().add(new ShootIntakeCommand());
-    	}
-    	if(Robot.oi.getShootAngleDownCommand()){
-    		Scheduler.getInstance().add(new ShootAngleMoveDownCommand());
-    	}
-    	if(Robot.oi.getShootAngleUpCommand()){
-    		Scheduler.getInstance().add(new ShootAngleMoveUpCommand());
-    	}
-    	
+       	
     	
     	Robot.chassisSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
     }

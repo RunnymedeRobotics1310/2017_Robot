@@ -4,11 +4,11 @@ package robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
 import robot.RobotConst;
-import robot.commands.JoystickCommand.ButtonState;
+import robot.commands.DriveCommand.ButtonState;
 import robot.subsystems.GearSubsystem.GearState;
 
 /**
- *
+ * This default gear command is used to release or lock the gear in place
  */
 public class DefaultGearCommand extends Command {
 

@@ -3,11 +3,10 @@ package robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
-import robot.commands.JoystickCommand.ButtonState;
-import robot.subsystems.GearSubsystem.GearState;
+import robot.commands.DriveCommand.ButtonState;
 
 /**
- *
+ * Climb command is used for climbing the rope
  */
 public class DefaultClimbCommand extends Command {
 
