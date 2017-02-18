@@ -75,8 +75,8 @@ public class RobotConst {
     		DRIVE_ENCODER_MAX_SPEED = 3300;
     	    DRIVE_ENCODER_COUNTS_PER_IN = 396;
     	    
-    	    GYRO_PID_PROPORTIONAL_GAIN = 3.0;
-    	    GYRO_PID_INTEGRAL_GAIN = .15;
+    	    GYRO_PID_PROPORTIONAL_GAIN = 4.0;
+    	    GYRO_PID_INTEGRAL_GAIN = .095;
     	    GYRO_PIVOT_MAX_SPEED = .35; 
     	    
     	    DRIVE_PID_PROPORTIONAL_GAIN = 0.3;

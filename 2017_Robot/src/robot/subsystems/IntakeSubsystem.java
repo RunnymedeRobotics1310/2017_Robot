@@ -25,7 +25,7 @@ public class IntakeSubsystem extends T_Subsystem {
 	}
 
 	public void intake() {
-		intakeMotor.set(.5);
+		intakeMotor.set(1);
 	}
 
 	public void outtake() { 

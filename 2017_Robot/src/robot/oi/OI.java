@@ -43,7 +43,7 @@ public class OI {
 
 	private T_Toggle intakeToggle = new T_Toggle(driverController, T_Button.X, false);
 
-	private T_Toggle shooterToggle = new T_Toggle(driverController, T_Button.A, false);
+	private T_Toggle shooterToggle = new T_Toggle(driverController, T_Button.Y, false);
 
 	private NetworkTable visionTable = NetworkTable.getTable("GRIP/TargetInfo");
 
