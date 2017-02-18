@@ -16,8 +16,7 @@ import robot.RobotMap;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  * 
- * Operator Controller (Game Controller)
- * -------------------------------------
+ * Operator Controller (Game Controller) -------------------------------------
  * Joysticks --------- Left: Turn - X Axis Right: Speed - Y Axis
  * 
  * Triggers --------- Left: Climb Motor (Full Speed) Right: Climb Motor (Catch
@@ -45,38 +44,24 @@ public class OI {
 
 	private T_Toggle intakeToggle = new T_Toggle(driverController, T_Button.X, false);
 
-//	private T_Toggle outtakeToggle = new T_Toggle(driverController, T_Button.A, false);
+	private T_Toggle shooterToggle = new T_Toggle(driverController, T_Button.A, false);
 
 	private NetworkTable visionTable = NetworkTable.getTable("GRIP/TargetInfo");
-	
+
 	public boolean getVisionTrackButton() {
 		return driverController.getButton(T_Button.A);
 	}
-	
+
 	public double[] getVisionTargetCenterX() {
 		double[] xValues = visionTable.getNumberArray("centerX", new double[0]);
 		return xValues.length == 2 ? xValues : new double[0];
 	}
-	
+
 	public double[] getVisionTargetCenterY() {
 		double[] yValues = visionTable.getNumberArray("centerY", new double[0]);
 		return yValues.length == 2 ? yValues : new double[0];
 	}
-	
-//	
-//	public double getVisionTargetCenterX() {
-//		double[] xValues = visionTable.getNumberArray("centerX", new double[0]);
-//		return xValues.length != 1 ? -1 : xValues[0];
-//	}
-	
-//	public double getVisionTargetCenterY() {
-//		double[] yValues = visionTable.getNumberArray("centerY", new double[1]);
-//		return yValues.length != 1 ? -1 : yValues[0];
-//	}
-//	
-	
-	
-	
+
 	public boolean getDriverRumbleStart() {
 		return driverController.getButton(T_Button.RIGHT_BUMPER);
 	}
@@ -143,9 +128,22 @@ public class OI {
 		return intakeToggle.getToggleState();
 	}
 
-//	public boolean getOuttakeToggleState() {
-//		return outtakeToggle.getToggleState();
-//	}
+	public boolean getShootIntakeTrigger() {
+		return driverController.getButton(T_Button.LEFT_BUMPER);
+	}
+
+	public boolean getShooterToggleState() {
+		return shooterToggle.getToggleState();
+	}
+
+	public boolean getShootAngleUpCommand() {
+		System.out.println("Up");
+		return driverController.getPov() == 0;
+	}
+
+	public boolean getShootAngleDownCommand() {
+		return driverController.getPov() == 180;
+	}
 
 	public void updatePeriodic() {
 
@@ -154,6 +152,7 @@ public class OI {
 		motorPidToggle.update();
 		gearToggle.update();
 		intakeToggle.update();
+		shooterToggle.update();
 
 		// Update all smartdashboard values
 		autoSelector.updateSmartDashboard();
@@ -161,7 +160,6 @@ public class OI {
 		SmartDashboard.putString("Driver Controller", driverController.toString());
 		SmartDashboard.putBoolean("Toggle", getDriverToggle());
 		SmartDashboard.putBoolean("MotorPidToggle", getMotorPidEnabled());
-	
 
 	}
 

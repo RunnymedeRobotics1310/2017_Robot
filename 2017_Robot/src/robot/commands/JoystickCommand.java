@@ -140,22 +140,19 @@ public class JoystickCommand extends Command {
     	
     	if (Robot.oi.getVisionTrackButton()) {
     		Scheduler.getInstance().add(new VisionTrackTestCommand());
-//    		double minX = 131;
-//    		double minY = 145;
-//    		double maxX = 192;
-//    		double maxY = 157;
-//    		double distance = 32;
-//    		
-//    		double currentX = Robot.oi.getVisionTargetCenterX();
-//    		double currentY = Robot.oi.getVisionTargetCenterY();
-//    		
-//   
-//    		// Means it's centered...
-//    		if ((currentX >= minX && currentX <= maxX) && currentY >= minY && currentY <= maxY) {
-//    			leftSpeed = 0.3;
-//    			rightSpeed = 0.3;
-//    		}
     	}
+    	
+    	// Shooter
+    	if(Robot.oi.getShootIntakeTrigger()){
+    		Scheduler.getInstance().add(new ShooterIntakeCommand());
+    	}
+    	if(Robot.oi.getShootAngleDownCommand()){
+    		Scheduler.getInstance().add(new ShootAngleMoveDownCommand());
+    	}
+    	if(Robot.oi.getShootAngleUpCommand()){
+    		Scheduler.getInstance().add(new ShootAngleMoveUpCommand());
+    	}
+    	
     	
     	Robot.chassisSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
     }
