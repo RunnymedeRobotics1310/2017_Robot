@@ -16,9 +16,6 @@ public class VisionTrackTestCommand extends Command {
 	double currentAvgX;
 	double[] currentX;
 
-	// ButtonState intakeButtonState = ButtonState.RELEASED;
-	// T_Toggle toggle = new T_Toggle(Robot.oi.driver, button, start)
-
 	public VisionTrackTestCommand() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.chassisSubsystem);

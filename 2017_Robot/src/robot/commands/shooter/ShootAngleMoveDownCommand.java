@@ -1,15 +1,13 @@
 
-package robot.commands;
+package robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
 
-/**
- *
- */
-public class ShooterIntakeCommand extends Command {
+
+public class ShootAngleMoveDownCommand extends Command {
 	
-	public ShooterIntakeCommand() {
+	public ShootAngleMoveDownCommand() {
 		requires(Robot.shooterSubsystem);
 	}
 
@@ -19,14 +17,14 @@ public class ShooterIntakeCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		
-		Robot.shooterSubsystem.intake();
+		Robot.shooterSubsystem.setShooterAdjustSpeed(-.5);
 		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if (!Robot.oi.getShootIntakeTrigger()){
-			Robot.shooterSubsystem.intakeStop();
+		if (!Robot.oi.getShootAngleDownCommand()){
+			Robot.shooterSubsystem.setShooterAdjustSpeed(0);
 			return true;
 		}
 		return false;

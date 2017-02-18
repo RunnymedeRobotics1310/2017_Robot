@@ -1,14 +1,8 @@
 
-package robot.commands;
-
-import com.toronto.oi.T_OiController;
-import com.toronto.oi.T_Toggle;
+package robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
-import robot.RobotConst;
-import robot.commands.JoystickCommand.ButtonState;
-import robot.subsystems.GearSubsystem.GearState;
 
 /**
  *

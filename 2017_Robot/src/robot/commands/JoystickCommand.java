@@ -1,13 +1,14 @@
 
 package robot.commands;
 
-import javax.xml.bind.annotation.XmlEnumValue;
-
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
 import robot.commands.auto.DriveToEncoderDistanceCommand;
 import robot.commands.auto.RotateToHeadingCommand;
+import robot.commands.shooter.ShootAngleMoveDownCommand;
+import robot.commands.shooter.ShootAngleMoveUpCommand;
+import robot.commands.shooter.ShootIntakeCommand;
 
 /**
  *
@@ -144,7 +145,7 @@ public class JoystickCommand extends Command {
     	
     	// Shooter
     	if(Robot.oi.getShootIntakeTrigger()){
-    		Scheduler.getInstance().add(new ShooterIntakeCommand());
+    		Scheduler.getInstance().add(new ShootIntakeCommand());
     	}
     	if(Robot.oi.getShootAngleDownCommand()){
     		Scheduler.getInstance().add(new ShootAngleMoveDownCommand());

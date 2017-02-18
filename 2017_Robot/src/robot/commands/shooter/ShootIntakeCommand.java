@@ -1,30 +1,32 @@
 
-package robot.commands;
+package robot.commands.shooter;
 
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
 
-public class ShootAngleMoveUpCommand extends Command {
-
-	public ShootAngleMoveUpCommand() {
+/**
+ *
+ */
+public class ShootIntakeCommand extends Command {
+	
+	public ShootIntakeCommand() {
 		requires(Robot.shooterSubsystem);
 	}
 
 	// Called just before this Command runs the first time
-	protected void initialize() {
-	}
+	protected void initialize() {}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-
-		Robot.shooterSubsystem.setShooterAdjustSpeed(.5);
-
+		
+		Robot.shooterSubsystem.intake();
+		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if (!Robot.oi.getShootAngleUpCommand()) {
-			Robot.shooterSubsystem.setShooterAdjustSpeed(0);
+		if (!Robot.oi.getShootIntakeTrigger()){
+			Robot.shooterSubsystem.intakeStop();
 			return true;
 		}
 		return false;
