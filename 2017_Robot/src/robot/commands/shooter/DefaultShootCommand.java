@@ -48,17 +48,6 @@ public class DefaultShootCommand extends Command {
 		}
 		if (Robot.oi.getShooterToggleState()) {
 			double ultrasonicDistance = Robot.chassisSubsystem.ultrasonicSensor.getDistance();
-			if(ultrasonicDistance > 0/*between two values*/){
-				Robot.shooterSubsystem.setShootSpeed(Robot.shooterSubsystem.shootSpeedSetpoint);
-				Scheduler.getInstance().add(new ShootAngleAdjustCommand(5,0.1));
-
-			}
-			if(ultrasonicDistance > 1/*between two values*/){
-				Robot.shooterSubsystem.setShootSpeed(Robot.shooterSubsystem.shootSpeedSetpoint);
-				Scheduler.getInstance().add(new ShootAngleAdjustCommand(45,0.1));
-
-			}
-			
 			Robot.shooterSubsystem.setShootSpeed(Robot.shooterSubsystem.shootSpeedSetpoint);
 		}
 		if(!Robot.oi.getShooterToggleState()) {
