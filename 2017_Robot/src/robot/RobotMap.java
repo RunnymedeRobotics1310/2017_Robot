@@ -26,7 +26,7 @@ public class RobotMap {
     public static final int LEFT_MOTOR_CAN_ADDRESS  = 1;
     public static final int RIGHT_MOTOR_CAN_ADDRESS = 2;
     
-    public static final int FRONT_LIMIT_SWITCH_DIO_PORT = 4;
+    public static final int FRONT_LIMIT_SWITCH_DIO_PORT = 1;
     
     // Pneumatic Solenoids
     public static final int SHIFTER_SOLENOID = 0;

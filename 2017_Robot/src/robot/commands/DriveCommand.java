@@ -64,13 +64,18 @@ public class DriveCommand extends Command {
     	}*/
     	
     	
-    	
-    	if (Robot.oi.getDriverRumbleStart()) { Robot.oi.setDriverRumble(0.8); }
-    	else  								 { Robot.oi.setDriverRumble(0); }
-    	
-    	if (Robot.oi.getDriverRumbleStart()) { Robot.chassisSubsystem.setHighGear(); }
-    	else  								 { Robot.chassisSubsystem.setLowGear(); }
-    	
+		if (Robot.oi.getDriverRumbleStart()) {
+			Robot.oi.setDriverRumble(0.8);
+		} else {
+			Robot.oi.setDriverRumble(0);
+		}
+
+		if (Robot.oi.getDriverRumbleStart()) {
+			Robot.chassisSubsystem.setHighGear();
+		} else {
+			Robot.chassisSubsystem.setLowGear();
+		}
+
     	switch (calibrateState) {
     	case RELEASED:
 	    	if (Robot.oi.getCalibrate()) {

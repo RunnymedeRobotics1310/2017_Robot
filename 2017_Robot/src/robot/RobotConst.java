@@ -58,6 +58,9 @@ public class RobotConst {
 	public static final double ULTRASONIC_VOLTAGE_40IN = 0.376;
 	public static final double ULTRASONIC_VOLTAGE_80IN = 0.767;
 	
+	/** Shooter **/
+	public static final double MAX_SHOOTER_SPEED = 150;
+	
 
     // This static initializer is used to adjust the constants for the 
     // robot based on which robot is selected.

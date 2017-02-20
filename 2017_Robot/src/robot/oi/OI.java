@@ -4,6 +4,7 @@ import com.toronto.oi.T_Axis;
 import com.toronto.oi.T_Button;
 import com.toronto.oi.T_Logitech_GameController;
 import com.toronto.oi.T_OiController;
+import com.toronto.oi.T_PS4_GameController;
 import com.toronto.oi.T_Stick;
 import com.toronto.oi.T_Toggle;
 import com.toronto.oi.T_Trigger;
@@ -46,6 +47,7 @@ public class OI {
 	public AutoSelector autoSelector = new AutoSelector();
 
 	private T_OiController driverController = new T_Logitech_GameController(0);
+	
 	private T_OiController operatorController = new T_Logitech_GameController(1);
 
 	private T_Toggle driverTestToggle = new T_Toggle(driverController, T_Button.BACK, false);
@@ -79,7 +81,7 @@ public class OI {
 	}
 
 	public double getSpeed() {
-		double speed = driverController.getAxis(T_Stick.RIGHT, T_Axis.Y);
+		double speed = driverController.getAxis(T_Stick.LEFT, T_Axis.Y);
 		return speed * Math.abs(speed);
 	}
 
@@ -106,9 +108,15 @@ public class OI {
 	public int getRotateToAngle() {
 		return driverController.getPov();
 	}
+	
+	public double fixAngle(){
+		double speed = operatorController.getAxis(T_Stick.RIGHT, T_Axis.Y);
+		return speed * Math.abs(speed);
 
+	}
+	
 	public double getTurn() {
-		double turn = driverController.getAxis(T_Stick.LEFT, T_Axis.X);
+		double turn = driverController.getAxis(T_Stick.RIGHT, T_Axis.X);
 		return turn * Math.abs(turn);
 	}
 

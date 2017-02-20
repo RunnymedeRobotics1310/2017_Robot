@@ -21,7 +21,10 @@ public class DefaultShootCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-
+		double speed = Robot.oi.fixAngle();
+//		if(Math.abs(speed) > 0.2){
+//			Robot.shooterSubsystem.runAdjust(speed);
+//		}
 		// Shooter
 		if(Robot.oi.getShootIntakeTrigger()){
 			Scheduler.getInstance().add(new ShootIntakeCommand());
@@ -33,17 +36,18 @@ public class DefaultShootCommand extends Command {
 			Scheduler.getInstance().add(new ShootAngleMoveUpCommand());
 		}
 		if(Robot.oi.getChangeSpeedDown()){
-			Robot.shooterSubsystem.setShootSpeed(Robot.shooterSubsystem.getShootSpeed() +.01);
+			Robot.shooterSubsystem.setShootSpeed(Robot.shooterSubsystem.shootSpeedSetpoint -.001);
 		}
 		if(Robot.oi.getChangeSpeedUp()){
-			Robot.shooterSubsystem.setShootSpeed(Robot.shooterSubsystem.getShootSpeed() -.01);
+			Robot.shooterSubsystem.setShootSpeed(Robot.shooterSubsystem.shootSpeedSetpoint +.001);
 		}
 		if (Robot.oi.getShooterToggleState()) {
-			Robot.shooterSubsystem.shootSpeed(Robot.shooterSubsystem.getShootSpeed());
+			Robot.shooterSubsystem.setShootSpeed(Robot.shooterSubsystem.shootSpeedSetpoint);
 		}
 		else {
 			Robot.shooterSubsystem.shootStop();
 		}
+		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

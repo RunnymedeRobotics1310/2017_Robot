@@ -29,9 +29,9 @@ public class AutonomousCommand extends CommandGroup {
         	if (robotPosition == RobotPosition.CENTER) {
         		
         		// Do Gear
-           		addSequential(new DriveToLimitSwitchCommand(0, .4, Robot.chassisSubsystem.getTowerSensor(), 84));
+           		addSequential(new DriveToLimitSwitchCommand(0, .8, Robot.chassisSubsystem.getTowerSensor(), 84));
         		addSequential(new GearReleaseCommand());
-        		addSequential(new DriveToEncoderDistanceCommand(0, -.2, 24));
+        		addSequential(new DriveToEncoderDistanceCommand(0, -.8, 24));
         		
         		if (shootMode == ShootMode.GEAR_SHOOT) {
 	        		addSequential(new RotateToHeadingCommand(120));
@@ -41,16 +41,16 @@ public class AutonomousCommand extends CommandGroup {
         	
         	if (robotPosition == RobotPosition.LEFT) {
         		// Do Gear
-        		addSequential(new DriveToEncoderDistanceCommand(0, .5, 100));
+        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 100));
         		addSequential(new RotateToHeadingCommand(59));
-    			addSequential(new DriveToLimitSwitchCommand(59, .2, Robot.chassisSubsystem.getTowerSensor(), 28));
+    			addSequential(new DriveToLimitSwitchCommand(59, .4, Robot.chassisSubsystem.getTowerSensor(), 28));
     			addSequential(new GearReleaseCommand());
-    			addSequential(new DriveToEncoderDistanceCommand(51, -.5, 25));
+    			addSequential(new DriveToEncoderDistanceCommand(51, -.8, 25));
     			
     			// Since you won't be able to shoot from the right side, just drive back and straight
     			if (shootMode == ShootMode.GEAR_ONLY || shootMode == ShootMode.GEAR_SHOOT) {
         			addSequential(new RotateToHeadingCommand(0));
-        			addSequential(new DriveToEncoderDistanceCommand(0, .5, 30));
+        			addSequential(new DriveToEncoderDistanceCommand(0, .8, 30));
         		}
         		
         		
@@ -58,20 +58,20 @@ public class AutonomousCommand extends CommandGroup {
         	if (robotPosition == RobotPosition.RIGHT) {
         		
         		// Do Gear
-        		addSequential(new DriveToEncoderDistanceCommand(0, .5, 92));
+        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 92));
         		addSequential(new RotateToHeadingCommand(300));
-        		addSequential(new DriveToLimitSwitchCommand(300, .2, Robot.chassisSubsystem.getTowerSensor(), 32));
+        		addSequential(new DriveToLimitSwitchCommand(300, .4, Robot.chassisSubsystem.getTowerSensor(), 32));
         		addSequential(new GearReleaseCommand());
-        		addSequential(new DriveToEncoderDistanceCommand(300, -.5, 25));
+        		addSequential(new DriveToEncoderDistanceCommand(300, -.8, 25));
         		
         		if (shootMode == ShootMode.GEAR_ONLY) {
         			addSequential(new RotateToHeadingCommand(0));
-        			addSequential(new DriveToEncoderDistanceCommand(0, .5, 30));
+        			addSequential(new DriveToEncoderDistanceCommand(0, .8, 30));
         		}
         		
         		if (shootMode == ShootMode.GEAR_SHOOT) {
 	        		addSequential(new RotateToHeadingCommand(145));
-	        		addSequential(new DriveToEncoderDistanceCommand(145, .5, 60));
+	        		addSequential(new DriveToEncoderDistanceCommand(145, .8, 60));
         		}
     			
     		
@@ -86,47 +86,49 @@ public class AutonomousCommand extends CommandGroup {
         		// Do Gear
            		addSequential(new DriveToLimitSwitchCommand(0, .4, Robot.chassisSubsystem.getTowerSensor(), 84));
         		addSequential(new GearReleaseCommand());
-        		addSequential(new DriveToEncoderDistanceCommand(0, -.2, 24));
+        		addSequential(new DriveToEncoderDistanceCommand(0, -.8, 24));
         		
         		if (shootMode == ShootMode.GEAR_SHOOT) {
 	        		addSequential(new RotateToHeadingCommand(240));
-	        		addSequential(new DriveToEncoderDistanceCommand(240, .6, 95));
+	        		addSequential(new DriveToEncoderDistanceCommand(240, .8, 95));
         		}
         	}
         	
         	if (robotPosition == RobotPosition.LEFT) {
         	
         		// Do Gear
-        		addSequential(new DriveToEncoderDistanceCommand(0, .5, 97));
+        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 91));
         		addSequential(new RotateToHeadingCommand(60));
-        		addSequential(new DriveToLimitSwitchCommand(60, .2, Robot.chassisSubsystem.getTowerSensor(), 38));
+        		addSequential(new DriveToLimitSwitchCommand(60, .4, Robot.chassisSubsystem.getTowerSensor(), 38));
         		addSequential(new GearReleaseCommand());
-        		addSequential(new DriveToEncoderDistanceCommand(60, -.5, 30));
+        		addSequential(new DriveToEncoderDistanceCommand(60, -.8, 30));
         		
         		if (shootMode == ShootMode.GEAR_ONLY) {
         			addSequential(new RotateToHeadingCommand(0));
-        			addSequential(new DriveToEncoderDistanceCommand(0, .5, 34));
+        			addSequential(new DriveToEncoderDistanceCommand(0, .8, 34));
         		}
         		
         		if (shootMode == ShootMode.GEAR_SHOOT) {
 	        		addSequential(new RotateToHeadingCommand(215));
-	        		addSequential(new DriveToEncoderDistanceCommand(215, .5, 64));
+	        		addSequential(new DriveToEncoderDistanceCommand(215, .8, 64));
+	        		
+	        		
         		}
         		
         	}
         	if (robotPosition == RobotPosition.RIGHT) {
         		
         		// Do Gear
-        		addSequential(new DriveToEncoderDistanceCommand(0, .5, 94));
+        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 94));
         		addSequential(new RotateToHeadingCommand(301));
-    			addSequential(new DriveToLimitSwitchCommand(301, .2, Robot.chassisSubsystem.getTowerSensor(), 28));
+    			addSequential(new DriveToLimitSwitchCommand(301, .4, Robot.chassisSubsystem.getTowerSensor(), 28));
     			addSequential(new GearReleaseCommand());
-    			addSequential(new DriveToEncoderDistanceCommand(301, -.5, 25));
+    			addSequential(new DriveToEncoderDistanceCommand(301, -.8, 25));
     			
     			// Since you won't be able to shoot from the right side, just drive back and straight
     			if (shootMode == ShootMode.GEAR_ONLY || shootMode == ShootMode.GEAR_SHOOT) {
         			addSequential(new RotateToHeadingCommand(0));
-        			addSequential(new DriveToEncoderDistanceCommand(0, .5, 30));
+        			addSequential(new DriveToEncoderDistanceCommand(0, .8, 30));
         		}
     			
     		
