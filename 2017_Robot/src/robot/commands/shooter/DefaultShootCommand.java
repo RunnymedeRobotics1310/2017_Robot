@@ -14,7 +14,6 @@ public class DefaultShootCommand extends Command {
 	public DefaultShootCommand() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.shooterSubsystem);
-		requires(Robot.chassisSubsystem);
 
 	}
 
