@@ -4,8 +4,6 @@ package robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
-import robot.commands.auto.DriveToEncoderDistanceCommand;
-import robot.commands.auto.RotateToHeadingCommand;
 
 /**
  * Drive command handles all commands related to driving

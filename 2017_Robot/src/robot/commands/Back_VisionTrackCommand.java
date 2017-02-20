@@ -9,14 +9,13 @@ import robot.commands.auto.RotateToHeadingCommand;
 /**
  *
  */
-public class VisionTrackCommand extends Command {
+public class Back_VisionTrackCommand extends Command {
 
 	double degreeToTurn;
-	double currentX;
-	double distanceFromTower;
-	double ultrasonicDistance, currentUltrasonicDistance;
+	double currentAvgX;
+	double[] currentX;
 
-	public VisionTrackCommand() {
+	public Back_VisionTrackCommand() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.chassisSubsystem);
 	}
@@ -24,19 +23,20 @@ public class VisionTrackCommand extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		
-		ultrasonicDistance = Robot.chassisSubsystem.getUltrasonicDistance();
+		currentX = new double[0]; //temp 
+//		currentX = Robot.oi.getVisionTargetCenterX();
 		
-		currentX = Robot.oi.getVisionTargetCenterX();
-		
-		if (currentX > 0) {
-			degreeToTurn = calculateAngle(currentX); 
+		// check if both reflective taps are visible. If so, get the midpoint between the two
+		if (currentX.length == 2) {
+			currentAvgX = (currentX[0] + currentX[1]) / 2;
+			degreeToTurn = calculateAngle(currentAvgX);
 		}
 		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (currentX > 0) {
+		if (currentX.length == 2) {
 			Scheduler.getInstance().add(new RotateToHeadingCommand(degreeToTurn));
 		}
 	}
@@ -64,7 +64,8 @@ public class VisionTrackCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if (currentX > 0) {
+		// If there aren't 2 x values, finish this command
+		if (currentX.length != 2) {
 			return true;
 		}
 		return false;

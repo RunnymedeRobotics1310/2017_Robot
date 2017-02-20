@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import robot.Robot;
 import robot.RobotConst;
 import robot.RobotMap;
 import robot.commands.DriveCommand;
@@ -235,7 +236,11 @@ public class ChassisSubsystem extends T_Subsystem {
 	public double getAngleRate() {
 		return gyro.getRate();
 	}
-
+	
+	public double getUltrasonicDistance() {
+		return ultrasonicSensor.getDistance();
+	}
+	
 	public double getAngleError(double heading) {
 
 		// FIXME:  Move this code to the T_GYRO class

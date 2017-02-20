@@ -4,7 +4,6 @@ import com.toronto.oi.T_Axis;
 import com.toronto.oi.T_Button;
 import com.toronto.oi.T_Logitech_GameController;
 import com.toronto.oi.T_OiController;
-import com.toronto.oi.T_PS4_GameController;
 import com.toronto.oi.T_Stick;
 import com.toronto.oi.T_Toggle;
 import com.toronto.oi.T_Trigger;
@@ -66,10 +65,15 @@ public class OI {
 		return driverController.getButton(T_Button.A);
 	}
 
-	public double[] getVisionTargetCenterX() {
-		double[] xValues = visionTable.getNumberArray("centerX", new double[0]);
-		return xValues.length == 2 ? xValues : new double[0];
+	public double getVisionTargetCenterX() {
+		double[] xValue= visionTable.getNumberArray("centerX", new double[0]);
+		return xValue.length == 1 ? xValue[0] : -1;
 	}
+	
+//	public double[] getVisionTargetCenterX() {
+//		double[] xValues = visionTable.getNumberArray("centerX", new double[0]);
+//		return xValues.length == 2 ? xValues : new double[0];
+//	}
 
 	public double[] getVisionTargetCenterY() {
 		double[] yValues = visionTable.getNumberArray("centerY", new double[0]);
