@@ -30,7 +30,10 @@ public class ShooterSubsystem extends T_Subsystem {
 	public double shootSpeedSetpoint = .5;
 	private SpeedController hopperAdjitatorMotor = new VictorSP (4);
 	
+	//Check tomorrow to find change in encoder counts from max flap to min flap
+	public double shooterAdjustMaxEncoderCount = 2000;
 
+	
 	// PID Controller
 	T_MotorSpeedPidController shooterController = 
 			new T_MotorSpeedPidController(1, 0, 
@@ -57,16 +60,12 @@ public class ShooterSubsystem extends T_Subsystem {
 	public void runAdjust(double speed){
 		shooterAdjustMotor.set(speed);
 	}
-	
 	public void initDefaultCommand() {
 		setDefaultCommand(new DefaultShootCommand());
 	}
-
-	public void startSpin(){
-		shooterMotor.set(-1);
-	}
 	
 	public void shootStop(){
+		shooterController.disable();
 		shooterMotor.set(0);
 	}
 	
@@ -79,13 +78,16 @@ public class ShooterSubsystem extends T_Subsystem {
 		shooterIntakeMotor.set(0);
 		hopperAdjitatorMotor.set(0);
 	}
+	
 	public double getCurrentEncoder(){
 		return shooterAdjustEncoder.get();
 	}
 	public void setShooterAdjustSpeed(double speed){
 		shooterAdjustMotor.set(speed);
 	}
-	
+	public void resetShootAdjustEncoder(){
+		shooterAdjustEncoder.reset();
+	}
 	@Override
 	public void updatePeriodic() {
 		

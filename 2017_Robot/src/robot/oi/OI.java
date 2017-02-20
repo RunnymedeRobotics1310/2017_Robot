@@ -170,6 +170,9 @@ public class OI {
 	public boolean getChangeSpeedDown() {
 		return operatorController.getButton(T_Button.A);
 	}
+	public boolean getResetShootAdjustEncoder() {
+		return operatorController.getButton(T_Button.B);
+	}
 	public void updatePeriodic() {
 
 		// Update all toggles

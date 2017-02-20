@@ -11,10 +11,12 @@ public class ShootAngleAdjustCommand extends Command {
 	private static double moveAmount = 0;
 	private static double startEncoder = 0;
 	private static double adjustSpeed = 0;
+	
 	public ShootAngleAdjustCommand(double moveAmount, double adjustSpeed) {
-		this.moveAmount = moveAmount;
+		this.moveAmount = moveAmount * (Robot.shooterSubsystem.shooterAdjustMaxEncoderCount/45);
 		this.adjustSpeed = Math.abs(adjustSpeed);
-		startEncoder = Robot.shooterSubsystem.getCurrentEncoder();
+	
+		//startEncoder = Robot.shooterSubsystem.getCurrentEncoder();
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.shooterSubsystem);
 	}
@@ -34,8 +36,9 @@ public class ShootAngleAdjustCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if(Math.abs(Robot.shooterSubsystem.getCurrentEncoder()) == Math.abs(startEncoder)+Math.abs(moveAmount))	
+		if(Math.abs(Robot.shooterSubsystem.getCurrentEncoder()) == Math.abs(moveAmount))	{
 			return true;
+		}
 		return false;
 	}
 
