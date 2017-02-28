@@ -30,6 +30,7 @@ public class VisionTrackCommand extends Command {
 		
 		if (currentX > 0) {
 			degreeToTurn = calculateAngle(currentX); 
+//			degreeToTurn += 3;
 		}
 		
 	}
@@ -48,7 +49,11 @@ public class VisionTrackCommand extends Command {
 	 * @return
 	 */
 	protected double calculateAngle(double xValue) {
-		double angle = -0.1033 * xValue + 16.398;
+		// Equation to get the angle at which we have to be in the center
+//		double angle = -0.1033 * xValue + 16.398;
+		
+		//TODO: equation to get the angle at which we have to be in the
+		double angle = -0.144 * xValue + 360.3;
 		
 		double currentAngle = Robot.chassisSubsystem.getAngle();
 	

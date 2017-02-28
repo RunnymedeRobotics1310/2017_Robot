@@ -4,6 +4,7 @@ package robot.commands.shooter;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
+import robot.subsystems.ShooterSubsystem;
 
 /**
  *
@@ -32,6 +33,12 @@ public class DefaultShootCommand extends Command {
 		}
 		if(Robot.oi.getShootIntakeTrigger()){
 			Scheduler.getInstance().add(new ShootIntakeCommand());
+			if(Robot.shooterSubsystem.startFeedForShoot()){
+			Scheduler.getInstance().add(new ShootFeedCommand(0.1));
+			}
+
+		} else {
+			Robot.shooterSubsystem.intakeStop();
 		}
 		if(Robot.oi.getShootAngleDownCommand()){
 			Scheduler.getInstance().add(new ShootAngleMoveDownCommand());

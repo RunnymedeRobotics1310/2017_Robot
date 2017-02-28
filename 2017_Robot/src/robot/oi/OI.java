@@ -59,7 +59,7 @@ public class OI {
 
 	private T_Toggle shooterToggle = new T_Toggle(operatorController, T_Button.X, false);
 
-	private NetworkTable visionTable = NetworkTable.getTable("GRIP/TargetInfo");
+	private NetworkTable visionTable = NetworkTable.getTable("GRIP/boilerData");
 
 	public boolean getVisionTrackButton() {
 		return driverController.getButton(T_Button.A);
@@ -90,11 +90,11 @@ public class OI {
 	}
 
 	public boolean getClimbCatch() {
-		return driverController.getButton(T_Trigger.RIGHT);
+		return operatorController.getButton(T_Trigger.RIGHT);
 	}
 
 	public boolean getFastClimb() {
-		return driverController.getButton(T_Trigger.LEFT);
+		return operatorController.getButton(T_Trigger.LEFT);
 	}
 
 	public boolean getStartDriveStraightCommand() {

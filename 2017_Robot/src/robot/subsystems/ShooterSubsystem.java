@@ -22,26 +22,24 @@ public class ShooterSubsystem extends T_Subsystem {
 	 * 
 	 * Declare all motors and sensors here
 	 ******************************************************************************/
-	private SpeedController shooterMotor = new VictorSP (RobotMap.SHOOTER_MOTOR_PORT);
-	private SpeedController shooterIntakeMotor = new VictorSP (RobotMap.SHOOTER_INTAKE_MOTOR_PORT);
+	private SpeedController shooterMotor = new VictorSP(RobotMap.SHOOTER_MOTOR_PORT);
+	private SpeedController shooterIntakeMotor = new VictorSP(RobotMap.SHOOTER_INTAKE_MOTOR_PORT);
 	private SpeedController shooterAdjustMotor = new CANTalon(RobotMap.SHOOTER_ADJUST_CAN_ADDRESS);
-    private T_Encoder shooterAdjustEncoder = new T_SrxEncoder((CANTalon) shooterAdjustMotor);
+	private T_Encoder shooterAdjustEncoder = new T_SrxEncoder((CANTalon) shooterAdjustMotor);
 	private T_CounterEncoder shooterSpeedEncoder = new T_CounterEncoder(2);
-	public double shootSpeedSetpoint = .5;
-	private SpeedController hopperAdjitatorMotor = new VictorSP (4);
-	
-	//Check tomorrow to find change in encoder counts from max flap to min flap
+	public double shootSpeedSetpoint = .6;
+	private SpeedController hopperAdjitatorMotor = new VictorSP(4);
+
+	// Check tomorrow to find change in encoder counts from max flap to min flap
 	public double shooterAdjustMaxEncoderCount = 2000;
 
-	
 	// PID Controller
-	T_MotorSpeedPidController shooterController = 
-			new T_MotorSpeedPidController(1, 0, 
-					shooterSpeedEncoder, RobotConst.MAX_SHOOTER_SPEED);
+	T_MotorSpeedPidController shooterController = new T_MotorSpeedPidController(0.25, 0, shooterSpeedEncoder,
+			RobotConst.MAX_SHOOTER_SPEED);
 
 	double prevShooterSpeed = 0.0;
-	
-	public double getShootSpeed(){
+
+	public double getShootSpeed() {
 		double shooterSpeed = shooterSpeedEncoder.getRate();
 		// Throw bad data
 		if (Math.abs(shooterSpeed) > 160) {
@@ -50,56 +48,74 @@ public class ShooterSubsystem extends T_Subsystem {
 		prevShooterSpeed = shooterSpeed;
 		return prevShooterSpeed;
 	}
-	public void setShootSpeed(double speed){
+
+	public void setShootSpeed(double speed) {
 		if (!shooterController.isEnabled()) {
 			shooterController.enable();
 		}
 		shootSpeedSetpoint = speed;
 		shooterController.setSetpoint(shootSpeedSetpoint);
 	}
-	public void runAdjust(double speed){
+
+	public void runAdjust(double speed) {
 		shooterAdjustMotor.set(speed);
 	}
+
 	public void initDefaultCommand() {
 		setDefaultCommand(new DefaultShootCommand());
 	}
-	
-	public void shootStop(){
+
+	public void shootStop() {
 		shooterController.disable();
 		shooterMotor.set(0);
 	}
-	
-	public void intake(){
-		shooterIntakeMotor.set(1);
-		hopperAdjitatorMotor.set(-0.5);
-		
+
+	public void intake() {
+//		shooterIntakeMotor.set(.5);
+		hopperAdjitatorMotor.set(0.5);
+
 	}
-	public void intakeStop(){
+	public void feedStop(){
+		shooterIntakeMotor.set(0);
+	}
+	public void feedIntake(){
+		shooterIntakeMotor.set(0.5);
+	}
+	
+	public void intakeStop() {
 		shooterIntakeMotor.set(0);
 		hopperAdjitatorMotor.set(0);
 	}
-	
-	public double getCurrentEncoder(){
+
+	public double getCurrentEncoder() {
 		return shooterAdjustEncoder.get();
 	}
-	public void setShooterAdjustSpeed(double speed){
+
+	public void setShooterAdjustSpeed(double speed) {
 		shooterAdjustMotor.set(speed);
 	}
-	public void resetShootAdjustEncoder(){
+
+	public void resetShootAdjustEncoder() {
 		shooterAdjustEncoder.reset();
 	}
+	public boolean startFeedForShoot(){
+		if(shooterSpeedEncoder.getRate()/RobotConst.MAX_SHOOTER_SPEED > shootSpeedSetpoint*0.95){
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	public void updatePeriodic() {
-		
+
 		// Calculate all PIDs (only once per loop)
 		shooterController.calculatePidOutput();
 
 		// set motor
 		if (shooterController.isEnabled()) {
-			shooterMotor.set(shooterController.get());
+			 shooterMotor.set(shooterController.get());
 		}
-				
-				
+
 		// Update all SmartDashboard values
 		SmartDashboard.putString("Shooter Motor Speed", String.valueOf(Math.abs(shooterMotor.get())));
 		SmartDashboard.putString("Shooter adjust encoder", String.valueOf(shooterAdjustEncoder.get()));
