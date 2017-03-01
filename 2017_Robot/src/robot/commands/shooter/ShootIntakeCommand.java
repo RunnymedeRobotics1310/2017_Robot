@@ -19,14 +19,14 @@ public class ShootIntakeCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		
-		Robot.shooterSubsystem.intake();
+		Robot.shooterSubsystem.startAgitator();
 		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if (!Robot.oi.getShootIntakeTrigger()){
-			Robot.shooterSubsystem.intakeStop();
+		if (!Robot.oi.getShootButton()){
+			Robot.shooterSubsystem.stopAgitator();
 			return true;
 		}
 		return false;

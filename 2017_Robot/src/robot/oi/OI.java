@@ -113,7 +113,7 @@ public class OI {
 		return driverController.getPov();
 	}
 	
-	public double fixAngle(){
+	public double getShooterAngleAdjustmentSpeed(){
 		double speed = operatorController.getAxis(T_Stick.RIGHT, T_Axis.Y);
 		return speed * Math.abs(speed);
 
@@ -152,11 +152,11 @@ public class OI {
 		return intakeToggle.getToggleState();
 	}
 
-	public boolean getShootIntakeTrigger() {
+	public boolean getShootButton() {
 		return operatorController.getButton(T_Button.LEFT_BUMPER);
 	}
 
-	public boolean getShooterToggleState() {
+	public boolean isShooterOn() {
 		return shooterToggle.getToggleState();
 	}
 
@@ -174,7 +174,7 @@ public class OI {
 	public boolean getChangeSpeedDown() {
 		return operatorController.getButton(T_Button.A);
 	}
-	public boolean getResetShootAdjustEncoder() {
+	public boolean getResetShooterAdjustEncoder() {
 		return operatorController.getButton(T_Button.B);
 	}
 	public void updatePeriodic() {

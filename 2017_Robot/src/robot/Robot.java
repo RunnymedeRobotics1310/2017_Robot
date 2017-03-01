@@ -100,6 +100,8 @@ public class Robot extends IterativeRobot {
     	if (autoCommand != null) {
     		autoCommand.cancel();
     	}
+    	// Turn off the drive PIDs
+    	chassisSubsystem.disableDrivePids();
     }
 
     /**

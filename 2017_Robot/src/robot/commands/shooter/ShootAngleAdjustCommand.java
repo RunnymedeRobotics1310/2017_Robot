@@ -27,16 +27,16 @@ public class ShootAngleAdjustCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if (moveAmount < 0) {
-			Robot.shooterSubsystem.setShooterAdjustSpeed(adjustSpeed);
+			Robot.shooterSubsystem.setShooterAngleAdjustSpeed(adjustSpeed);
 		}
     	else if (moveAmount > 0){
-			Robot.shooterSubsystem.setShooterAdjustSpeed(-adjustSpeed);
+			Robot.shooterSubsystem.setShooterAngleAdjustSpeed(-adjustSpeed);
     	}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		if(Math.abs(Robot.shooterSubsystem.getCurrentEncoder()) == Math.abs(moveAmount))	{
+		if(Math.abs(Robot.shooterSubsystem.getShooterAngleAdjustEncoder()) == Math.abs(moveAmount))	{
 			return true;
 		}
 		return false;

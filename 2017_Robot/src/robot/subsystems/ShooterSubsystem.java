@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.RobotConst;
 import robot.RobotMap;
-import robot.commands.shooter.DefaultShootCommand;
+import robot.commands.shooter.DefaultShooterCommand;
 
 public class ShooterSubsystem extends T_Subsystem {
 
@@ -22,89 +22,144 @@ public class ShooterSubsystem extends T_Subsystem {
 	 * 
 	 * Declare all motors and sensors here
 	 ******************************************************************************/
-	private SpeedController shooterMotor = new VictorSP(RobotMap.SHOOTER_MOTOR_PORT);
-	private SpeedController shooterIntakeMotor = new VictorSP(RobotMap.SHOOTER_INTAKE_MOTOR_PORT);
-	private SpeedController shooterAdjustMotor = new CANTalon(RobotMap.SHOOTER_ADJUST_CAN_ADDRESS);
-	private T_Encoder shooterAdjustEncoder = new T_SrxEncoder((CANTalon) shooterAdjustMotor);
-	private T_CounterEncoder shooterSpeedEncoder = new T_CounterEncoder(2);
-	public double shootSpeedSetpoint = .6;
-	private SpeedController hopperAdjitatorMotor = new VictorSP(4);
+	private SpeedController shooterMotor         = new VictorSP(RobotMap.SHOOTER_MOTOR_PWM_PORT);
+	private SpeedController shooterFeederMotor   = new VictorSP(RobotMap.SHOOTER_FEEDER_MOTOR_PWM_PORT);
+	private SpeedController shooterAngleMotor    = new CANTalon(RobotMap.SHOOTER_ANGLE_MOTOR_CAN_ADDRESS);
+	private SpeedController hopperAgitatorMotor  = new VictorSP(RobotMap.HOPPER_AGITATOR_MOTOR_PORT);
+	
+	private T_Encoder       shooterAngleEncoder  = new T_SrxEncoder((CANTalon) shooterAngleMotor);
+	private T_Encoder       shooterSpeedEncoder  = new T_CounterEncoder(2);
+	
+	public double shooterSpeedSetpoint = RobotConst.DEFAULT_SHOOTER_SPEED;
 
-	// Check tomorrow to find change in encoder counts from max flap to min flap
+	// FIXME: Determine the encoder counts from max flap to min flap
 	public double shooterAdjustMaxEncoderCount = 2000;
 
 	// PID Controller
-	T_MotorSpeedPidController shooterController = new T_MotorSpeedPidController(0.25, 0, shooterSpeedEncoder,
-			RobotConst.MAX_SHOOTER_SPEED);
+	private T_MotorSpeedPidController shooterController = 
+			new T_MotorSpeedPidController(0.1, 0, shooterSpeedEncoder, RobotConst.MAX_SHOOTER_SPEED);
 
-	double prevShooterSpeed = 0.0;
+	private double prevShooterSpeed = 0.0;
 
-	public double getShootSpeed() {
-		double shooterSpeed = shooterSpeedEncoder.getRate();
-		// Throw bad data
-		if (Math.abs(shooterSpeed) > 160) {
-			return prevShooterSpeed;
-		}
-		prevShooterSpeed = shooterSpeed;
-		return prevShooterSpeed;
-	}
-
-	public void setShootSpeed(double speed) {
-		if (!shooterController.isEnabled()) {
-			shooterController.enable();
-		}
-		shootSpeedSetpoint = speed;
-		shooterController.setSetpoint(shootSpeedSetpoint);
-	}
-
-	public void runAdjust(double speed) {
-		shooterAdjustMotor.set(speed);
+	//***********************************************
+	//  Initialize the Subsystem 
+	//***********************************************
+	
+	@Override
+	public void robotInit() {
+		shooterMotor.setInverted(true);
+		stopShooter();
+		stopFeeder();
+		stopAgitator();
 	}
 
 	public void initDefaultCommand() {
-		setDefaultCommand(new DefaultShootCommand());
+		setDefaultCommand(new DefaultShooterCommand());
 	}
 
-	public void shootStop() {
-		shooterController.disable();
-		shooterMotor.set(0);
+	//***********************************************
+	//  Shooter Methods 
+	//***********************************************
+	
+	public double getShooterSpeed() {
+		double shooterSpeed = shooterSpeedEncoder.getRate();
+		// Throw bad data
+		if (Math.abs(shooterSpeed) > 200) {
+			return prevShooterSpeed;
+		}
+		prevShooterSpeed = shooterSpeed;
+		return shooterSpeed;
 	}
 
-	public void intake() {
-//		shooterIntakeMotor.set(.5);
-		hopperAdjitatorMotor.set(0.5);
+	/**
+	 * Set the shooter speed to the given speed.  
+	 * <p>
+	 * If the shooter
+	 * speed is set to zero, the PIDS are disabled and the motor
+	 * speed is set to zero.  In this case, the previous setpoint
+	 * is retained. 
+	 * @param speed the speed in encoder counts per seconds
+	 */
+	public void setShooterSpeed(double speed) {
+		
+		if (speed == 0) {
+			if (shooterController.isEnabled()) {
+				shooterController.disable();
+				shooterMotor.set(0);
+			}
+		} else {
+			if (!shooterController.isEnabled()) {
+				shooterController.enable();
+			}
+			shooterSpeedSetpoint = speed;
+			shooterController.setSetpoint(speed/RobotConst.MAX_SHOOTER_SPEED);
+		}
+	}
 
-	}
-	public void feedStop(){
-		shooterIntakeMotor.set(0);
-	}
-	public void feedIntake(){
-		shooterIntakeMotor.set(0.5);
+	/**
+	 * Get the shooter speed setpoint as last set on the set command.
+	 * <p>
+	 * This setpoint is not reset when the shooter is stopped.
+	 * @return double shooterSpeedSetpoint
+	 */
+	public double getShooterSpeedSetpoint() {
+		return shooterSpeedSetpoint;
 	}
 	
-	public void intakeStop() {
-		shooterIntakeMotor.set(0);
-		hopperAdjitatorMotor.set(0);
-	}
-
-	public double getCurrentEncoder() {
-		return shooterAdjustEncoder.get();
-	}
-
-	public void setShooterAdjustSpeed(double speed) {
-		shooterAdjustMotor.set(speed);
-	}
-
-	public void resetShootAdjustEncoder() {
-		shooterAdjustEncoder.reset();
-	}
-	public boolean startFeedForShoot(){
-		if(shooterSpeedEncoder.getRate()/RobotConst.MAX_SHOOTER_SPEED > shootSpeedSetpoint*0.95){
+	public boolean isShooterAtSpeed(){
+		if(shooterSpeedEncoder.getRate() > shooterSpeedSetpoint*0.95) {
 			return true;
 		}
 		return false;
 	}
 	
+	public void stopShooter() {
+		shooterController.disable();
+		shooterMotor.set(0);
+	}
+	
+	//***********************************************
+	//  Feeder Methods 
+	//***********************************************
+	
+	public void setFeederSpeed(double speed){
+		shooterFeederMotor.set(speed);
+	}
+	
+	public void stopFeeder(){
+		shooterFeederMotor.set(0);
+	}
+	
+	//***********************************************
+	//  Shooter Angle Adjustment Methods 
+	//***********************************************
+	
+	public double getShooterAngleAdjustEncoder() {
+		return shooterAngleEncoder.get();
+	}
+
+	public void setShooterAngleAdjustSpeed(double speed) {
+		shooterAngleMotor.set(speed);
+	}
+
+	public void resetShooterAngleAdjustEncoder() {
+		shooterAngleEncoder.reset();
+	}
+
+	//***********************************************
+	//  Hopper Agitator Methods 
+	//***********************************************
+	public void startAgitator() {
+		hopperAgitatorMotor.set(RobotConst.HOPPER_AGITATOR_SPEED);
+	}
+	
+	public void stopAgitator() {
+		hopperAgitatorMotor.set(0);
+	}
+	
+	//***********************************************
+	//  Update Dashboard 
+	//***********************************************
 	@Override
 	public void updatePeriodic() {
 
@@ -118,16 +173,12 @@ public class ShooterSubsystem extends T_Subsystem {
 
 		// Update all SmartDashboard values
 		SmartDashboard.putString("Shooter Motor Speed", String.valueOf(Math.abs(shooterMotor.get())));
-		SmartDashboard.putString("Shooter adjust encoder", String.valueOf(shooterAdjustEncoder.get()));
-		SmartDashboard.putNumber("Current Shooter Speed", getShootSpeed());
-		SmartDashboard.putNumber("Shooter setpoint", shootSpeedSetpoint);
+		SmartDashboard.putNumber("Current Shooter Speed", getShooterSpeed());
+		SmartDashboard.putNumber("Shooter Speed Setpoint", shooterSpeedSetpoint);
 		SmartDashboard.putData("Shooter PIDs", shooterController);
+		SmartDashboard.putBoolean("Shooter At Speed", isShooterAtSpeed());
+
+		SmartDashboard.putString("Shooter Angle Adjust Encoder", String.valueOf(shooterAngleEncoder.get()));
 	}
 
-	@Override
-	public void robotInit() {
-		shooterMotor.setInverted(true);
-		shootStop();
-		intakeStop();
-	}
 }

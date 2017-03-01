@@ -53,15 +53,19 @@ public class RobotConst {
     /** Gyro Sensitivity for calibration of the rotational rate of the gyro */
     public static double GYRO_SENSITIVITY = .00172;
     
-    
+ 
+    /** Ultrasonic Calibration values */
 	public static final double ULTRASONIC_VOLTAGE_20IN = 0.183;
 	public static final double ULTRASONIC_VOLTAGE_40IN = 0.376;
 	public static final double ULTRASONIC_VOLTAGE_80IN = 0.767;
 	
 	/** Shooter **/
-	public static final double MAX_SHOOTER_SPEED = 150;
+	public static final double MAX_SHOOTER_SPEED = 120;
 	
+	public static final double DEFAULT_SHOOTER_SPEED = 80;
 
+	public static final double HOPPER_AGITATOR_SPEED = .5;
+	
     // This static initializer is used to adjust the constants for the 
     // robot based on which robot is selected.
     static {
