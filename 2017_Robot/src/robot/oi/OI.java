@@ -190,6 +190,7 @@ public class OI {
 		autoSelector.updateSmartDashboard();
 
 		SmartDashboard.putString("Driver Controller", driverController.toString());
+		SmartDashboard.putString("Operator Controller", operatorController.toString());
 		SmartDashboard.putBoolean("Toggle", getDriverToggle());
 		SmartDashboard.putBoolean("MotorPidToggle", getMotorPidEnabled());
 

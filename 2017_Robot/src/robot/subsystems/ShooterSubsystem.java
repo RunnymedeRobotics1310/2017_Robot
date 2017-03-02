@@ -28,7 +28,8 @@ public class ShooterSubsystem extends T_Subsystem {
 	private SpeedController hopperAgitatorMotor  = new VictorSP(RobotMap.HOPPER_AGITATOR_MOTOR_PORT);
 	
 	private T_Encoder       shooterAngleEncoder  = new T_SrxEncoder((CANTalon) shooterAngleMotor);
-	private T_Encoder       shooterSpeedEncoder  = new T_CounterEncoder(2);
+	private T_Encoder       shooterSpeedEncoder  = 
+			new T_CounterEncoder(RobotMap.SHOOTER_SPEED_ENCODER_DIO_PORT, RobotConst.SHOOTER_ENCODER_MAX_SPEED);
 	
 	public double shooterSpeedSetpoint = RobotConst.DEFAULT_SHOOTER_SPEED;
 
@@ -37,9 +38,7 @@ public class ShooterSubsystem extends T_Subsystem {
 
 	// PID Controller
 	private T_MotorSpeedPidController shooterController = 
-			new T_MotorSpeedPidController(0.1, 0, shooterSpeedEncoder, RobotConst.MAX_SHOOTER_SPEED);
-
-	private double prevShooterSpeed = 0.0;
+			new T_MotorSpeedPidController(10, 0, shooterSpeedEncoder, RobotConst.SHOOTER_ENCODER_MAX_SPEED);
 
 	//***********************************************
 	//  Initialize the Subsystem 
@@ -62,13 +61,7 @@ public class ShooterSubsystem extends T_Subsystem {
 	//***********************************************
 	
 	public double getShooterSpeed() {
-		double shooterSpeed = shooterSpeedEncoder.getRate();
-		// Throw bad data
-		if (Math.abs(shooterSpeed) > 200) {
-			return prevShooterSpeed;
-		}
-		prevShooterSpeed = shooterSpeed;
-		return shooterSpeed;
+		return shooterSpeedEncoder.getRate();
 	}
 
 	/**
@@ -92,7 +85,7 @@ public class ShooterSubsystem extends T_Subsystem {
 				shooterController.enable();
 			}
 			shooterSpeedSetpoint = speed;
-			shooterController.setSetpoint(speed/RobotConst.MAX_SHOOTER_SPEED);
+			shooterController.setSetpoint(speed/RobotConst.SHOOTER_ENCODER_MAX_SPEED);
 		}
 	}
 
@@ -107,7 +100,9 @@ public class ShooterSubsystem extends T_Subsystem {
 	}
 	
 	public boolean isShooterAtSpeed(){
-		if(shooterSpeedEncoder.getRate() > shooterSpeedSetpoint*0.95) {
+		double speed = shooterSpeedEncoder.getRate();
+		if (   speed >= shooterSpeedSetpoint*0.985
+			&& speed <= shooterSpeedSetpoint*1.015) {
 			return true;
 		}
 		return false;

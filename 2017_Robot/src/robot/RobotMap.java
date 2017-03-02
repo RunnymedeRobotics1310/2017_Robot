@@ -25,6 +25,8 @@ public class RobotMap {
     
     public static final int FRONT_LIMIT_SWITCH_DIO_PORT = 1;
     
+    public static final int SHOOTER_SPEED_ENCODER_DIO_PORT = 2;
+    
     // Analog Input Ports
     public static final int GYRO_ANALOG_INPUT_PORT = 0;
     

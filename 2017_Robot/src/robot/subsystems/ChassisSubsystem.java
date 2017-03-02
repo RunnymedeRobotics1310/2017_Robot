@@ -56,7 +56,7 @@ public class ChassisSubsystem extends T_Subsystem {
 		// 1321 uses CAN bus TalonSRX controllers.
 		// 1310 uses 4 CAN Talons.
 
-		if (RobotConst.ROBOT == 1310) {
+		if (RobotConst.ROBOT == 1310 || RobotConst.ROBOT == 1311) {
 
 			// Use the CAN bus motor controllers and encoders
 			leftMotor  = new CANTalon(RobotMap.LEFT_MOTOR_CAN_ADDRESS);

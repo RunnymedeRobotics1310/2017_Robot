@@ -60,9 +60,9 @@ public class RobotConst {
 	public static final double ULTRASONIC_VOLTAGE_80IN = 0.767;
 	
 	/** Shooter **/
-	public static final double MAX_SHOOTER_SPEED = 120;
+	public static final double SHOOTER_ENCODER_MAX_SPEED = 140;
 	
-	public static final double DEFAULT_SHOOTER_SPEED = 80;
+	public static final double DEFAULT_SHOOTER_SPEED = 65;
 
 	public static final double HOPPER_AGITATOR_SPEED = .5;
 	
@@ -74,10 +74,10 @@ public class RobotConst {
     	// SET THE ROBOT NUMBER HERE
     	//****************************
     	
-    	ROBOT = 1310;
+    	ROBOT = 1311;
     	
     	// Robot 1310 is the production robot
-    	if (ROBOT == 1310) {
+    	if (ROBOT == 1310 || ROBOT == 1311) {
     	    
     		DRIVE_ENCODER_MAX_SPEED = 3300;
     	    DRIVE_ENCODER_COUNTS_PER_IN = 396;

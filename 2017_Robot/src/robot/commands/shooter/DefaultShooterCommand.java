@@ -58,7 +58,7 @@ public class DefaultShooterCommand extends Command {
 			// Adjust the speed up until the max shooter speed
 			if(Robot.oi.getChangeSpeedUp()) {
 				shooterSpeedSetpoint = 
-						Math.min(RobotConst.MAX_SHOOTER_SPEED, shooterSpeedSetpoint + .05);
+						Math.min(RobotConst.SHOOTER_ENCODER_MAX_SPEED, shooterSpeedSetpoint + .05);
 				Robot.shooterSubsystem.setShooterSpeed(shooterSpeedSetpoint);
 			}
 			
