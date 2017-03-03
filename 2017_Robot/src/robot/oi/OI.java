@@ -11,6 +11,7 @@ import com.toronto.oi.T_Trigger;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import robot.RobotConst.VisionDistance;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -60,26 +61,37 @@ public class OI {
 	
 	private T_Toggle gearToggle = new T_Toggle(operatorController, T_Button.LEFT_BUMPER, false);
 
-	private NetworkTable visionTable = NetworkTable.getTable("GRIP/boilerData");
+	private NetworkTable closeVisionTable = NetworkTable.getTable("GRIP/closeBoilerData");
+	private NetworkTable farVisionTable = NetworkTable.getTable("GRIP/farBoilerData");
 
 	public boolean getVisionTrackButton() {
 		return driverController.getButton(T_Button.A);
 	}
 
-	public double getVisionTargetCenterX() {
-		double[] xValue= visionTable.getNumberArray("centerX", new double[0]);
+	public double getVisionTargetCenterX(VisionDistance visionDistance) {
+		double[] xValue = null;
+		if (visionDistance == VisionDistance.FAR) {
+			xValue = farVisionTable.getNumberArray("centerX", new double[0]);
+		} else if (visionDistance == VisionDistance.CLOSE) {
+			 xValue= closeVisionTable.getNumberArray("centerX", new double[0]);
+		}
 		return xValue.length == 1 ? xValue[0] : -1;
 	}
+	
+//	public double getVisionTargetCenterX() {
+//		double[] xValue= visionTable.getNumberArray("centerX", new double[0]);
+//		return xValue.length == 1 ? xValue[0] : -1;
+//	}
 	
 //	public double[] getVisionTargetCenterX() {
 //		double[] xValues = visionTable.getNumberArray("centerX", new double[0]);
 //		return xValues.length == 2 ? xValues : new double[0];
 //	}
 
-	public double[] getVisionTargetCenterY() {
-		double[] yValues = visionTable.getNumberArray("centerY", new double[0]);
-		return yValues.length == 2 ? yValues : new double[0];
-	}
+//	public double[] getVisionTargetCenterY() {
+//		double[] yValues = visionTable.getNumberArray("centerY", new double[0]);
+//		return yValues.length == 2 ? yValues : new double[0];
+//	}
 
 	public boolean getDriverRumbleStart() {
 		return driverController.getButton(T_Button.LEFT_BUMPER);

@@ -50,7 +50,7 @@ public class Back_VisionTrackCommand extends Command {
 	protected double calculateAngle(double xValue) {
 		double angle = -0.1033 * xValue + 16.398;
 		
-		double currentAngle = Robot.chassisSubsystem.getAngle();
+		double currentAngle = Robot.chassisSubsystem.getGyroAngle();
 	
 		// If angle is less than 0, subtract from 360 and add it to the current angle do % 360
 		if (angle < 0) {

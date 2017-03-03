@@ -18,7 +18,7 @@ public class ShooterSubsystem extends T_Subsystem {
 
 	/*
 	 * *************************************************************************
-	 * *** Hardware declarations
+	 * Hardware declarations
 	 * 
 	 * Declare all motors and sensors here
 	 ******************************************************************************/
@@ -39,6 +39,10 @@ public class ShooterSubsystem extends T_Subsystem {
 	// PID Controller
 	private T_MotorSpeedPidController shooterController = 
 			new T_MotorSpeedPidController(10, 0, shooterSpeedEncoder, RobotConst.SHOOTER_ENCODER_MAX_SPEED);
+	
+	private final int SHOOTER_ANGLE_ADJUST_TOLERANCE = 100;
+	
+	private int shooterAngleAdjustSetpoint;
 
 	//***********************************************
 	//  Initialize the Subsystem 
@@ -129,7 +133,7 @@ public class ShooterSubsystem extends T_Subsystem {
 	//  Shooter Angle Adjustment Methods 
 	//***********************************************
 	
-	public double getShooterAngleAdjustEncoder() {
+	public int getShooterAngleAdjustEncoder() {
 		return shooterAngleEncoder.get();
 	}
 
@@ -141,6 +145,18 @@ public class ShooterSubsystem extends T_Subsystem {
 		shooterAngleEncoder.reset();
 	}
 
+	public void setShooterAngleAdjustSetpoint(int setpoint) {
+		this.shooterAngleAdjustSetpoint = setpoint;
+	}
+	
+	public boolean atShooterAngleAdjustSetpoint() {
+		return Math.abs(getShooterAngleAdjustError()) < SHOOTER_ANGLE_ADJUST_TOLERANCE;
+	}
+	
+	public int getShooterAngleAdjustError() {
+		return shooterAngleAdjustSetpoint - getShooterAngleAdjustEncoder();
+	}
+	
 	//***********************************************
 	//  Hopper Agitator Methods 
 	//***********************************************
@@ -164,6 +180,19 @@ public class ShooterSubsystem extends T_Subsystem {
 		// set motor
 		if (shooterController.isEnabled()) {
 			 shooterMotor.set(shooterController.get());
+		}
+
+		// Adjust the shooter angle to the setpoint
+		if (!atShooterAngleAdjustSetpoint()) {
+			if (getShooterAngleAdjustError() < 0) {
+				shooterMotor.set(0.6);
+			}
+			else {
+				shooterMotor.set(-0.6);
+			}
+		}
+		else {
+			shooterMotor.set(0);
 		}
 
 		// Update all SmartDashboard values

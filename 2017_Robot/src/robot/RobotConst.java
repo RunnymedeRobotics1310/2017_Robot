@@ -1,5 +1,9 @@
 package robot;
 
+import org.omg.CORBA.PUBLIC_MEMBER;
+
+import edu.wpi.first.wpilibj.Timer.StaticInterface;
+
 /**
  * The RobotConst is a set of Robot constants that are determined by measuring
  * the ouput of the robot.
@@ -65,6 +69,13 @@ public class RobotConst {
 	public static final double DEFAULT_SHOOTER_SPEED = 65;
 
 	public static final double HOPPER_AGITATOR_SPEED = .5;
+	
+	// Vision Tracking 
+	public enum VisionDistance { CLOSE, FAR };
+	
+	public static final int SHOOTER_SHOT_ENCODER_COUNT_RESET = -15547;
+	public static final int SHOOTER_CLOSE_SHOT_ENCODER_COUNT = -7477;
+	public static final double SHOOTER_CLOSE_SHOT_SHOOTER_SPEED = 63.75;
 	
     // This static initializer is used to adjust the constants for the 
     // robot based on which robot is selected.

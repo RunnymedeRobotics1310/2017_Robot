@@ -8,10 +8,10 @@ import robot.Robot;
 /**
  *
  */
-public class DefaultShootCommandBackup extends Command {
+public class Backup_DefaultShootCommand extends Command {
 
 
-	public DefaultShootCommandBackup() {
+	public Backup_DefaultShootCommand() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.shooterSubsystem);
 
