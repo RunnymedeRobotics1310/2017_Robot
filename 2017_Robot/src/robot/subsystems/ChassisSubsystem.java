@@ -241,15 +241,15 @@ public class ChassisSubsystem extends T_Subsystem {
 		gyroPidController.setSetpoint(angle);
 	}
 
-	public double getAngle() {
+	public double getGyroAngle() {
 		return gyro.getAngle();
 	}
 
-	public double getAngleRate() {
+	public double getGyroAngleRate() {
 		return gyro.getRate();
 	}
 	
-	public double getAngleError(double heading) {
+	public double getGyroAngleError(double heading) {
 		return gyro.getAngleError(heading);
 	}
 

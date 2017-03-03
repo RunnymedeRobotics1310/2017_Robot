@@ -59,7 +59,7 @@ public abstract class DriveOnHeadingCommand extends Command {
 
 		rampPercent = 0;
 
-		double angleError = Robot.chassisSubsystem.getAngleError(heading);
+		double angleError = Robot.chassisSubsystem.getGyroAngleError(heading);
 
 		if (Math.abs(angleError) < 30.0d) {
 			step = Step.FINE;
@@ -76,7 +76,7 @@ public abstract class DriveOnHeadingCommand extends Command {
 			double leftSpeed = 0d;
 			double rightSpeed = 0d;
 
-			double angleError = Robot.chassisSubsystem.getAngleError(heading);
+			double angleError = Robot.chassisSubsystem.getGyroAngleError(heading);
 
 			switch (step) {
 
@@ -164,7 +164,7 @@ public abstract class DriveOnHeadingCommand extends Command {
 			leftSpeed = 0d;
 			rightSpeed = 0d;
 
-			angleError = Robot.chassisSubsystem.getAngleError(heading);
+			angleError = Robot.chassisSubsystem.getGyroAngleError(heading);
 
 			switch (step) {
 

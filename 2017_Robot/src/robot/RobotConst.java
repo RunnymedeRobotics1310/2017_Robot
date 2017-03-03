@@ -66,6 +66,9 @@ public class RobotConst {
 
 	public static final double HOPPER_AGITATOR_SPEED = .5;
 	
+	// Vision Tracking 
+	public enum VisionDistance { CLOSE, FAR };
+	
     // This static initializer is used to adjust the constants for the 
     // robot based on which robot is selected.
     static {

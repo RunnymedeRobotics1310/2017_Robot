@@ -45,7 +45,7 @@ public class RotateToHeadingCommand extends Command {
     	// cause the robot to pivot before continuing on the selected direction.
     	step = Step.COARSE;
     	
-    	double angleError = Robot.chassisSubsystem.getAngleError(heading);
+    	double angleError = Robot.chassisSubsystem.getGyroAngleError(heading);
     	
     	if (Math.abs(angleError) < 25.0d) { 
     		step = Step.FINE;
@@ -60,9 +60,9 @@ public class RotateToHeadingCommand extends Command {
     	double leftSpeed  = 0d;
     	double rightSpeed = 0d;
     	
-    	angleError = Robot.chassisSubsystem.getAngleError(heading);
+    	angleError = Robot.chassisSubsystem.getGyroAngleError(heading);
     	
-    	angleRate = Robot.chassisSubsystem.getAngleRate();
+    	angleRate = Robot.chassisSubsystem.getGyroAngleRate();
     	
     	SmartDashboard.putNumber("heading", heading);
     	SmartDashboard.putNumber("angleError", angleError);

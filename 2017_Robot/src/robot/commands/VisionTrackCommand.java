@@ -55,7 +55,7 @@ public class VisionTrackCommand extends Command {
 		//TODO: equation to get the angle at which we have to be in the
 		double angle = -0.144 * xValue + 360.3;
 		
-		double currentAngle = Robot.chassisSubsystem.getAngle();
+		double currentAngle = Robot.chassisSubsystem.getGyroAngle();
 	
 		// If angle is less than 0, subtract from 360 and add it to the current angle do % 360
 		if (angle < 0) {
