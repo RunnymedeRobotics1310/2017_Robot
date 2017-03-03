@@ -6,6 +6,7 @@ import com.toronto.subsystems.T_Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import robot.Robot;
 import robot.RobotMap;
 import robot.commands.DefaultGearCommand;
 
@@ -33,6 +34,16 @@ public class GearSubsystem extends T_Subsystem {
 		gearSolenoid.set(Value.kReverse);
 	}
 
+	public void rumbleControllers() {
+		if (Robot.chassisSubsystem.getGearSensor().atLimit()) {
+			Robot.oi.setDriverRumble(1);
+			Robot.oi.setOperatorRumble(1);
+		} else {
+			Robot.oi.setDriverRumble(0);
+			Robot.oi.setOperatorRumble(0);
+		}
+	}
+	
 	public GearState getCurrentState() {
 		return gearSolenoid.get() == Value.kForward ? GearState.OPEN : GearState.CLOSED;
 	}

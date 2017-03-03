@@ -1,6 +1,8 @@
 
 package robot.commands;
 
+import com.toronto.oi.T_OiController;
+
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
 import robot.RobotConst;
@@ -8,42 +10,37 @@ import robot.commands.DriveCommand.ButtonState;
 import robot.subsystems.GearSubsystem.GearState;
 
 /**
- * This default gear command is used to release or lock the gear in place
+ * Rumble the controllers based on the timeout, strength and the controller
  */
-public class DefaultGearCommand extends Command {
+public class RumbleCommand extends Command {
 
-	ButtonState gearButtonState = ButtonState.RELEASED;
+	public T_OiController controller;
+	public double timeout, strength;
 
-	public DefaultGearCommand() {
+	public RumbleCommand(double strengh, double timeout, T_OiController controller) {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.gearSubsystem);
+		this.strength = strengh;
+		this.timeout = timeout;
+		this.controller = controller;
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		
-    	if (Robot.oi.getGearToggleState()) {
-    		Robot.gearSubsystem.open();
-    	} else {
-    		Robot.gearSubsystem.close();
-    	}
-    	
-		if (       Robot.gearSubsystem.getCurrentState() == GearState.OPEN
-				&& Robot.chassisSubsystem.getSpeed() > 0.2 * RobotConst.DRIVE_ENCODER_MAX_SPEED) {
-			Robot.oi.setGearButton(false);
-			return;
-		}
-
+		this.controller.setRumble(strength);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return timeSinceInitialized() > 1.0;
+		if (timeSinceInitialized() > timeout) {
+			this.controller.setRumble(0);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
