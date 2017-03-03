@@ -115,7 +115,7 @@ public class ChassisSubsystem extends T_Subsystem {
 
 	}
 
-	/* ****************************************************************************
+	/* *****************************************************************************
 	 * Put methods for controlling this subsystem here.
 	 * Call these from Commands.
 	 ******************************************************************************/
@@ -124,6 +124,22 @@ public class ChassisSubsystem extends T_Subsystem {
 		setDefaultCommand(new DriveCommand());
 	}
 
+	public void robotInit() {
+
+		gyro.initGyro();
+		gyro.setSensitivity(RobotConst.GYRO_SENSITIVITY);
+		gyroPidController.disable();
+
+		// Calibrate the ultrasonic
+		ultrasonicSensor.calibrate(RobotConst.ULTRASONIC_VOLTAGE_20IN, RobotConst.ULTRASONIC_VOLTAGE_40IN, RobotConst.ULTRASONIC_VOLTAGE_80IN);
+
+		setLowGear();
+		enableDrivePids();
+	}
+
+	/* ****************************************************************************
+	 * Tower Limit Switch (at Tower)
+	 ******************************************************************************/
 	public boolean atTower() {
 		return towerSensor.atLimit();
 	}
@@ -132,12 +148,19 @@ public class ChassisSubsystem extends T_Subsystem {
 		return towerSensor;
 	}
 	
+	/* ****************************************************************************
+	 * Motor Movement Commands
+	 ******************************************************************************/
 	/**
 	 * Get the speed of both encoders
 	 * @return
 	 */
 	public double getSpeed() {
 		return ((leftEncoder.getRate() + rightEncoder.getRate())) / 2;
+	}
+	
+	public double getEncoderDistanceInches() {
+		return (rightEncoder.get() + leftEncoder.get()) / (RobotConst.DRIVE_ENCODER_COUNTS_PER_IN * 2);
 	}
 	
 	public void enableDrivePids() {
@@ -185,19 +208,6 @@ public class ChassisSubsystem extends T_Subsystem {
 		}
 	}
 
-	public void robotInit() {
-
-		gyro.initGyro();
-		gyro.setSensitivity(RobotConst.GYRO_SENSITIVITY);
-		gyroPidController.disable();
-
-		// Calibrate the ultrasonic
-		ultrasonicSensor.calibrate(RobotConst.ULTRASONIC_VOLTAGE_20IN, RobotConst.ULTRASONIC_VOLTAGE_40IN, RobotConst.ULTRASONIC_VOLTAGE_80IN);
-
-		setLowGear();
-		enableDrivePids();
-	}
-
 	public void resetEncoders() {
 		rightEncoder.reset();
 		leftEncoder.reset();
@@ -209,6 +219,9 @@ public class ChassisSubsystem extends T_Subsystem {
 		}
 	}
 
+	/* ****************************************************************************
+	 * Gyro Movement Commands
+	 ******************************************************************************/
 	public void calibrateGyro() {
 		gyro.reset();
 		gyro.calibrate();
@@ -236,29 +249,22 @@ public class ChassisSubsystem extends T_Subsystem {
 		return gyro.getRate();
 	}
 	
+	public double getAngleError(double heading) {
+		return gyro.getAngleError(heading);
+	}
+
+	
+	/* ****************************************************************************
+	 * Ultrasonic Distance
+	 ******************************************************************************/
 	public double getUltrasonicDistance() {
 		return ultrasonicSensor.getDistance();
 	}
 	
-	public double getAngleError(double heading) {
 
-		// FIXME:  Move this code to the T_GYRO class
-		// return gyro.getAngleError(heading);
-
-		double angleError = heading - getAngle();
-
-		if (angleError > 180.0)  { angleError -= 360.0; }
-		if (angleError < -180.0) { angleError += 360.0; }
-
-		return angleError;
-	}
-
-	public double getEncoderDistanceInches() {
-		return (rightEncoder.get() + leftEncoder.get()) / (RobotConst.DRIVE_ENCODER_COUNTS_PER_IN * 2);
-	}
-	
-	
-
+	/* ****************************************************************************
+	 * Update the Dashboard
+	 ******************************************************************************/
 	@Override
 	public void updatePeriodic() {
 
