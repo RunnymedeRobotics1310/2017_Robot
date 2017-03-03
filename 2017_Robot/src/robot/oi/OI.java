@@ -65,6 +65,11 @@ public class OI {
 	private NetworkTable farVisionTable = NetworkTable.getTable("GRIP/farBoilerData");
 
 	public boolean getVisionTrackButton() {
+		return false;
+//		return driverController.getButton(T_Button.A);
+	}
+	
+	public boolean getShooterVisionAlignButton() {
 		return driverController.getButton(T_Button.A);
 	}
 
@@ -182,13 +187,13 @@ public class OI {
 		return shooterToggle.getToggleState();
 	}
 
-	public boolean getShootAngleUpCommand() {
-		return operatorController.getPov() == 0;
-	}
+//	public boolean getShootAngleUpCommand() {
+//		return operatorController.getPov() == 0;
+//	}
 
-	public boolean getShootAngleDownCommand() {
-		return operatorController.getPov() == 180;
-	}
+//	public boolean getShootAngleDownCommand() {
+//		return operatorController.getPov() == 180;
+//	}
 	public boolean getChangeSpeedUp() {
 		return operatorController.getButton(T_Button.Y);
 	}

@@ -85,7 +85,7 @@ public class AutoVisionAlignCommand extends Command {
     		double targetX = Robot.oi.getVisionTargetCenterX(visionDistance);
     		
     		// FIXME:  Put the Vision To Angle calculation here.
-    		double adjustAngle = 0;
+    		double adjustAngle = calculateAngle(targetX);
 
     		// If we are properly aligned then we are done.
     		if (adjustAngle < 1.5) { 
@@ -172,5 +172,23 @@ public class AutoVisionAlignCommand extends Command {
 		Robot.chassisSubsystem.disableGyroPid();
 		Robot.chassisSubsystem.setMotorSpeeds(0,  0);
     }
+    
+	private double calculateAngle(double xValue) {
+		// Equation to get the angle at which we have to be in the center
+				
+		//TODO: equation to get the angle at which we have to be in the
+		double angle = -0.1507 * xValue + 28.795;
+		
+		double currentAngle = Robot.chassisSubsystem.getGyroAngle();
+	
+		// If angle is less than 0, subtract from 360 and add it to the current angle do % 360
+		if (angle < 0) {
+			angle = 360 - angle;
+			return (angle + currentAngle) % 360;
+		}
+		
+		return Math.abs(currentAngle - angle % 360);
+	
+	}
     
 }

@@ -24,14 +24,14 @@ public class VisionTrackCommand extends Command {
 	// Called just before this Command runs the first time
 	protected void initialize() {
 		
-		ultrasonicDistance = Robot.chassisSubsystem.getUltrasonicDistance();
-		
-		currentX = Robot.oi.getVisionTargetCenterX();
-		
-		if (currentX > 0) {
-			degreeToTurn = calculateAngle(currentX); 
-//			degreeToTurn += 3;
-		}
+//		ultrasonicDistance = Robot.chassisSubsystem.getUltrasonicDistance();
+//		
+//		currentX = Robot.oi.getVisionTargetCenterX();
+//		
+//		if (currentX > 0) {
+//			degreeToTurn = calculateAngle(currentX); 
+////			degreeToTurn += 3;
+//		}
 		
 	}
 

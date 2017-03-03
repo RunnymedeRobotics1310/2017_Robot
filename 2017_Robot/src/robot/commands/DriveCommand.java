@@ -4,6 +4,8 @@ package robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
+import robot.RobotConst.VisionDistance;
+import robot.commands.auto.AutoVisionAlignCommand;
 
 /**
  * Drive command handles all commands related to driving
@@ -145,6 +147,10 @@ public class DriveCommand extends Command {
     		Scheduler.getInstance().add(new VisionTrackCommand());
     	}
        	
+    	
+    	if (Robot.oi.getShooterVisionAlignButton()){
+    		Scheduler.getInstance().add(new AutoVisionAlignCommand(VisionDistance.CLOSE, 4));
+    	}
     	
     	Robot.chassisSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
     }
