@@ -53,11 +53,11 @@ public class OI {
 
 	private T_Toggle motorPidToggle = new T_Toggle(driverController, T_Button.LEFT_STICK, true);
 
-	private T_Toggle gearToggle = new T_Toggle(driverController, T_Button.RIGHT_STICK, false);
-
-	private T_Toggle intakeToggle = new T_Toggle(driverController, T_Button.X, false);
-
+	private T_Toggle intakeToggle = new T_Toggle(driverController, T_Button.RIGHT_BUMPER, false);
+	
 	private T_Toggle shooterToggle = new T_Toggle(operatorController, T_Button.X, false);
+	
+	private T_Toggle gearToggle = new T_Toggle(operatorController, T_Button.LEFT_BUMPER, false);
 
 	private NetworkTable visionTable = NetworkTable.getTable("GRIP/boilerData");
 
@@ -81,7 +81,7 @@ public class OI {
 	}
 
 	public boolean getDriverRumbleStart() {
-		return driverController.getButton(T_Button.RIGHT_BUMPER);
+		return driverController.getButton(T_Button.LEFT_BUMPER);
 	}
 
 	public double getSpeed() {
@@ -131,6 +131,10 @@ public class OI {
 	public void setDriverRumble(double rumble) {
 		driverController.setRumble(rumble);
 	}
+	
+	public void setOperatorRumble(double rumble) {
+		operatorController.setRumble(rumble);
+	}
 
 	public boolean getCancel() {
 		return driverController.getButton(T_Button.BACK);
@@ -151,9 +155,13 @@ public class OI {
 	public boolean getIntakeToggleState() {
 		return intakeToggle.getToggleState();
 	}
+	// Outtake balls
+	public boolean getOuttakeCommand() {
+		return driverController.getButton(T_Trigger.RIGHT);
+	}
 
 	public boolean getShootButton() {
-		return operatorController.getButton(T_Button.LEFT_BUMPER);
+		return operatorController.getButton(T_Button.RIGHT_BUMPER);
 	}
 
 	public boolean isShooterOn() {
@@ -161,7 +169,6 @@ public class OI {
 	}
 
 	public boolean getShootAngleUpCommand() {
-		System.out.println("Up");
 		return operatorController.getPov() == 0;
 	}
 

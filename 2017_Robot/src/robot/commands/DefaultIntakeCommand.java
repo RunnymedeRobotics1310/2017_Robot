@@ -21,9 +21,13 @@ public class DefaultIntakeCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		if (Robot.oi.getIntakeToggleState()) {
+			Robot.oi.setOperatorRumble(0.3);
 			Robot.intakeSubsystem.intake();
+		} else if (Robot.oi.getOuttakeCommand()) {
+			Robot.intakeSubsystem.outtake();
 		} else {
 			Robot.intakeSubsystem.stop();
+			Robot.oi.setOperatorRumble(0);
 		}
 	}
 
