@@ -180,7 +180,7 @@ public class OI {
 	}
 
 	public boolean getShootButton() {
-		return operatorController.getButton(T_Button.RIGHT_BUMPER);
+		return false;
 	}
 
 	public boolean isShooterOn() {
