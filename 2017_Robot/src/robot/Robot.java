@@ -84,6 +84,9 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
+    	// Turn on the drive pids
+    	chassisSubsystem.enableDrivePids();
+
     	autoCommand = new AutonomousCommand();
     	autoCommand.start();
     }
