@@ -43,6 +43,8 @@ public class ShooterSubsystem extends T_Subsystem {
 	private final int SHOOTER_ANGLE_ADJUST_TOLERANCE = 100;
 	
 	private int shooterAngleAdjustSetpoint;
+	
+	private boolean shooterAnglePidEnabled = false;
 
 	//***********************************************
 	//  Initialize the Subsystem 
@@ -138,6 +140,7 @@ public class ShooterSubsystem extends T_Subsystem {
 	}
 
 	public void setShooterAngleAdjustSpeed(double speed) {
+		shooterAnglePidEnabled = false;
 		shooterAngleMotor.set(speed);
 	}
 
@@ -146,15 +149,24 @@ public class ShooterSubsystem extends T_Subsystem {
 	}
 
 	public void setShooterAngleAdjustSetpoint(int setpoint) {
+		shooterAnglePidEnabled = true;
 		this.shooterAngleAdjustSetpoint = setpoint;
 	}
 	
 	public boolean atShooterAngleAdjustSetpoint() {
-		return Math.abs(getShooterAngleAdjustError()) < SHOOTER_ANGLE_ADJUST_TOLERANCE;
+		if (shooterAnglePidEnabled) {
+			return Math.abs(getShooterAngleAdjustError()) < SHOOTER_ANGLE_ADJUST_TOLERANCE;
+		} else {
+			return true;
+		}
 	}
 	
 	public int getShooterAngleAdjustError() {
-		return shooterAngleAdjustSetpoint - getShooterAngleAdjustEncoder();
+		if (shooterAnglePidEnabled) { 
+			return shooterAngleAdjustSetpoint - getShooterAngleAdjustEncoder();
+		} else {
+			return 0;
+		}
 	}
 	
 	//***********************************************
@@ -183,16 +195,18 @@ public class ShooterSubsystem extends T_Subsystem {
 		}
 
 		// Adjust the shooter angle to the setpoint
-		if (!atShooterAngleAdjustSetpoint()) {
-			if (getShooterAngleAdjustError() < 0) {
-				shooterMotor.set(0.6);
+		if (shooterAnglePidEnabled) {
+			if (!atShooterAngleAdjustSetpoint()) {
+				if (getShooterAngleAdjustError() > 0) {
+					shooterAngleMotor.set(0.6);
+				}
+				else {
+					shooterAngleMotor.set(-0.6);
+				}
 			}
 			else {
-				shooterMotor.set(-0.6);
+				shooterAngleMotor.set(0);
 			}
-		}
-		else {
-			shooterMotor.set(0);
 		}
 
 		// Update all SmartDashboard values
