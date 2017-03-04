@@ -7,6 +7,8 @@ import robot.Robot;
 import robot.RobotConst.VisionDistance;
 import robot.commands.auto.AutoVisionAlignCommand;
 import robot.commands.auto.RotateToHeadingCommand;
+import robot.commands.shooter.AutoShootCommand;
+import robot.commands.shooter.AutoShootWindupCommand;
 
 /**
  * Drive command handles all commands related to driving
@@ -150,6 +152,10 @@ public class DriveCommand extends Command {
     	
     	if (Robot.oi.getShooterVisionAlignButton()){
     		Scheduler.getInstance().add(new AutoVisionAlignCommand(VisionDistance.CLOSE, 4));
+    	}
+    	
+    	if (Robot.oi.getShooterSetTest()) {
+    		Scheduler.getInstance().add(new AutoShootCommand(62.2, 11057, 15));
     	}
     	
     	Robot.chassisSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);

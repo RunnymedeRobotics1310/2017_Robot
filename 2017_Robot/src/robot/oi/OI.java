@@ -188,7 +188,7 @@ public class OI {
 	}
 
 	public boolean getShootButton() {
-		return false;
+		return operatorController.getButton(T_Button.RIGHT_BUMPER);
 	}
 
 	public boolean isShooterOn() {
@@ -211,6 +211,10 @@ public class OI {
 	public boolean getResetShooterAdjustEncoder() {
 		return operatorController.getButton(T_Button.B);
 	}
+	public boolean getShooterSetTest() {
+		return driverController.getButton(T_Button.Y);
+	}
+	
 	public void updatePeriodic() {
 
 		// Update all toggles

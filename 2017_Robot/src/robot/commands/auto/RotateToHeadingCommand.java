@@ -47,7 +47,7 @@ public class RotateToHeadingCommand extends Command {
     	
     	double angleError = Robot.chassisSubsystem.getGyroAngleError(heading);
     	
-    	if (Math.abs(angleError) < 25.0d) { 
+    	if (Math.abs(angleError) < RobotConst.GYRO_COARSE_ADJUSTMENT_CUTOFF) { 
     		step = Step.FINE;
     		enableGyroPid();
     	}
@@ -95,7 +95,7 @@ public class RotateToHeadingCommand extends Command {
 
         	}
 
-        	if (Math.abs(angleError) < 30.0d) { 
+        	if (Math.abs(angleError) < RobotConst.GYRO_COARSE_ADJUSTMENT_CUTOFF) { 
         		step = Step.FINE;
         		enableGyroPid();
         	}

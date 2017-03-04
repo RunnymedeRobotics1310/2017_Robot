@@ -105,6 +105,7 @@ public class Robot extends IterativeRobot {
     	}
     	// Turn off the drive PIDs
     	chassisSubsystem.disableDrivePids();
+    	shooterSubsystem.setShooterAngleAdjustSetpoint(0);
     }
 
     /**
