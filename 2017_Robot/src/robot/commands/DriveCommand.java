@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
 import robot.RobotConst.VisionDistance;
 import robot.commands.auto.AutoVisionAlignCommand;
+import robot.commands.auto.RotateToHeadingCommand;
 
 /**
  * Drive command handles all commands related to driving
@@ -46,7 +47,7 @@ public class DriveCommand extends Command {
     		break;
     	}
     	*/
-    	/*
+    	
     	switch (povState) {
     	case RELEASED:
     		double angle = Robot.oi.getRotateToAngle();
@@ -61,8 +62,7 @@ public class DriveCommand extends Command {
     			povState = ButtonState.RELEASED;
     		}
     		break;
-    	}*/
-    	
+    	}
     	
 		if (Robot.oi.getDriverRumbleStart()) {
 			Robot.oi.setDriverRumble(0.8);

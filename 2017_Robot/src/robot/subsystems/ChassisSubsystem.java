@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import robot.Robot;
 import robot.RobotConst;
 import robot.RobotMap;
 import robot.commands.DriveCommand;
