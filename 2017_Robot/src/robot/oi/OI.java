@@ -8,7 +8,6 @@ import com.toronto.oi.T_Stick;
 import com.toronto.oi.T_Toggle;
 import com.toronto.oi.T_Trigger;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.RobotConst.VisionDistance;
@@ -17,7 +16,7 @@ import robot.RobotConst.VisionDistance;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  * 
- * Operator Controller (Game Controller) -------------------------------------
+ * Driver Controller (Game Controller) -------------------------------------
  * Joysticks --------- Left: Turn - X Axis Right: Speed - Y Axis
  * 
  * Triggers --------- Left: Climb Motor (Full Speed) Right: Climb Motor (Catch
@@ -32,8 +31,8 @@ import robot.RobotConst.VisionDistance;
  *
  *
  *
+ * Operator Controller (Game Controller) -------------------------------------
  *
- *For Operator:
  *Buttons 
  *A: Slow shooter motor speed
  *Y: Increase shooter motor speed
