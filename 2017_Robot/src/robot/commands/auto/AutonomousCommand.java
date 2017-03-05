@@ -2,7 +2,11 @@ package robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import robot.Robot;
+import robot.RobotConst.VisionDistance;
 import robot.commands.GearReleaseCommand;
+import robot.commands.shooter.AutoShootAngleAdjustCommand;
+import robot.commands.shooter.AutoShootCommand;
+import robot.commands.shooter.AutoShootWindupCommand;
 import robot.oi.AutoSelector.BoilerPosition;
 import robot.oi.AutoSelector.RobotPosition;
 import robot.oi.AutoSelector.ShootMode;
@@ -34,8 +38,14 @@ public class AutonomousCommand extends CommandGroup {
         		addSequential(new DriveToEncoderDistanceCommand(0, -.8, 24));
         		
         		if (shootMode == ShootMode.GEAR_SHOOT) {
-	        		addSequential(new RotateToHeadingCommand(120));
-	        		addSequential(new DriveToEncoderDistanceCommand(120, .8, 95));
+        			addSequential(new AutoShootAngleAdjustCommand(11057));
+	        		addSequential(new AutoShootWindupCommand(62.2));
+	        		
+	        		addSequential(new RotateToHeadingCommand(237));
+	        		addSequential(new DriveToEncoderDistanceCommand(237, .8, 42));
+	        		addSequential(new AutoPauseCommand(1.5));
+	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
+	        		addSequential(new AutoShootCommand(62.2, 11057, 60));
         		}
         	}
         	
@@ -84,35 +94,56 @@ public class AutonomousCommand extends CommandGroup {
         	if (robotPosition == RobotPosition.CENTER) {
         		
         		// Do Gear
-           		addSequential(new DriveToLimitSwitchCommand(0, .6, Robot.chassisSubsystem.getTowerSensor(), 84));
+           		addSequential(new DriveToLimitSwitchCommand(0, .6, Robot.chassisSubsystem.getTowerSensor(), 80));
         		addSequential(new GearReleaseCommand());
         		addSequential(new DriveToEncoderDistanceCommand(0, -.8, 24));
         		
         		if (shootMode == ShootMode.GEAR_SHOOT) {
-	        		addSequential(new RotateToHeadingCommand(240));
-	        		addSequential(new DriveToEncoderDistanceCommand(240, .8, 95));
+        			addSequential(new AutoShootAngleAdjustCommand(11057));
+	        		addSequential(new AutoShootWindupCommand(62.2));
+	        		
+	        		addSequential(new RotateToHeadingCommand(237));
+	        		addSequential(new DriveToEncoderDistanceCommand(237, .8, 42));
+	        		addSequential(new AutoPauseCommand(1.5));
+	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
+	        		addSequential(new AutoShootCommand(62.2, 11057, 60));
         		}
         	}
         	
+        	
         	if (robotPosition == RobotPosition.LEFT) {
         	
+        		// Start the shooter motors
+    			addSequential(new AutoShootAngleAdjustCommand(8782));
+    			
         		// Do Gear
-        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 91));
+        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 87));
         		addSequential(new RotateToHeadingCommand(60));
         		addSequential(new DriveToLimitSwitchCommand(60, .6, Robot.chassisSubsystem.getTowerSensor(), 38));
         		addSequential(new GearReleaseCommand());
         		addSequential(new DriveToEncoderDistanceCommand(60, -.8, 30));
         		
+        		// If gear only we just turn straight to neutral zone and go straight
         		if (shootMode == ShootMode.GEAR_ONLY) {
         			addSequential(new RotateToHeadingCommand(0));
-        			addSequential(new DriveToEncoderDistanceCommand(0, .8, 34));
+        			addSequential(new DriveToEncoderDistanceCommand(0, .8, 36));
         		}
         		
+        		// If gear and shoot we shoot
         		if (shootMode == ShootMode.GEAR_SHOOT) {
-	        		addSequential(new RotateToHeadingCommand(215));
-	        		addSequential(new DriveToEncoderDistanceCommand(215, .8, 64));
+        			
+
+	        		addSequential(new AutoShootWindupCommand(62.2));
 	        		
+	        		// Rotate to a heading
+	        		addSequential(new RotateToHeadingCommand(227));
+         			
+         			// Give vision some time to track
+	        		addSequential(new AutoPauseCommand(2));
+	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
 	        		
+	        		// Shoot
+	        		addSequential(new AutoShootCommand(62.2, 11057, 60));
         		}
         		
         	}

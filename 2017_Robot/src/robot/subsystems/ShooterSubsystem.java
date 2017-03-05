@@ -40,7 +40,7 @@ public class ShooterSubsystem extends T_Subsystem {
 	private T_MotorSpeedPidController shooterController = 
 			new T_MotorSpeedPidController(10, 0, shooterSpeedEncoder, RobotConst.SHOOTER_ENCODER_MAX_SPEED);
 	
-	private final int SHOOTER_ANGLE_ADJUST_TOLERANCE = 100;
+	private final int SHOOTER_ANGLE_ADJUST_TOLERANCE = 20;
 	
 	private int shooterAngleAdjustSetpoint;
 	
@@ -139,6 +139,8 @@ public class ShooterSubsystem extends T_Subsystem {
 		return shooterAngleEncoder.get();
 	}
 
+	public boolean isShooterAdjustPidEnabled() { return shooterAnglePidEnabled; }
+
 	public void setShooterAngleAdjustSpeed(double speed) {
 		shooterAnglePidEnabled = false;
 		shooterAngleMotor.set(speed);
@@ -197,11 +199,23 @@ public class ShooterSubsystem extends T_Subsystem {
 		// Adjust the shooter angle to the setpoint
 		if (shooterAnglePidEnabled) {
 			if (!atShooterAngleAdjustSetpoint()) {
-				if (getShooterAngleAdjustError() > 0) {
-					shooterAngleMotor.set(0.6);
-				}
-				else {
-					shooterAngleMotor.set(-0.6);
+				
+				if (Math.abs(getShooterAngleAdjustError()) > 150) {
+					
+					if (getShooterAngleAdjustError() > 0) {
+						shooterAngleMotor.set(1);
+					}
+					else {
+						shooterAngleMotor.set(-1);
+					}
+					
+				} else {
+					if (getShooterAngleAdjustError() > 0) {
+						shooterAngleMotor.set(0.1);
+					}
+					else {
+						shooterAngleMotor.set(-0.1);
+					}
 				}
 			}
 			else {
@@ -217,6 +231,9 @@ public class ShooterSubsystem extends T_Subsystem {
 		SmartDashboard.putBoolean("Shooter At Speed", isShooterAtSpeed());
 
 		SmartDashboard.putString("Shooter Angle Adjust Encoder", String.valueOf(shooterAngleEncoder.get()));
+		SmartDashboard.putNumber("Shooter Angle Adjust Setppoint", shooterAngleAdjustSetpoint);
+		SmartDashboard.putBoolean("Shooter Angle PIDs Enabled", shooterAnglePidEnabled);
 	}
+
 
 }

@@ -79,7 +79,9 @@ public class DefaultShooterCommand extends Command {
 		if(Math.abs(speed) > 0.2){
 			Robot.shooterSubsystem.setShooterAngleAdjustSpeed(speed);
 		} else {
-			Robot.shooterSubsystem.setShooterAngleAdjustSpeed(0);
+			if (!Robot.shooterSubsystem.isShooterAdjustPidEnabled()) {
+				Robot.shooterSubsystem.setShooterAngleAdjustSpeed(0);
+			}
 		}
 		
 		//*******************************************

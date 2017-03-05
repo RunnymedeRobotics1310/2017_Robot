@@ -25,7 +25,7 @@ public class GearReleaseCommand extends Command {
     protected void execute() {
     
     	if (Robot.gearSubsystem.getCurrentState() == GearState.CLOSED) {
-    		if (Robot.chassisSubsystem.atTower() == true) {
+    		if (Robot.chassisSubsystem.atTower()) {
     			Robot.gearSubsystem.open();
     		}
     		return;
@@ -34,7 +34,7 @@ public class GearReleaseCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return timeSinceInitialized() > 1.0;
+		return timeSinceInitialized() > 0.5;
 	}
 
 	@Override

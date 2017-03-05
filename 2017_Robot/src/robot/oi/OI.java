@@ -58,7 +58,7 @@ public class OI {
 	
 	private T_Toggle shooterToggle = new T_Toggle(operatorController, T_Button.X, false);
 	
-	private T_Toggle gearToggle = new T_Toggle(operatorController, T_Button.LEFT_BUMPER, false);
+//	private T_Toggle gearToggle = new T_Toggle(operatorController, T_Button.LEFT_BUMPER, false);
 
 	private NetworkTable closeVisionTable = NetworkTable.getTable("GRIP/closeBoilerData");
 	private NetworkTable farVisionTable = NetworkTable.getTable("GRIP/farBoilerData");
@@ -158,17 +158,26 @@ public class OI {
 		return driverController.getButton(T_Button.BACK);
 	}
 
-	public boolean getStartGearCommand() {
-		return driverController.getButton(T_Button.B);
+	
+	/**
+	 * This command opens/closes the gear ONLY if the robot is at tower
+	 * @return
+	 */
+	public boolean getGearCommand() {
+		return operatorController.getButton(T_Button.LEFT_BUMPER);
+	}
+	
+	public boolean getGearOverrideCommand() {
+		return operatorController.getButton(T_Button.LEFT_STICK);
 	}
 
 	public boolean getCalibrate() {
 		return driverController.getButton(T_Button.START);
 	}
-
-	public boolean getGearToggleState() {
-		return gearToggle.getToggleState();
-	}
+//
+//	public boolean getGearToggleState() {
+//		return gearToggle.getToggleState();
+//	}
 
 	public boolean getIntakeToggleState() {
 		return intakeToggle.getToggleState();
@@ -179,7 +188,7 @@ public class OI {
 	}
 
 	public boolean getShootButton() {
-		return false;
+		return operatorController.getButton(T_Button.RIGHT_BUMPER);
 	}
 
 	public boolean isShooterOn() {
@@ -202,12 +211,16 @@ public class OI {
 	public boolean getResetShooterAdjustEncoder() {
 		return operatorController.getButton(T_Button.B);
 	}
+	public boolean getShooterSetTest() {
+		return driverController.getButton(T_Button.Y);
+	}
+	
 	public void updatePeriodic() {
 
 		// Update all toggles
 		driverTestToggle.update();
 		motorPidToggle.update();
-		gearToggle.update();
+//		gearToggle.update();
 		intakeToggle.update();
 		shooterToggle.update();
 
@@ -221,8 +234,8 @@ public class OI {
 
 	}
 
-	public void setGearButton(boolean b) {
-		gearToggle.setToggleState(b);
-	}
+//	public void setGearButton(boolean b) {
+//		gearToggle.setToggleState(b);
+//	}
 
 }

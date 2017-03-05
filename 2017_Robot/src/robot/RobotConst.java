@@ -59,6 +59,8 @@ public class RobotConst {
     /** Gyro Sensitivity for calibration of the rotational rate of the gyro */
     public static double GYRO_SENSITIVITY = .00172;
     
+    public static double GYRO_COARSE_ADJUSTMENT_CUTOFF = 15.0d;
+    
  
     /** Ultrasonic Calibration values */
 	public static final double ULTRASONIC_VOLTAGE_20IN = 0.183;
@@ -95,9 +97,9 @@ public class RobotConst {
     		DRIVE_ENCODER_MAX_SPEED = 3300;
     	    DRIVE_ENCODER_COUNTS_PER_IN = 396;
     	    
-    	    GYRO_PID_PROPORTIONAL_GAIN = 4.0;
-    	    GYRO_PID_INTEGRAL_GAIN = .095;
-    	    GYRO_PIVOT_MAX_SPEED = .35; 
+    	    GYRO_PID_PROPORTIONAL_GAIN = 4.8;
+    	    GYRO_PID_INTEGRAL_GAIN = .3;
+    	    GYRO_PIVOT_MAX_SPEED = .5; 
     	    
     	    DRIVE_PID_PROPORTIONAL_GAIN = 0.3;
     	    DRIVE_PID_INTEGRAL_GAIN = 0.0;

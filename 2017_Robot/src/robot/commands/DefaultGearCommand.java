@@ -27,15 +27,25 @@ public class DefaultGearCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		
-    	if (Robot.oi.getGearToggleState()) {
+		// Only open gear if robot is at tower
+    	if (Robot.oi.getGearCommand() && Robot.chassisSubsystem.atTower()) {
     		Robot.gearSubsystem.open();
-    	} else {
+    	}
+    	
+    	//..and close it if the user no longer presses the button
+    	if (!Robot.oi.getGearCommand() && !Robot.oi.getGearOverrideCommand()) {
     		Robot.gearSubsystem.close();
     	}
     	
+    	// User can easily open/close gear using another button for emergency purposes, so this just lets that happen
+    	if (Robot.oi.getGearOverrideCommand()) {
+    		Robot.gearSubsystem.open();
+    	}
+    	
+    	
 		if (       Robot.gearSubsystem.getCurrentState() == GearState.OPEN
 				&& Robot.chassisSubsystem.getSpeed() > 0.2 * RobotConst.DRIVE_ENCODER_MAX_SPEED) {
-			Robot.oi.setGearButton(false);
+			Robot.gearSubsystem.close();
 			return;
 		}
 
