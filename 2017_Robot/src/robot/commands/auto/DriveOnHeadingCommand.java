@@ -3,6 +3,7 @@ package robot.commands.auto;
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
 import robot.RobotConst;
+import robot.RobotConst.Direction;
 
 /**
  * The DriveOnHeading command is the base class for all of the auto commands as
@@ -13,8 +14,6 @@ import robot.RobotConst;
 public abstract class DriveOnHeadingCommand extends Command {
 
 	private enum Step { COARSE, FINE };
-
-	private enum Direction { FORWARD, BACKWARDS };
 
 	protected double heading;
 	protected double setSpeed;
@@ -219,10 +218,11 @@ public abstract class DriveOnHeadingCommand extends Command {
 				// alignment.
 				double gyroPidOutput = Robot.chassisSubsystem.getGyroPidOutput();
 
-				if (rampPercent <= 1.0)
+				if (rampPercent <= 1.0) {
 					rampPercent += 0.04;
+				}
 
-				leftSpeed = setSpeed * rampPercent;
+				leftSpeed  = setSpeed * rampPercent;
 				rightSpeed = setSpeed * rampPercent;
 
 				// Slow down one motor based on the PID output.
@@ -231,13 +231,8 @@ public abstract class DriveOnHeadingCommand extends Command {
 					// adjust counter-clockwise
 					rightSpeed += gyroPidOutput;
 
-					// FIXME:  The rightspeed will not be 
-					// larger than the setpoint because the 
-					// gyroPidOutput is negative
-					// We do not want to let the speed get
-					// less than the negative of the set speed.
-					if (rightSpeed > setSpeed) {
-						rightSpeed = setSpeed;
+					if (rightSpeed < -setSpeed) {
+						rightSpeed = -setSpeed;
 					}
 
 				} else {
@@ -245,7 +240,6 @@ public abstract class DriveOnHeadingCommand extends Command {
 					// adjust clockwise
 					leftSpeed -= gyroPidOutput;
 
-					// FIXME: same comment as above.
 					if (leftSpeed > setSpeed) {
 						leftSpeed = setSpeed;
 					}
@@ -262,6 +256,10 @@ public abstract class DriveOnHeadingCommand extends Command {
 	@Override
 	protected void end() {
 		Robot.chassisSubsystem.disableGyroPid();
+	}
+	
+	public void setDirection(Direction direction) {
+		this.direction = direction;
 	}
 
 	private void enableGyroPid() {
