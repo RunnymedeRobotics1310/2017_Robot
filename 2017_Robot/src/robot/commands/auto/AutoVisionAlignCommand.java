@@ -163,7 +163,7 @@ public class AutoVisionAlignCommand extends Command {
 			double angleError = Robot.chassisSubsystem.getGyroAngleError(targetHeading);
 
 			// Wait for the PID to align the robot and stop when it gets there
-			if (Math.abs(angleRate) < 3.0 && Math.abs(angleError) < 1.5) {
+			if (Math.abs(angleRate) < 2.5 && Math.abs(angleError) < 1.4) {
 
 				// When at the target, stop the robot and
 				// check the vision again by going to the Pause step
