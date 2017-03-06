@@ -152,6 +152,7 @@ public class DriveCommand extends Command {
     	
     	if (Robot.oi.getShooterVisionAlignButton()){
     		Scheduler.getInstance().add(new AutoVisionAlignCommand(VisionDistance.CLOSE, 4));
+//    		Scheduler.getInstance().add(new TestVisionGetDataCommand());
     	}
     	
     	if (Robot.oi.getShooterSetTest()) {

@@ -117,7 +117,7 @@ public class AutonomousCommand extends CommandGroup {
         		// Do Gear
         		addSequential(new DriveToEncoderDistanceCommand(0, .8, 87));
         		addSequential(new RotateToHeadingCommand(60));
-        		addSequential(new DriveToEncoderDistanceCommand(60, .8, 18));
+//        		addSequential(new DriveToEncoderDistanceCommand(60, .8, 18));
         		addSequential(new DriveToLimitSwitchCommand(60, .6, Robot.chassisSubsystem.getTowerSensor(), 38));
         		addSequential(new GearReleaseCommand());
         		addSequential(new DriveToEncoderDistanceCommand(60, -.8, 30));

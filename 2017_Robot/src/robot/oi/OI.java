@@ -79,7 +79,7 @@ public class OI {
 		} else if (visionDistance == VisionDistance.CLOSE) {
 			 xValue= closeVisionTable.getNumberArray("centerX", new double[0]);
 		}
-		return xValue.length == 1 ? xValue[0] : -1;
+		return xValue.length >= 1 ? xValue[0] : -1;
 	}
 	
 //	public double getVisionTargetCenterX() {

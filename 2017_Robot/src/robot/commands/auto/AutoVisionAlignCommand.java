@@ -115,7 +115,6 @@ public class AutoVisionAlignCommand extends Command {
 			// FIXME: Put the Vision To Angle calculation here.
 			double adjustAngle = calculateAngle(targetX);
 			
-			
 
 			System.out.println("Target X: " + targetX);
 			System.out.println("Angle to turn: " + adjustAngle);
@@ -226,7 +225,7 @@ public class AutoVisionAlignCommand extends Command {
 			
 		double error = targetPixel - xValue;
 		
-		return error * -0.2;
+		return error * -0.17;
 		
 		// If no xvalue then return 0 because we do not want to align
 //		if (xValue == -1) {x
