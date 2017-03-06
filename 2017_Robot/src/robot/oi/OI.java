@@ -214,6 +214,13 @@ public class OI {
 	public boolean getShooterSetTest() {
 		return driverController.getButton(T_Button.Y);
 	}
+	public boolean getNudgeLeft(){
+		return operatorController.getPov() == 270;
+	}
+		
+	public boolean getNudgeRight(){
+		return operatorController.getPov() == 90;
+	}
 	
 	public void updatePeriodic() {
 
