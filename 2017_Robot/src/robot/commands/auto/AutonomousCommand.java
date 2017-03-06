@@ -43,7 +43,6 @@ public class AutonomousCommand extends CommandGroup {
 	        		
 	        		addSequential(new RotateToHeadingCommand(237));
 	        		addSequential(new DriveToEncoderDistanceCommand(237, .8, 42));
-	        		addSequential(new AutoPauseCommand(1.5));
 	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
 	        		addSequential(new AutoShootCommand(62.2, 11057, 60));
         		}
@@ -104,7 +103,6 @@ public class AutonomousCommand extends CommandGroup {
 	        		
 	        		addSequential(new RotateToHeadingCommand(237));
 	        		addSequential(new DriveToEncoderDistanceCommand(237, .8, 42));
-	        		addSequential(new AutoPauseCommand(1.5));
 	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
 	        		addSequential(new AutoShootCommand(62.2, 11057, 60));
         		}
@@ -138,8 +136,6 @@ public class AutonomousCommand extends CommandGroup {
 	        		// Rotate to a heading
 	        		addSequential(new RotateToHeadingCommand(227));
          			
-         			// Give vision some time to track
-	        		addSequential(new AutoPauseCommand(2));
 	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
 	        		
 	        		// Shoot

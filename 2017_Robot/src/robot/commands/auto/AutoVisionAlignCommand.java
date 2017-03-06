@@ -26,7 +26,9 @@ public class AutoVisionAlignCommand extends Command {
 
 	private double pauseStartTime;
 	private double targetHeading = 0;
+	private double calculateStartTime = 0;
 
+	private boolean firstLoop = true;
 	/**
 	 * Align to the close or far vision target
 	 * <p>
@@ -84,12 +86,24 @@ public class AutoVisionAlignCommand extends Command {
 			}
 
 			step = Step.CALCULATE;
+			calculateStartTime = timeSinceInitialized();
+			
 			return;
 
 		case CALCULATE:
 			// Determine the amount of movement required to align with the gyro
 
 			double targetX = Robot.oi.getVisionTargetCenterX(visionDistance);
+			
+			if (firstLoop) {
+				// If more than 2 seconds, then no target is found.
+				if (timeSinceInitialized() - calculateStartTime > 2.0) {
+					step = Step.DONE;
+					return;
+				}
+				
+				if (targetX == -1) { return; }
+			}
 
 			// FIXME: Put the Vision To Angle calculation here.
 			double adjustAngle = calculateAngle(targetX);
@@ -150,7 +164,8 @@ public class AutoVisionAlignCommand extends Command {
 
 				step = Step.PAUSE;
 				pauseStartTime = timeSinceInitialized();
-
+				firstLoop = false;
+				
 				return;
 			}
 
