@@ -27,6 +27,8 @@ public class AutoVisionAlignCommand extends Command {
 	private double pauseStartTime;
 	private double targetHeading = 0;
 	private double calculateStartTime = 0;
+	
+	private double targetPixel = 170.0;
 
 	private boolean firstLoop = true;
 	/**
@@ -103,10 +105,17 @@ public class AutoVisionAlignCommand extends Command {
 				}
 				
 				if (targetX == -1) { return; }
+			} else {
+				// If more than 1 seconds, then no target is found.
+				if (timeSinceInitialized() - calculateStartTime < 0.5) {
+					if (targetX == -1) { return; }
+				}			
 			}
-
+			
 			// FIXME: Put the Vision To Angle calculation here.
 			double adjustAngle = calculateAngle(targetX);
+			
+			
 
 			System.out.println("Target X: " + targetX);
 			System.out.println("Angle to turn: " + adjustAngle);
@@ -119,7 +128,7 @@ public class AutoVisionAlignCommand extends Command {
 
 			// The target heading is the current heading plus the adjust angle
 			targetHeading = Robot.chassisSubsystem.getGyroAngle() + adjustAngle;
-
+			
 
 			targetHeading %= 360;
 			
@@ -128,7 +137,7 @@ public class AutoVisionAlignCommand extends Command {
 			} else if (targetHeading < 0) {
 				targetHeading +=360;
 			}
-
+	
 			// Enable the PIDs to turn the robot
 			enableGyroPid(targetHeading);
 			step = Step.ALIGN;
@@ -210,12 +219,21 @@ public class AutoVisionAlignCommand extends Command {
 
 	private double calculateAngle(double xValue) {
 		
-		// If no xvalue then return 0 because we do not want to align
+		
 		if (xValue == -1) {
 			return 0;
 		}
+			
+		double error = targetPixel - xValue;
+		
+		return error * -0.2;
+		
+		// If no xvalue then return 0 because we do not want to align
+//		if (xValue == -1) {x
+//			return 0;
+//		}
 		// Equation to get the angle at which we have to be in the center
-		return -(-0.1507 * xValue + 28.18);
+//		return -(-0.1507 * xValue + 28.18);
 	}
 
 }
