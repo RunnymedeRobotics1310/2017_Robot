@@ -4,7 +4,6 @@ package robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
-import robot.commands.auto.DriveToEncoderDistanceCommand;
 import robot.commands.auto.RotateToHeadingCommand;
 
 /**
@@ -31,20 +30,20 @@ public class JoystickCommand extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     
-    	switch (driveStraightState) {
-    	case RELEASED:
-	    	if (Robot.oi.getStartDriveStraightCommand()) {
-	    		Scheduler.getInstance().add(new DriveToEncoderDistanceCommand(0, .6, 50.0));
-	    		driveStraightState = ButtonState.PRESSED;
-	    		return;
-	    	}
-        	break;
-    	case PRESSED:
-    		if (! Robot.oi.getStartDriveStraightCommand()) {
-    			driveStraightState = ButtonState.RELEASED;
-    		}
-    		break;
-    	}
+//    	switch (driveStraightState) {
+//    	case RELEASED:
+//	    	if (Robot.oi.getStartDriveStraightCommand()) {
+//	    		Scheduler.getInstance().add(new DriveToEncoderDistanceCommand(0, .6, 50.0));
+//	    		driveStraightState = ButtonState.PRESSED;
+//	    		return;
+//	    	}
+//        	break;
+//    	case PRESSED:
+//    		if (! Robot.oi.getStartDriveStraightCommand()) {
+//    			driveStraightState = ButtonState.RELEASED;
+//    		}
+//    		break;
+//    	}
     	
     	switch (povState) {
     	case RELEASED:
@@ -102,6 +101,10 @@ public class JoystickCommand extends Command {
     		}
     	}
 
+    	if (Robot.oi.turnAndShootButton()) {
+    		Scheduler.getInstance().add(new TurnAndShootCommand());
+    	}
+    	
     	// Turn on or off the PIDs
     	if (Robot.oi.getMotorPidEnabled()) {
     		Robot.chassisSubsystem.enableDrivePids();

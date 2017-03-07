@@ -114,9 +114,9 @@ public class OI {
 		return operatorController.getButton(T_Trigger.LEFT);
 	}
 
-	public boolean getStartDriveStraightCommand() {
-		return driverController.getButton(T_Button.Y);
-	}
+//	public boolean getStartDriveStraightCommand() {
+//		return driverController.getButton(T_Button.Y);
+//	}
 
 	public boolean getDriverToggle() {
 		return driverTestToggle.getToggleState();
@@ -211,9 +211,9 @@ public class OI {
 	public boolean getResetShooterAdjustEncoder() {
 		return operatorController.getButton(T_Button.B);
 	}
-	public boolean getShooterSetTest() {
-		return driverController.getButton(T_Button.Y);
-	}
+//	public boolean getShooterSetTest() {
+//		return driverController.getButton(T_Button.Y);
+//	}
 	public boolean getNudgeLeft(){
 		return operatorController.getPov() == 270;
 	}
@@ -239,6 +239,10 @@ public class OI {
 		SmartDashboard.putBoolean("Toggle", getDriverToggle());
 		SmartDashboard.putBoolean("MotorPidToggle", getMotorPidEnabled());
 
+	}
+
+	public boolean turnAndShootButton() {
+		return operatorController.getButton(T_Button.START);
 	}
 
 //	public void setGearButton(boolean b) {

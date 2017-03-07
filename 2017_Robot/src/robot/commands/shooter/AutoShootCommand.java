@@ -42,7 +42,7 @@ public class AutoShootCommand extends Command {
 		// Shooter must be up to speed to feed balls
 		if (Robot.shooterSubsystem.isShooterAtSpeed()) {
 			Robot.shooterSubsystem.startAgitator();
-			Robot.shooterSubsystem.setFeederSpeed(.3);
+			Robot.shooterSubsystem.setFeederSpeed(.4);
 		} else {
 			Robot.shooterSubsystem.stopFeeder();
 		}

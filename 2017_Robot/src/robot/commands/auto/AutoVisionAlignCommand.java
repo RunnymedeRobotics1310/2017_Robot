@@ -28,7 +28,7 @@ public class AutoVisionAlignCommand extends Command {
 	private double targetHeading = 0;
 	private double calculateStartTime = 0;
 	
-	private double targetPixel = 170.0;
+	private double targetPixel = 175.0;
 
 	private boolean firstLoop = true;
 	/**
@@ -120,7 +120,7 @@ public class AutoVisionAlignCommand extends Command {
 			System.out.println("Angle to turn: " + adjustAngle);
 
 			// If we are properly aligned then we are done.
-			if (Math.abs(adjustAngle) < 1.5) {
+			if (Math.abs(adjustAngle) < 1.6) {
 				step = Step.DONE;
 				return;
 			}
@@ -163,7 +163,7 @@ public class AutoVisionAlignCommand extends Command {
 			double angleError = Robot.chassisSubsystem.getGyroAngleError(targetHeading);
 
 			// Wait for the PID to align the robot and stop when it gets there
-			if (Math.abs(angleRate) < 2.5 && Math.abs(angleError) < 1.4) {
+			if (Math.abs(angleRate) < 3.0 && Math.abs(angleError) < 1.5) {
 
 				// When at the target, stop the robot and
 				// check the vision again by going to the Pause step
@@ -225,7 +225,7 @@ public class AutoVisionAlignCommand extends Command {
 			
 		double error = targetPixel - xValue;
 		
-		return error * -0.17;
+		return error * -0.14;
 		
 		// If no xvalue then return 0 because we do not want to align
 //		if (xValue == -1) {x

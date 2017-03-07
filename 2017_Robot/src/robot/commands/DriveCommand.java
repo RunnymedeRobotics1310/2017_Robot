@@ -155,9 +155,9 @@ public class DriveCommand extends Command {
 //    		Scheduler.getInstance().add(new TestVisionGetDataCommand());
     	}
     	
-    	if (Robot.oi.getShooterSetTest()) {
-    		Scheduler.getInstance().add(new AutoShootCommand(62.2, 11057, 15));
-    	}
+//    	if (Robot.oi.getShooterSetTest()) {
+//    		Scheduler.getInstance().add(new AutoShootCommand(62.2, 11057, 15));
+//    	}
     	
     	Robot.chassisSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
     }

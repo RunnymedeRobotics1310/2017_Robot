@@ -40,7 +40,7 @@ public class ShooterSubsystem extends T_Subsystem {
 	private T_MotorSpeedPidController shooterController = 
 			new T_MotorSpeedPidController(10, 0, shooterSpeedEncoder, RobotConst.SHOOTER_ENCODER_MAX_SPEED);
 	
-	private final int SHOOTER_ANGLE_ADJUST_TOLERANCE = 20;
+	private final int SHOOTER_ANGLE_ADJUST_TOLERANCE = 25;
 	
 	private int shooterAngleAdjustSetpoint;
 	
@@ -200,13 +200,13 @@ public class ShooterSubsystem extends T_Subsystem {
 		if (shooterAnglePidEnabled) {
 			if (!atShooterAngleAdjustSetpoint()) {
 				
-				if (Math.abs(getShooterAngleAdjustError()) > 150) {
+				if (Math.abs(getShooterAngleAdjustError()) > 200) {
 					
 					if (getShooterAngleAdjustError() > 0) {
-						shooterAngleMotor.set(1);
+						shooterAngleMotor.set(.7);
 					}
 					else {
-						shooterAngleMotor.set(-1);
+						shooterAngleMotor.set(-.7);
 					}
 					
 				} else {
