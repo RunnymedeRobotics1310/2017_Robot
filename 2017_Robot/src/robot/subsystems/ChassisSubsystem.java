@@ -19,7 +19,8 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.RobotConst;
 import robot.RobotMap;
-import robot.commands.DriveCommand;
+import robot.commands.DefaultDriveCommand;
+import robot.sensors.T_SrxEncoder;
 
 public class ChassisSubsystem extends T_Subsystem {
 
@@ -123,7 +124,7 @@ public class ChassisSubsystem extends T_Subsystem {
 	 ******************************************************************************/
 
 	public void initDefaultCommand() {
-		setDefaultCommand(new DriveCommand());
+		setDefaultCommand(new DefaultDriveCommand());
 	}
 
 	public void robotInit() {

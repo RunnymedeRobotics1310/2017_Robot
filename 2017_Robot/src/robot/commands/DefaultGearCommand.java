@@ -4,7 +4,7 @@ package robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
 import robot.RobotConst;
-import robot.commands.DriveCommand.ButtonState;
+import robot.commands.DefaultDriveCommand.ButtonState;
 import robot.subsystems.GearSubsystem.GearState;
 
 /**

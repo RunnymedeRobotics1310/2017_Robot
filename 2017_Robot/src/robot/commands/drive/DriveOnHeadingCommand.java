@@ -1,4 +1,4 @@
-package robot.commands.auto;
+package robot.commands.drive;
 
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;

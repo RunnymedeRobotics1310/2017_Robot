@@ -4,21 +4,26 @@ package robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
-import robot.commands.auto.RotateToHeadingCommand;
+import robot.RobotConst.VisionDistance;
+import robot.commands.auto.AutoVisionAlignCommand;
+import robot.commands.drive.RotateToHeadingCommand;
+import robot.commands.shooter.AutoShootCommand;
+import robot.commands.shooter.AutoShootWindupCommand;
 
 /**
- *
+ * Drive command handles all commands related to driving
+ * Such as resetting encoders and driving straight
  */
-public class JoystickCommand extends Command {
+public class DefaultDriveCommand extends Command {
 
 	enum ButtonState { PRESSED, RELEASED };
 	
 	ButtonState driveStraightState = ButtonState.RELEASED;
 	ButtonState povState           = ButtonState.RELEASED;
 	ButtonState calibrateState     = ButtonState.RELEASED;
-	ButtonState nudgeState		   = ButtonState.RELEASED;
+	ButtonState nudgeState         = ButtonState.RELEASED;
 	
-    public JoystickCommand() {
+    public DefaultDriveCommand() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.chassisSubsystem);
     }
@@ -29,21 +34,22 @@ public class JoystickCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    
-//    	switch (driveStraightState) {
-//    	case RELEASED:
-//	    	if (Robot.oi.getStartDriveStraightCommand()) {
-//	    		Scheduler.getInstance().add(new DriveToEncoderDistanceCommand(0, .6, 50.0));
-//	    		driveStraightState = ButtonState.PRESSED;
-//	    		return;
-//	    	}
-//        	break;
-//    	case PRESSED:
-//    		if (! Robot.oi.getStartDriveStraightCommand()) {
-//    			driveStraightState = ButtonState.RELEASED;
-//    		}
-//    		break;
-//    	}
+    /*
+    	switch (driveStraightState) {
+    	case RELEASED:
+	    	if (Robot.oi.getStartDriveStraightCommand()) {
+	    		Scheduler.getInstance().add(new DriveToEncoderDistanceCommand(0, .6, 50.0));
+	    		driveStraightState = ButtonState.PRESSED;
+	    		return;
+	    	}
+        	break;
+    	case PRESSED:
+    		if (! Robot.oi.getStartDriveStraightCommand()) {
+    			driveStraightState = ButtonState.RELEASED;
+    		}
+    		break;
+    	}
+    	*/
     	
     	switch (povState) {
     	case RELEASED:
@@ -61,6 +67,32 @@ public class JoystickCommand extends Command {
     		break;
     	}
     	
+		if (Robot.oi.getDriverRumbleStart()) {
+			Robot.oi.setDriverRumble(0.8);
+		} else {
+			Robot.oi.setDriverRumble(0);
+		}
+
+		if (Robot.oi.getDriverRumbleStart()) {
+			Robot.chassisSubsystem.setHighGear();
+		} else {
+			Robot.chassisSubsystem.setLowGear();
+		}
+
+    	switch (calibrateState) {
+    	case RELEASED:
+	    	if (Robot.oi.getCalibrate()) {
+	    		Robot.chassisSubsystem.resetEncoders();
+	    		Robot.chassisSubsystem.calibrateGyro();
+	    		calibrateState = ButtonState.PRESSED;
+	    	}
+	    	break;
+    	case PRESSED:
+    		if (! Robot.oi.getCalibrate()) {
+    			calibrateState = ButtonState.RELEASED;
+    		}
+    	}
+
     	switch (nudgeState) {
     	case RELEASED:
     		if(Robot.oi.getNudgeLeft()){
@@ -81,26 +113,7 @@ public class JoystickCommand extends Command {
     		
     	}
     	
-//    	if (Robot.oi.getDriverRumbleStart()) { Robot.oi.setDriverRumble(0.8); }
-//    	else  								 { Robot.oi.setDriverRumble(0); }
-//    	
-//    	if (Robot.oi.getDriverRumbleStart()) { Robot.chassisSubsystem.setHighGear(); }
-//    	else  								 { Robot.chassisSubsystem.setLowGear(); }
-    	
-    	switch (calibrateState) {
-    	case RELEASED:
-	    	if (Robot.oi.getCalibrate()) {
-	    		Robot.chassisSubsystem.resetEncoders();
-	    		Robot.chassisSubsystem.calibrateGyro();
-	    		calibrateState = ButtonState.PRESSED;
-	    	}
-	    	break;
-    	case PRESSED:
-    		if (! Robot.oi.getCalibrate()) {
-    			calibrateState = ButtonState.RELEASED;
-    		}
-    	}
-
+    	// Turn and shoot after hanging a gear
     	if (Robot.oi.turnAndShootButton()) {
     		Scheduler.getInstance().add(new TurnAndShootCommand());
     	}
@@ -157,6 +170,20 @@ public class JoystickCommand extends Command {
 				}
     		}
     	}
+    	
+    	if (Robot.oi.getVisionTrackButton()) {
+    		Scheduler.getInstance().add(new VisionTrackCommand());
+    	}
+       	
+    	
+    	if (Robot.oi.getShooterVisionAlignButton()){
+    		Scheduler.getInstance().add(new AutoVisionAlignCommand(VisionDistance.CLOSE, 4));
+//    		Scheduler.getInstance().add(new TestVisionGetDataCommand());
+    	}
+    	
+//    	if (Robot.oi.getShooterSetTest()) {
+//    		Scheduler.getInstance().add(new AutoShootCommand(62.2, 11057, 15));
+//    	}
     	
     	Robot.chassisSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
     }

@@ -145,6 +145,10 @@ public class OI {
 		return driverController.isControllerActivated();
 	}
 
+	public boolean isDriverJoystickAction() {
+		return driverController.isJoystickActivated();
+	}
+
 	public void setDriverRumble(double rumble) {
 //		DriverStation.getInstance().getMatchTime();
 		driverController.setRumble(rumble);

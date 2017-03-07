@@ -2,7 +2,6 @@
 package robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.Robot;
 import robot.RobotConst;
 import robot.RobotConst.VisionDistance;
@@ -15,20 +14,20 @@ import robot.RobotConst.VisionDistance;
  */
 public class AutoVisionAlignCommand extends Command {
 
-	private enum Step {
+	protected enum Step {
 		PAUSE, CALCULATE, ALIGN, DONE
 	};
 
 	private final VisionDistance visionDistance;
 	private final double timeout;
 
-	private Step step = Step.PAUSE;
+	protected Step step = Step.PAUSE;
 
 	private double pauseStartTime;
 	private double targetHeading = 0;
 	private double calculateStartTime = 0;
 	
-	private double targetPixel = 175.0;
+	private double TARGET_CENTER_PIXELS = 175.0;
 
 	private boolean firstLoop = true;
 	/**
@@ -81,9 +80,9 @@ public class AutoVisionAlignCommand extends Command {
 
 			disableGyroPid();
 
-			// Wait for .3 seconds for the camera image to stabilize
+			// Wait for .25 seconds for the camera image to stabilize
 			// Do nothing until the timer has expired.
-			if ((timeSinceInitialized() - pauseStartTime) <= .3) {
+			if ((timeSinceInitialized() - pauseStartTime) <= .25) {
 				return;
 			}
 
@@ -98,6 +97,7 @@ public class AutoVisionAlignCommand extends Command {
 			double targetX = Robot.oi.getVisionTargetCenterX(visionDistance);
 			
 			if (firstLoop) {
+				// Wait 2 seconds for the target on the first loop only
 				// If more than 2 seconds, then no target is found.
 				if (timeSinceInitialized() - calculateStartTime > 2.0) {
 					step = Step.DONE;
@@ -105,18 +105,21 @@ public class AutoVisionAlignCommand extends Command {
 				}
 				
 				if (targetX == -1) { return; }
+				
 			} else {
-				// If more than 1 seconds, then no target is found.
+				
+				// If more than .5 seconds, then no target is found.
 				if (timeSinceInitialized() - calculateStartTime < 0.5) {
 					if (targetX == -1) { return; }
-				}			
+				}
+				
 			}
 			
-			// FIXME: Put the Vision To Angle calculation here.
+			// Calculate the angle adjustment
 			double adjustAngle = calculateAngle(targetX);
 			
-
 			System.out.println("Target X: " + targetX);
+			System.out.println("Robot Angle: " + Robot.chassisSubsystem.getGyroAngle());
 			System.out.println("Angle to turn: " + adjustAngle);
 
 			// If we are properly aligned then we are done.
@@ -192,6 +195,7 @@ public class AutoVisionAlignCommand extends Command {
 
 		// Check for a timeout
 		if (timeSinceInitialized() > timeout) {
+			disableGyroPid();
 			return true;
 		}
 
@@ -223,16 +227,10 @@ public class AutoVisionAlignCommand extends Command {
 			return 0;
 		}
 			
-		double error = targetPixel - xValue;
+		double error = TARGET_CENTER_PIXELS - xValue;
 		
-		return error * -0.14;
+		return error * -0.15;
 		
-		// If no xvalue then return 0 because we do not want to align
-//		if (xValue == -1) {x
-//			return 0;
-//		}
-		// Equation to get the angle at which we have to be in the center
-//		return -(-0.1507 * xValue + 28.18);
 	}
 
 }

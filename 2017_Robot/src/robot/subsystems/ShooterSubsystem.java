@@ -12,7 +12,8 @@ import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.RobotConst;
 import robot.RobotMap;
-import robot.commands.shooter.DefaultShooterCommand;
+import robot.commands.DefaultShooterCommand;
+import robot.sensors.T_SrxEncoder;
 
 public class ShooterSubsystem extends T_Subsystem {
 

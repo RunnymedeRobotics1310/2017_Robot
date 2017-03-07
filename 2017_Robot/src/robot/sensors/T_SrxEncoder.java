@@ -1,4 +1,4 @@
-package robot.subsystems;
+package robot.sensors;
 
 import com.ctre.CANTalon;
 import com.toronto.sensors.T_Encoder;
