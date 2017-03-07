@@ -4,11 +4,7 @@ package robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
-import robot.RobotConst.VisionDistance;
-import robot.commands.auto.AutoVisionAlignCommand;
 import robot.commands.drive.RotateToHeadingCommand;
-import robot.commands.shooter.AutoShootCommand;
-import robot.commands.shooter.AutoShootWindupCommand;
 
 /**
  * Drive command handles all commands related to driving
@@ -135,7 +131,12 @@ public class DefaultDriveCommand extends Command {
     	double leftSpeed = 0.0;
     	double rightSpeed = 0.0;
     	
-    	// If the robot is not moving forward or backwards and there is a
+    	// Disable the GyroPid if the driver is using the joysticks
+    	if (turn != 0 || speed != 0) {
+    		Robot.chassisSubsystem.disableGyroPid();
+    	}
+    	
+    	// If the robot is not moving forward or backwards and there is a turn
     	if (speed == 0.0) {
     		leftSpeed  =  turn;
     		rightSpeed = -turn;
@@ -172,15 +173,10 @@ public class DefaultDriveCommand extends Command {
     	}
     	
     	if (Robot.oi.getVisionTrackButton()) {
-    		Scheduler.getInstance().add(new VisionTrackCommand());
-    	}
-       	
-    	
-    	if (Robot.oi.getShooterVisionAlignButton()){
-    		Scheduler.getInstance().add(new AutoVisionAlignCommand(VisionDistance.CLOSE, 4));
+    		Scheduler.getInstance().add(new VisionTrackCommand(60));
 //    		Scheduler.getInstance().add(new TestVisionGetDataCommand());
     	}
-    	
+       	
 //    	if (Robot.oi.getShooterSetTest()) {
 //    		Scheduler.getInstance().add(new AutoShootCommand(62.2, 11057, 15));
 //    	}

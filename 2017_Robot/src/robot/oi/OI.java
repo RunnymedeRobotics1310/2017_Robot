@@ -64,11 +64,6 @@ public class OI {
 	private NetworkTable farVisionTable = NetworkTable.getTable("GRIP/farBoilerData");
 
 	public boolean getVisionTrackButton() {
-		return false;
-//		return driverController.getButton(T_Button.A);
-	}
-	
-	public boolean getShooterVisionAlignButton() {
 		return driverController.getButton(T_Button.A);
 	}
 
