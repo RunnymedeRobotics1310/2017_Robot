@@ -2,7 +2,6 @@
 package robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.Robot;
 import robot.RobotConst;
 import robot.RobotConst.VisionDistance;
@@ -15,20 +14,24 @@ import robot.RobotConst.VisionDistance;
  */
 public class AutoVisionAlignCommand extends Command {
 
-	private enum Step {
+	protected enum Step {
 		PAUSE, CALCULATE, ALIGN, DONE
 	};
 
 	private final VisionDistance visionDistance;
-	private final double timeout;
+	protected final double timeout;
 
-	private Step step = Step.PAUSE;
+	protected Step step = Step.PAUSE;
 
 	private double pauseStartTime;
 	private double targetHeading = 0;
 	private double calculateStartTime = 0;
+	private boolean disableGyroPidWhenAligned = true;
+	
+	private double TARGET_CENTER_PIXELS = 175.0;
 
 	private boolean firstLoop = true;
+	
 	/**
 	 * Align to the close or far vision target
 	 * <p>
@@ -40,7 +43,22 @@ public class AutoVisionAlignCommand extends Command {
 	 *            CLOSE or FAR
 	 */
 	public AutoVisionAlignCommand(VisionDistance visionDistance) {
-		this(visionDistance, 15.0);
+		this(visionDistance, 15.0, true);
+	}
+
+	/**
+	 * Align to the close or far vision target
+	 * <p>
+	 * This command finishes immediately if the vision target is not found
+	 * <p>
+	 * The command ends when the robot is aligned with the target.
+	 * 
+	 * @param visionDistance
+	 *            CLOSE or FAR
+	 * @param timeout
+	 */
+	public AutoVisionAlignCommand(VisionDistance visionDistance, double timeout) {
+		this(visionDistance, timeout, true);
 	}
 
 	/**
@@ -55,11 +73,12 @@ public class AutoVisionAlignCommand extends Command {
 	 * @param timeout
 	 *            before the command ends if alignment is not complete
 	 */
-	public AutoVisionAlignCommand(VisionDistance visionDistance, double timeout) {
+	public AutoVisionAlignCommand(VisionDistance visionDistance, double timeout, boolean disableGyroPidWhenAligned) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.chassisSubsystem);
 		this.visionDistance = visionDistance;
 		this.timeout = timeout;
+		this.disableGyroPidWhenAligned = disableGyroPidWhenAligned;
 	}
 
 	// Called just before this Command runs the first time
@@ -77,11 +96,13 @@ public class AutoVisionAlignCommand extends Command {
 
 		case PAUSE:
 
-			disableGyroPid();
+			if (disableGyroPidWhenAligned) {
+				disableGyroPid();
+			}
 
-			// Wait for .3 seconds for the camera image to stabilize
+			// Wait for .25 seconds for the camera image to stabilize
 			// Do nothing until the timer has expired.
-			if ((timeSinceInitialized() - pauseStartTime) <= .3) {
+			if ((timeSinceInitialized() - pauseStartTime) <= .25) {
 				return;
 			}
 
@@ -96,6 +117,7 @@ public class AutoVisionAlignCommand extends Command {
 			double targetX = Robot.oi.getVisionTargetCenterX(visionDistance);
 			
 			if (firstLoop) {
+				// Wait 2 seconds for the target on the first loop only
 				// If more than 2 seconds, then no target is found.
 				if (timeSinceInitialized() - calculateStartTime > 2.0) {
 					step = Step.DONE;
@@ -103,23 +125,32 @@ public class AutoVisionAlignCommand extends Command {
 				}
 				
 				if (targetX == -1) { return; }
+				
+			} else {
+				
+				// If more than .5 seconds, then no target is found.
+				if (timeSinceInitialized() - calculateStartTime < 0.5) {
+					if (targetX == -1) { return; }
+				}
+				
 			}
-
-			// FIXME: Put the Vision To Angle calculation here.
+			
+			// Calculate the angle adjustment
 			double adjustAngle = calculateAngle(targetX);
-
+			
 			System.out.println("Target X: " + targetX);
+			System.out.println("Robot Angle: " + Robot.chassisSubsystem.getGyroAngle());
 			System.out.println("Angle to turn: " + adjustAngle);
 
 			// If we are properly aligned then we are done.
-			if (Math.abs(adjustAngle) < 1.5) {
+			if (Math.abs(adjustAngle) < 1.6) {
 				step = Step.DONE;
 				return;
 			}
 
 			// The target heading is the current heading plus the adjust angle
 			targetHeading = Robot.chassisSubsystem.getGyroAngle() + adjustAngle;
-
+			
 
 			targetHeading %= 360;
 			
@@ -128,7 +159,7 @@ public class AutoVisionAlignCommand extends Command {
 			} else if (targetHeading < 0) {
 				targetHeading +=360;
 			}
-
+	
 			// Enable the PIDs to turn the robot
 			enableGyroPid(targetHeading);
 			step = Step.ALIGN;
@@ -160,7 +191,9 @@ public class AutoVisionAlignCommand extends Command {
 				// When at the target, stop the robot and
 				// check the vision again by going to the Pause step
 				// which will wait for the camera to settle
-				disableGyroPid();
+				if (disableGyroPidWhenAligned) {
+					disableGyroPid();
+				}
 
 				step = Step.PAUSE;
 				pauseStartTime = timeSinceInitialized();
@@ -192,13 +225,16 @@ public class AutoVisionAlignCommand extends Command {
 
 	@Override
 	protected void end() {
-		Robot.chassisSubsystem.setMotorSpeeds(0, 0);
+		if (disableGyroPidWhenAligned) {
+			disableGyroPid();
+			Robot.chassisSubsystem.setMotorSpeeds(0, 0);
+		}
 	}
 
 	private void enableGyroPid(double heading) {
 		// Enable the Gyro PID
-		Robot.chassisSubsystem.enableGyroPid();
 		Robot.chassisSubsystem.setGyroPidSetpoint(heading);
+		Robot.chassisSubsystem.enableGyroPid();
 
 	}
 
@@ -210,12 +246,15 @@ public class AutoVisionAlignCommand extends Command {
 
 	private double calculateAngle(double xValue) {
 		
-		// If no xvalue then return 0 because we do not want to align
+		
 		if (xValue == -1) {
 			return 0;
 		}
-		// Equation to get the angle at which we have to be in the center
-		return -(-0.1507 * xValue + 28.18);
+			
+		double error = TARGET_CENTER_PIXELS - xValue;
+		
+		return error * -0.15;
+		
 	}
 
 }

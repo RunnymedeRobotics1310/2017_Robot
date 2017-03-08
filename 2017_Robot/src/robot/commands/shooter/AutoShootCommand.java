@@ -42,7 +42,7 @@ public class AutoShootCommand extends Command {
 		// Shooter must be up to speed to feed balls
 		if (Robot.shooterSubsystem.isShooterAtSpeed()) {
 			Robot.shooterSubsystem.startAgitator();
-			Robot.shooterSubsystem.setFeederSpeed(.3);
+			Robot.shooterSubsystem.setFeederSpeed(.4);
 		} else {
 			Robot.shooterSubsystem.stopFeeder();
 		}
@@ -50,14 +50,24 @@ public class AutoShootCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
+		
+		// If the driver presses the shoot button, then this command ends
+		if (Robot.oi.getShootButton()) { return true; }
+		
+		// Timeout
 		return timeSinceInitialized() > timeout;
 	}
 
 	@Override
 	protected void end() {
-		Robot.shooterSubsystem.stopShooter();
-		Robot.shooterSubsystem.stopFeeder();
-		Robot.shooterSubsystem.stopAgitator();
+		
+		// If the user is not holding the shoot button, then
+		// shut down the shooter.
+		if (!Robot.oi.getShootButton()) {
+			Robot.shooterSubsystem.stopShooter();
+			Robot.shooterSubsystem.stopFeeder();
+			Robot.shooterSubsystem.stopAgitator();
+		}
 	}
 
 	@Override

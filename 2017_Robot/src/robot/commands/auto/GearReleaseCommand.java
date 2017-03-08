@@ -1,5 +1,5 @@
 
-package robot.commands;
+package robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
@@ -34,7 +34,7 @@ public class GearReleaseCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return timeSinceInitialized() > 0.5;
+		return timeSinceInitialized() > 0.3;
 	}
 
 	@Override

@@ -1,5 +1,5 @@
 
-package robot.commands.auto;
+package robot.commands.drive;
 
 import com.toronto.sensors.T_LimitSwitch;
 
@@ -26,10 +26,10 @@ public class DriveToLimitSwitchCommand extends DriveToEncoderDistanceCommand {
 	protected boolean isFinished() {
 		
 		// If at the limit, this command is finished
-		if (limitSwitch.atLimit()) { 
+		if (limitSwitch.atLimit()) {
 			Robot.chassisSubsystem.setMotorSpeeds(0, 0);
 			return true; 
-			}
+		}
 
 		// Check for the max distance
 		return super.isFinished();

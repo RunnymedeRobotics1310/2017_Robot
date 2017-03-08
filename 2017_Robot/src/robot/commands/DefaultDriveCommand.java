@@ -4,25 +4,22 @@ package robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
-import robot.RobotConst.VisionDistance;
-import robot.commands.auto.AutoVisionAlignCommand;
-import robot.commands.auto.RotateToHeadingCommand;
-import robot.commands.shooter.AutoShootCommand;
-import robot.commands.shooter.AutoShootWindupCommand;
+import robot.commands.drive.RotateToHeadingCommand;
 
 /**
  * Drive command handles all commands related to driving
  * Such as resetting encoders and driving straight
  */
-public class DriveCommand extends Command {
+public class DefaultDriveCommand extends Command {
 
 	enum ButtonState { PRESSED, RELEASED };
 	
 	ButtonState driveStraightState = ButtonState.RELEASED;
 	ButtonState povState           = ButtonState.RELEASED;
 	ButtonState calibrateState     = ButtonState.RELEASED;
+	ButtonState nudgeState         = ButtonState.RELEASED;
 	
-    public DriveCommand() {
+    public DefaultDriveCommand() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.chassisSubsystem);
     }
@@ -92,6 +89,31 @@ public class DriveCommand extends Command {
     		}
     	}
 
+    	switch (nudgeState) {
+    	case RELEASED:
+    		if(Robot.oi.getNudgeLeft()){
+    			Scheduler.getInstance().add(new RotateToHeadingCommand(Robot.chassisSubsystem.getGyroAngle() - 1));
+    			nudgeState = ButtonState.PRESSED;
+    			return;
+    		} else if(Robot.oi.getNudgeRight()){
+    			Scheduler.getInstance().add(new RotateToHeadingCommand(Robot.chassisSubsystem.getGyroAngle() + 1));
+    			nudgeState = ButtonState.PRESSED;
+    			return;
+    		}
+    		break;
+    	case PRESSED:
+    		if(!Robot.oi.getNudgeLeft()&&!Robot.oi.getNudgeRight()){
+    			nudgeState = ButtonState.RELEASED;
+    		}
+    		break;
+    		
+    	}
+    	
+    	// Turn and shoot after hanging a gear
+    	if (Robot.oi.turnAndShootButton()) {
+    		Scheduler.getInstance().add(new TurnAndShootCommand());
+    	}
+    	
     	// Turn on or off the PIDs
     	if (Robot.oi.getMotorPidEnabled()) {
     		Robot.chassisSubsystem.enableDrivePids();
@@ -109,7 +131,12 @@ public class DriveCommand extends Command {
     	double leftSpeed = 0.0;
     	double rightSpeed = 0.0;
     	
-    	// If the robot is not moving forward or backwards and there is a
+    	// Disable the GyroPid if the driver is using the joysticks
+    	if (turn != 0 || speed != 0) {
+    		Robot.chassisSubsystem.disableGyroPid();
+    	}
+    	
+    	// If the robot is not moving forward or backwards and there is a turn
     	if (speed == 0.0) {
     		leftSpeed  =  turn;
     		rightSpeed = -turn;
@@ -146,17 +173,13 @@ public class DriveCommand extends Command {
     	}
     	
     	if (Robot.oi.getVisionTrackButton()) {
-    		Scheduler.getInstance().add(new VisionTrackCommand());
+    		Scheduler.getInstance().add(new VisionTrackCommand(60));
+//    		Scheduler.getInstance().add(new TestVisionGetDataCommand());
     	}
        	
-    	
-    	if (Robot.oi.getShooterVisionAlignButton()){
-    		Scheduler.getInstance().add(new AutoVisionAlignCommand(VisionDistance.CLOSE, 4));
-    	}
-    	
-    	if (Robot.oi.getShooterSetTest()) {
-    		Scheduler.getInstance().add(new AutoShootCommand(62.2, 11057, 15));
-    	}
+//    	if (Robot.oi.getShooterSetTest()) {
+//    		Scheduler.getInstance().add(new AutoShootCommand(62.2, 11057, 15));
+//    	}
     	
     	Robot.chassisSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
     }

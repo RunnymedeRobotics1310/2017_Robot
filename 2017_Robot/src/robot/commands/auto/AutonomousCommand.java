@@ -3,7 +3,9 @@ package robot.commands.auto;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import robot.Robot;
 import robot.RobotConst.VisionDistance;
-import robot.commands.GearReleaseCommand;
+import robot.commands.drive.DriveToEncoderDistanceCommand;
+import robot.commands.drive.DriveToLimitSwitchCommand;
+import robot.commands.drive.RotateToHeadingCommand;
 import robot.commands.shooter.AutoShootAngleAdjustCommand;
 import robot.commands.shooter.AutoShootCommand;
 import robot.commands.shooter.AutoShootWindupCommand;
@@ -17,6 +19,7 @@ import robot.oi.AutoSelector.ShootMode;
  */
 public class AutonomousCommand extends CommandGroup {
 	
+	private final static double SHOOTER_SPEED = 61.5;
 
     public AutonomousCommand() {
     	
@@ -39,12 +42,12 @@ public class AutonomousCommand extends CommandGroup {
         		
         		if (shootMode == ShootMode.GEAR_SHOOT) {
         			addSequential(new AutoShootAngleAdjustCommand(11057));
-	        		addSequential(new AutoShootWindupCommand(62.2));
+	        		addSequential(new AutoShootWindupCommand(SHOOTER_SPEED));
 	        		
-	        		addSequential(new RotateToHeadingCommand(237));
-	        		addSequential(new DriveToEncoderDistanceCommand(237, .8, 42));
+	        		addSequential(new RotateToHeadingCommand(113));
+	        		addSequential(new DriveToEncoderDistanceCommand(113, .8, 42));
 	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
-	        		addSequential(new AutoShootCommand(62.2, 11057, 60));
+	        		addSequential(new AutoShootCommand(SHOOTER_SPEED, 11057, 60));
         		}
         	}
         	
@@ -99,12 +102,12 @@ public class AutonomousCommand extends CommandGroup {
         		
         		if (shootMode == ShootMode.GEAR_SHOOT) {
         			addSequential(new AutoShootAngleAdjustCommand(11057));
-	        		addSequential(new AutoShootWindupCommand(62.2));
+	        		addSequential(new AutoShootWindupCommand(SHOOTER_SPEED));
 	        		
 	        		addSequential(new RotateToHeadingCommand(237));
-	        		addSequential(new DriveToEncoderDistanceCommand(237, .8, 42));
+	        		addSequential(new DriveToEncoderDistanceCommand(237, .8, 40));
 	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
-	        		addSequential(new AutoShootCommand(62.2, 11057, 60));
+	        		addSequential(new AutoShootCommand(SHOOTER_SPEED, 11057, 60));
         		}
         	}
         	
@@ -117,9 +120,10 @@ public class AutonomousCommand extends CommandGroup {
         		// Do Gear
         		addSequential(new DriveToEncoderDistanceCommand(0, .8, 87));
         		addSequential(new RotateToHeadingCommand(60));
+        		addSequential(new DriveToEncoderDistanceCommand(60, .8, 18, true));
         		addSequential(new DriveToLimitSwitchCommand(60, .6, Robot.chassisSubsystem.getTowerSensor(), 38));
         		addSequential(new GearReleaseCommand());
-        		addSequential(new DriveToEncoderDistanceCommand(60, -.8, 30));
+        		addSequential(new DriveToEncoderDistanceCommand(60, -.8, 28));
         		
         		// If gear only we just turn straight to neutral zone and go straight
         		if (shootMode == ShootMode.GEAR_ONLY) {
@@ -131,15 +135,15 @@ public class AutonomousCommand extends CommandGroup {
         		if (shootMode == ShootMode.GEAR_SHOOT) {
         			
 
-	        		addSequential(new AutoShootWindupCommand(62.2));
+	        		addSequential(new AutoShootWindupCommand(SHOOTER_SPEED));
 	        		
 	        		// Rotate to a heading
-	        		addSequential(new RotateToHeadingCommand(227));
+	        		addSequential(new RotateToHeadingCommand(229));
          			
 	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
 	        		
 	        		// Shoot
-	        		addSequential(new AutoShootCommand(62.2, 11057, 60));
+	        		addSequential(new AutoShootCommand(SHOOTER_SPEED, 11057, 60));
         		}
         		
         	}

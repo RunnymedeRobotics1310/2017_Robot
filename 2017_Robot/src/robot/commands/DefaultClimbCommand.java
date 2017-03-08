@@ -3,7 +3,7 @@ package robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
-import robot.commands.DriveCommand.ButtonState;
+import robot.commands.DefaultDriveCommand.ButtonState;
 
 /**
  * Climb command is used for climbing the rope

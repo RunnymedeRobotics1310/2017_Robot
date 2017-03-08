@@ -1,4 +1,4 @@
-package robot.commands.auto;
+package robot.commands.drive;
 
 import robot.Robot;
 import robot.RobotConst.Direction;

@@ -64,11 +64,6 @@ public class OI {
 	private NetworkTable farVisionTable = NetworkTable.getTable("GRIP/farBoilerData");
 
 	public boolean getVisionTrackButton() {
-		return false;
-//		return driverController.getButton(T_Button.A);
-	}
-	
-	public boolean getShooterVisionAlignButton() {
 		return driverController.getButton(T_Button.A);
 	}
 
@@ -79,7 +74,7 @@ public class OI {
 		} else if (visionDistance == VisionDistance.CLOSE) {
 			 xValue= closeVisionTable.getNumberArray("centerX", new double[0]);
 		}
-		return xValue.length == 1 ? xValue[0] : -1;
+		return xValue.length >= 1 ? xValue[0] : -1;
 	}
 	
 //	public double getVisionTargetCenterX() {
@@ -114,9 +109,9 @@ public class OI {
 		return operatorController.getButton(T_Trigger.LEFT);
 	}
 
-	public boolean getStartDriveStraightCommand() {
-		return driverController.getButton(T_Button.Y);
-	}
+//	public boolean getStartDriveStraightCommand() {
+//		return driverController.getButton(T_Button.Y);
+//	}
 
 	public boolean getDriverToggle() {
 		return driverTestToggle.getToggleState();
@@ -143,6 +138,10 @@ public class OI {
 
 	public boolean isDriverAction() {
 		return driverController.isControllerActivated();
+	}
+
+	public boolean isDriverJoystickAction() {
+		return driverController.isJoystickActivated();
 	}
 
 	public void setDriverRumble(double rumble) {
@@ -211,8 +210,15 @@ public class OI {
 	public boolean getResetShooterAdjustEncoder() {
 		return operatorController.getButton(T_Button.B);
 	}
-	public boolean getShooterSetTest() {
-		return driverController.getButton(T_Button.Y);
+//	public boolean getShooterSetTest() {
+//		return driverController.getButton(T_Button.Y);
+//	}
+	public boolean getNudgeLeft(){
+		return operatorController.getPov() == 270;
+	}
+		
+	public boolean getNudgeRight(){
+		return operatorController.getPov() == 90;
 	}
 	
 	public void updatePeriodic() {
@@ -232,6 +238,10 @@ public class OI {
 		SmartDashboard.putBoolean("Toggle", getDriverToggle());
 		SmartDashboard.putBoolean("MotorPidToggle", getMotorPidEnabled());
 
+	}
+
+	public boolean turnAndShootButton() {
+		return operatorController.getButton(T_Button.START);
 	}
 
 //	public void setGearButton(boolean b) {
