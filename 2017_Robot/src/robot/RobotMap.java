@@ -37,6 +37,7 @@ public class RobotMap {
 	public static final int POWER_DISTRIBUTION_CAN_ADDRESS = 0;
 	public static final int LEFT_MOTOR_CAN_ADDRESS = 1;
 	public static final int RIGHT_MOTOR_CAN_ADDRESS = 2;
+	public static final int CANLIGHT_CAN_ADDRESS = 3;
 
 	public static final int SHOOTER_ANGLE_MOTOR_CAN_ADDRESS = 5;
 
