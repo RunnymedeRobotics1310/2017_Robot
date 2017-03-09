@@ -26,7 +26,13 @@ public class LightingCommand extends Command {
 			Robot.lightingSubsystem.setBlueAlliance();
 		} else if (ds.getAlliance() == DriverStation.Alliance.Invalid) {
 			Robot.lightingSubsystem.setTeal();
+		} else if (Robot.gearSubsystem.gearSensor.atLimit()) {
+			Robot.lightingSubsystem.setYellow();
 		}
+		
+		//if (ds.getLocation() == 3) {
+		//	Robot.lightingSubsystem.setTeal();
+		//}
 	}
 	
 	/* (non-Javadoc)
