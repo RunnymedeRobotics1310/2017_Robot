@@ -156,7 +156,6 @@ public class OI {
 	public boolean getCancel() {
 		return driverController.getButton(T_Button.BACK);
 	}
-
 	
 	/**
 	 * This command opens/closes the gear ONLY if the robot is at tower
@@ -241,8 +240,9 @@ public class OI {
 	}
 
 	public boolean turnAndShootButton() {
-		return operatorController.getButton(T_Button.START);
+		return operatorController.getButton(T_Button.BACK);
 	}
+	
 
 //	public void setGearButton(boolean b) {
 //		gearToggle.setToggleState(b);

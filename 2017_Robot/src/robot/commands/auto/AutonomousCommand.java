@@ -2,6 +2,7 @@ package robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import robot.Robot;
+import robot.RobotConst;
 import robot.RobotConst.VisionDistance;
 import robot.commands.drive.DriveToEncoderDistanceCommand;
 import robot.commands.drive.DriveToLimitSwitchCommand;
@@ -19,7 +20,7 @@ import robot.oi.AutoSelector.ShootMode;
  */
 public class AutonomousCommand extends CommandGroup {
 	
-	private final static double SHOOTER_SPEED = 61.5;
+
 
     public AutonomousCommand() {
     	
@@ -42,50 +43,84 @@ public class AutonomousCommand extends CommandGroup {
         		
         		if (shootMode == ShootMode.GEAR_SHOOT) {
         			addSequential(new AutoShootAngleAdjustCommand(11057));
-	        		addSequential(new AutoShootWindupCommand(SHOOTER_SPEED));
+	        		addSequential(new AutoShootWindupCommand(RobotConst.SHOOTER_SPEED_CLOSE));
 	        		
 	        		addSequential(new RotateToHeadingCommand(113));
-	        		addSequential(new DriveToEncoderDistanceCommand(113, .8, 42));
+	        		addSequential(new DriveToEncoderDistanceCommand(113, .8, 46));
 	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
-	        		addSequential(new AutoShootCommand(SHOOTER_SPEED, 11057, 60));
+	        		addSequential(new AutoShootCommand(RobotConst.SHOOTER_SPEED_CLOSE, RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_CLOSE, 60));
         		}
         	}
         	
         	if (robotPosition == RobotPosition.LEFT) {
-        		// Do Gear
-        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 100));
-        		addSequential(new RotateToHeadingCommand(59));
-    			addSequential(new DriveToLimitSwitchCommand(59, .6, Robot.chassisSubsystem.getTowerSensor(), 28));
-    			addSequential(new GearReleaseCommand());
-    			addSequential(new DriveToEncoderDistanceCommand(51, -.8, 25));
+        
+        		// Start the shooter motors
+    			addSequential(new AutoShootAngleAdjustCommand(RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_FAR));
     			
-    			// Since you won't be able to shoot from the right side, just drive back and straight
-    			if (shootMode == ShootMode.GEAR_ONLY || shootMode == ShootMode.GEAR_SHOOT) {
+        		// Do Gear
+        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 89));
+        		addSequential(new RotateToHeadingCommand(60));
+        		addSequential(new DriveToEncoderDistanceCommand(60, .8, 15, true));
+        		addSequential(new DriveToLimitSwitchCommand(60, .6, Robot.chassisSubsystem.getTowerSensor(), 38));
+        		addSequential(new GearReleaseCommand());
+        		addSequential(new DriveToEncoderDistanceCommand(60, -.8, 28));
+        		
+        		// If gear only we just turn straight to neutral zone and go straight
+        		if (shootMode == ShootMode.GEAR_ONLY) {
         			addSequential(new RotateToHeadingCommand(0));
-        			addSequential(new DriveToEncoderDistanceCommand(0, .8, 30));
+        			addSequential(new DriveToEncoderDistanceCommand(0, .8, 36));
+        		}
+        		
+        		// If gear and shoot we shoot
+        		if (shootMode == ShootMode.GEAR_SHOOT) {
+        			
+
+	        		addSequential(new AutoShootWindupCommand(RobotConst.SHOOTER_SPEED_FAR));
+	        		
+	        		// Rotate to a heading
+	        		addSequential(new RotateToHeadingCommand(116));
+         			
+	        		addSequential(new AutoVisionAlignCommand(VisionDistance.FAR));
+	        		
+	        		// Shoot
+	        		addSequential(new AutoShootCommand(RobotConst.SHOOTER_SPEED_FAR, RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_FAR, 60));
         		}
         		
         		
         	}
         	if (robotPosition == RobotPosition.RIGHT) {
         		
+        		// Start the shooter motors
+    			addSequential(new AutoShootAngleAdjustCommand(RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_CLOSE));
+    			
         		// Do Gear
-        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 92));
+        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 84));
         		addSequential(new RotateToHeadingCommand(300));
-        		addSequential(new DriveToLimitSwitchCommand(300, .6, Robot.chassisSubsystem.getTowerSensor(), 32));
+        		addSequential(new DriveToEncoderDistanceCommand(300, .8, 20, true));
+        		addSequential(new DriveToLimitSwitchCommand(300, .6, Robot.chassisSubsystem.getTowerSensor(), 36));
         		addSequential(new GearReleaseCommand());
-        		addSequential(new DriveToEncoderDistanceCommand(300, -.8, 25));
+        		addSequential(new DriveToEncoderDistanceCommand(300, -.8, 26));
         		
+        		// If gear only we just turn straight to neutral zone and go straight
         		if (shootMode == ShootMode.GEAR_ONLY) {
         			addSequential(new RotateToHeadingCommand(0));
-        			addSequential(new DriveToEncoderDistanceCommand(0, .8, 30));
+        			addSequential(new DriveToEncoderDistanceCommand(0, .8, 36));
         		}
         		
+        		// If gear and shoot we shoot
         		if (shootMode == ShootMode.GEAR_SHOOT) {
-	        		addSequential(new RotateToHeadingCommand(145));
-	        		addSequential(new DriveToEncoderDistanceCommand(145, .8, 60));
+        			
+
+	        		addSequential(new AutoShootWindupCommand(RobotConst.SHOOTER_SPEED_CLOSE));
+	        		
+	        		// Rotate to a heading
+	        		addSequential(new RotateToHeadingCommand(124));
+         			
+	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
+	        		
+	        		// Shoot
+	        		addSequential(new AutoShootCommand(RobotConst.SHOOTER_SPEED_CLOSE, RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_CLOSE, 60));
         		}
-    			
     		
         	}
 			
@@ -102,12 +137,12 @@ public class AutonomousCommand extends CommandGroup {
         		
         		if (shootMode == ShootMode.GEAR_SHOOT) {
         			addSequential(new AutoShootAngleAdjustCommand(11057));
-	        		addSequential(new AutoShootWindupCommand(SHOOTER_SPEED));
+	        		addSequential(new AutoShootWindupCommand(RobotConst.SHOOTER_SPEED_CLOSE));
 	        		
 	        		addSequential(new RotateToHeadingCommand(237));
-	        		addSequential(new DriveToEncoderDistanceCommand(237, .8, 40));
+	        		addSequential(new DriveToEncoderDistanceCommand(237, .8, 44));
 	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
-	        		addSequential(new AutoShootCommand(SHOOTER_SPEED, 11057, 60));
+	        		addSequential(new AutoShootCommand(RobotConst.SHOOTER_SPEED_CLOSE, RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_CLOSE, 60));
         		}
         	}
         	
@@ -115,7 +150,7 @@ public class AutonomousCommand extends CommandGroup {
         	if (robotPosition == RobotPosition.LEFT) {
         	
         		// Start the shooter motors
-    			addSequential(new AutoShootAngleAdjustCommand(8782));
+    			addSequential(new AutoShootAngleAdjustCommand(RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_CLOSE));
     			
         		// Do Gear
         		addSequential(new DriveToEncoderDistanceCommand(0, .8, 87));
@@ -135,7 +170,7 @@ public class AutonomousCommand extends CommandGroup {
         		if (shootMode == ShootMode.GEAR_SHOOT) {
         			
 
-	        		addSequential(new AutoShootWindupCommand(SHOOTER_SPEED));
+	        		addSequential(new AutoShootWindupCommand(RobotConst.SHOOTER_SPEED_CLOSE));
 	        		
 	        		// Rotate to a heading
 	        		addSequential(new RotateToHeadingCommand(229));
@@ -143,25 +178,44 @@ public class AutonomousCommand extends CommandGroup {
 	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
 	        		
 	        		// Shoot
-	        		addSequential(new AutoShootCommand(SHOOTER_SPEED, 11057, 60));
+	        		addSequential(new AutoShootCommand(RobotConst.SHOOTER_SPEED_CLOSE, RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_CLOSE, 60));
         		}
         		
         	}
         	if (robotPosition == RobotPosition.RIGHT) {
         		
+        		// Start shooter motors
+    			addSequential(new AutoShootAngleAdjustCommand(RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_FAR));
+        		
+        		
         		// Do Gear
-        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 94));
+        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 9));
         		addSequential(new RotateToHeadingCommand(301));
     			addSequential(new DriveToLimitSwitchCommand(301, .6, Robot.chassisSubsystem.getTowerSensor(), 28));
     			addSequential(new GearReleaseCommand());
-    			addSequential(new DriveToEncoderDistanceCommand(301, -.8, 25));
+    			addSequential(new DriveToEncoderDistanceCommand(295, -.8, 25));
     			
     			// Since you won't be able to shoot from the right side, just drive back and straight
-    			if (shootMode == ShootMode.GEAR_ONLY || shootMode == ShootMode.GEAR_SHOOT) {
+    			if (shootMode == ShootMode.GEAR_ONLY) {
         			addSequential(new RotateToHeadingCommand(0));
         			addSequential(new DriveToEncoderDistanceCommand(0, .8, 30));
         		}
     			
+    			
+    			// If gear and shoot we shoot
+        		if (shootMode == ShootMode.GEAR_SHOOT) {
+        			
+
+	        		addSequential(new AutoShootWindupCommand(RobotConst.SHOOTER_SPEED_FAR));
+	        		
+	        		// Rotate to a heading
+	        		addSequential(new RotateToHeadingCommand(239));
+         			
+	        		addSequential(new AutoVisionAlignCommand(VisionDistance.FAR));
+	        		
+	        		// Shoot
+	        		addSequential(new AutoShootCommand(RobotConst.SHOOTER_SPEED_FAR, RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_FAR, 60));
+        		}
     		
         	}
     	}
