@@ -178,14 +178,14 @@ public class DefaultDriveCommand extends Command {
 			}
 		}
 
-		if (Robot.oi.getVisionTrackButton()) {
-			Scheduler.getInstance().add(new VisionTrackCommand());
-		}
-
-
-		if (Robot.oi.getShooterVisionAlignButton()){
-			Scheduler.getInstance().add(new AutoVisionAlignCommand(VisionDistance.CLOSE, 4));
-		}
+//		if (Robot.oi.getVisionTrackButton()) {
+//			Scheduler.getInstance().add(new VisionTrackCommand());
+//		}
+//
+//
+//		if (Robot.oi.getShooterVisionAlignButton()){
+//			Scheduler.getInstance().add(new AutoVisionAlignCommand(VisionDistance.CLOSE, 4));
+//		}
 
 
 		
