@@ -81,6 +81,13 @@ public class RobotConst {
 	public static final int SHOOTER_CLOSE_SHOT_ENCODER_COUNT = -7477;
 	public static final double SHOOTER_CLOSE_SHOT_SHOOTER_SPEED = 63.75;
 	
+	public final static double SHOOTER_SPEED_FAR = 79.15;
+	public final static double SHOOTER_SPEED_CLOSE = 60.8;
+	
+	public final static int SHOOTER_ANGLE_ENCODER_COUNT_CLOSE = 13748;
+	public final static int SHOOTER_ANGLE_ENCODER_COUNT_FAR = 22026;
+	
+	
     // This static initializer is used to adjust the constants for the 
     // robot based on which robot is selected.
     static {

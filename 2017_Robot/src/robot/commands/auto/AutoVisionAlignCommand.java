@@ -26,10 +26,12 @@ public class AutoVisionAlignCommand extends Command {
 	private double pauseStartTime;
 	private double targetHeading = 0;
 	private double calculateStartTime = 0;
-	
-	private double TARGET_CENTER_PIXELS = 175.0;
+
+	private double TARGET_CENTER_PIXELS_CLOSE = 161.0;
+	private double TARGET_CENTER_PIXELS_FAR = 175;
 
 	private boolean firstLoop = true;
+
 	/**
 	 * Align to the close or far vision target
 	 * <p>
@@ -88,14 +90,14 @@ public class AutoVisionAlignCommand extends Command {
 
 			step = Step.CALCULATE;
 			calculateStartTime = timeSinceInitialized();
-			
+
 			return;
 
 		case CALCULATE:
 			// Determine the amount of movement required to align with the gyro
 
 			double targetX = Robot.oi.getVisionTargetCenterX(visionDistance);
-			
+
 			if (firstLoop) {
 				// Wait 2 seconds for the target on the first loop only
 				// If more than 2 seconds, then no target is found.
@@ -103,21 +105,25 @@ public class AutoVisionAlignCommand extends Command {
 					step = Step.DONE;
 					return;
 				}
-				
-				if (targetX == -1) { return; }
-				
+
+				if (targetX == -1) {
+					return;
+				}
+
 			} else {
-				
+
 				// If more than .5 seconds, then no target is found.
 				if (timeSinceInitialized() - calculateStartTime < 0.5) {
-					if (targetX == -1) { return; }
+					if (targetX == -1) {
+						return;
+					}
 				}
-				
+
 			}
-			
+
 			// Calculate the angle adjustment
 			double adjustAngle = calculateAngle(targetX);
-			
+
 			System.out.println("Target X: " + targetX);
 			System.out.println("Robot Angle: " + Robot.chassisSubsystem.getGyroAngle());
 			System.out.println("Angle to turn: " + adjustAngle);
@@ -130,16 +136,15 @@ public class AutoVisionAlignCommand extends Command {
 
 			// The target heading is the current heading plus the adjust angle
 			targetHeading = Robot.chassisSubsystem.getGyroAngle() + adjustAngle;
-			
 
 			targetHeading %= 360;
-			
+
 			if (targetHeading > 360) {
 				targetHeading -= 360;
 			} else if (targetHeading < 0) {
-				targetHeading +=360;
+				targetHeading += 360;
 			}
-	
+
 			// Enable the PIDs to turn the robot
 			enableGyroPid(targetHeading);
 			step = Step.ALIGN;
@@ -176,7 +181,7 @@ public class AutoVisionAlignCommand extends Command {
 				step = Step.PAUSE;
 				pauseStartTime = timeSinceInitialized();
 				firstLoop = false;
-				
+
 				return;
 			}
 
@@ -221,16 +226,19 @@ public class AutoVisionAlignCommand extends Command {
 	}
 
 	private double calculateAngle(double xValue) {
-		
-		
+
 		if (xValue == -1) {
 			return 0;
 		}
-			
-		double error = TARGET_CENTER_PIXELS - xValue;
-		
-		return error * -0.15;
-		
+
+		if (visionDistance == VisionDistance.FAR) {
+			double error = TARGET_CENTER_PIXELS_FAR - xValue;
+			return error * -0.17;
+		} else {
+			double error = TARGET_CENTER_PIXELS_CLOSE - xValue;
+			return error * -0.15;
+		}
+
 	}
 
 }
