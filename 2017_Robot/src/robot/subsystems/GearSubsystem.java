@@ -23,7 +23,7 @@ public class GearSubsystem extends T_Subsystem {
 	 ******************************************************************************/
 	private DoubleSolenoid gearSolenoid = 
 			new DoubleSolenoid(RobotMap.GEAR_SOLENOID_A, RobotMap.GEAR_SOLENOID_B);
-	public T_LimitSwitch gearSensor = new T_LimitSwitch(RobotMap.FRONT_GEAR_SWITCH_DIO_PORT, DefaultState.FALSE);
+	public T_LimitSwitch gearSensor = new T_LimitSwitch(RobotMap.FRONT_GEAR_SWITCH_DIO_PORT, DefaultState.TRUE);
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new DefaultGearCommand());
@@ -59,6 +59,7 @@ public class GearSubsystem extends T_Subsystem {
 	public void updatePeriodic() {
 		// Update all SmartDashboard values
 		SmartDashboard.putString("Gear State", String.valueOf(getCurrentState()));
+		SmartDashboard.putBoolean("Gear Sensor", getGearSensor().atLimit());
 	}
 
 	@Override

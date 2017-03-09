@@ -20,14 +20,14 @@ public class LightingCommand extends Command {
 	}
 	
 	protected void execute() {
-		if (ds.getAlliance() == DriverStation.Alliance.Red) {
-			Robot.lightingSubsystem.setRedAlliance();
+		if (Robot.gearSubsystem.gearSensor.atLimit()) {
+			Robot.lightingSubsystem.setYellow();
 		} else if (ds.getAlliance() == DriverStation.Alliance.Blue) {
 			Robot.lightingSubsystem.setBlueAlliance();
+		} else if (ds.getAlliance() == DriverStation.Alliance.Red) {
+			Robot.lightingSubsystem.setRedAlliance();
 		} else if (ds.getAlliance() == DriverStation.Alliance.Invalid) {
 			Robot.lightingSubsystem.setTeal();
-		} else if (Robot.gearSubsystem.gearSensor.atLimit()) {
-			Robot.lightingSubsystem.setYellow();
 		}
 		
 		//if (ds.getLocation() == 3) {
