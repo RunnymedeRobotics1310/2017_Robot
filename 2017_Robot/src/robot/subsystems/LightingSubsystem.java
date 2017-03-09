@@ -40,6 +40,10 @@ public class LightingSubsystem extends T_Subsystem {
 	public void setTeal() {
 		frameLights.showRGB(0, 221, 192);
 	}
+	
+	public void setYellow() {
+		frameLights.showRGB(255, 255, 0);
+	}
 	/* (non-Javadoc)
 	 * @see com.toronto.subsystems.T_Subsystem#updatePeriodic()
 	 */
