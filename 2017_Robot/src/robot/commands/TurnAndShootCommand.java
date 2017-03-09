@@ -2,8 +2,6 @@ package robot.commands;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import robot.Robot;
-import robot.RobotConst.VisionDistance;
-import robot.commands.auto.AutoVisionAlignCommand;
 import robot.commands.drive.DriveToEncoderDistanceCommand;
 import robot.commands.drive.RotateToHeadingCommand;
 import robot.commands.shooter.AutoShootAngleAdjustCommand;
@@ -27,12 +25,17 @@ public class TurnAndShootCommand extends CommandGroup {
     	if (targetAngle >= 360) { targetAngle -= 360; }
     	
    
+    	// Start the windup
 		addSequential(new AutoShootAngleAdjustCommand(11057));
 		addSequential(new AutoShootWindupCommand(SHOOTER_SPEED));
 
-    	addSequential(new DriveToEncoderDistanceCommand(300, -.8, 25));
+		// Backup, rotate and start tracking for one second
+    	addSequential(new DriveToEncoderDistanceCommand(currentAngle, -.8, 25));
     	addSequential(new RotateToHeadingCommand(targetAngle));
-    	addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
-    	addSequential(new AutoShootCommand(SHOOTER_SPEED, 11057, 60));
+    	addSequential(new VisionTrackCommand(1));
+    	
+    	// Start shooting until the driver moves.
+    	addParallel(new AutoShootCommand(SHOOTER_SPEED, 11057, 60));
+    	addSequential(new VisionTrackCommand(60));
     }
 }

@@ -19,7 +19,7 @@ public class AutoVisionAlignCommand extends Command {
 	};
 
 	private final VisionDistance visionDistance;
-	private final double timeout;
+	protected final double timeout;
 
 	protected Step step = Step.PAUSE;
 
@@ -29,6 +29,8 @@ public class AutoVisionAlignCommand extends Command {
 
 	private double TARGET_CENTER_PIXELS_CLOSE = 161.0;
 	private double TARGET_CENTER_PIXELS_FAR = 175;
+
+	private boolean disableGyroPidWhenAligned = true;
 
 	private boolean firstLoop = true;
 
@@ -43,7 +45,22 @@ public class AutoVisionAlignCommand extends Command {
 	 *            CLOSE or FAR
 	 */
 	public AutoVisionAlignCommand(VisionDistance visionDistance) {
-		this(visionDistance, 15.0);
+		this(visionDistance, 15.0, true);
+	}
+
+	/**
+	 * Align to the close or far vision target
+	 * <p>
+	 * This command finishes immediately if the vision target is not found
+	 * <p>
+	 * The command ends when the robot is aligned with the target.
+	 * 
+	 * @param visionDistance
+	 *            CLOSE or FAR
+	 * @param timeout
+	 */
+	public AutoVisionAlignCommand(VisionDistance visionDistance, double timeout) {
+		this(visionDistance, timeout, true);
 	}
 
 	/**
@@ -58,11 +75,12 @@ public class AutoVisionAlignCommand extends Command {
 	 * @param timeout
 	 *            before the command ends if alignment is not complete
 	 */
-	public AutoVisionAlignCommand(VisionDistance visionDistance, double timeout) {
+	public AutoVisionAlignCommand(VisionDistance visionDistance, double timeout, boolean disableGyroPidWhenAligned) {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.chassisSubsystem);
 		this.visionDistance = visionDistance;
 		this.timeout = timeout;
+		this.disableGyroPidWhenAligned = disableGyroPidWhenAligned;
 	}
 
 	// Called just before this Command runs the first time
@@ -80,7 +98,9 @@ public class AutoVisionAlignCommand extends Command {
 
 		case PAUSE:
 
-			disableGyroPid();
+			if (disableGyroPidWhenAligned) {
+				disableGyroPid();
+			}
 
 			// Wait for .25 seconds for the camera image to stabilize
 			// Do nothing until the timer has expired.
@@ -176,7 +196,9 @@ public class AutoVisionAlignCommand extends Command {
 				// When at the target, stop the robot and
 				// check the vision again by going to the Pause step
 				// which will wait for the camera to settle
-				disableGyroPid();
+				if (disableGyroPidWhenAligned) {
+					disableGyroPid();
+				}
 
 				step = Step.PAUSE;
 				pauseStartTime = timeSinceInitialized();
@@ -200,7 +222,6 @@ public class AutoVisionAlignCommand extends Command {
 
 		// Check for a timeout
 		if (timeSinceInitialized() > timeout) {
-			disableGyroPid();
 			return true;
 		}
 
@@ -209,13 +230,16 @@ public class AutoVisionAlignCommand extends Command {
 
 	@Override
 	protected void end() {
-		Robot.chassisSubsystem.setMotorSpeeds(0, 0);
+		if (disableGyroPidWhenAligned) {
+			disableGyroPid();
+			Robot.chassisSubsystem.setMotorSpeeds(0, 0);
+		}
 	}
 
 	private void enableGyroPid(double heading) {
 		// Enable the Gyro PID
-		Robot.chassisSubsystem.enableGyroPid();
 		Robot.chassisSubsystem.setGyroPidSetpoint(heading);
+		Robot.chassisSubsystem.enableGyroPid();
 
 	}
 
