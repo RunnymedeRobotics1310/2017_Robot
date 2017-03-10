@@ -88,6 +88,7 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
     	// Turn on the drive pids
+    	Robot.oi.setMotorPidToggle(true);
     	chassisSubsystem.enableDrivePids();
 
     	autoCommand = new AutonomousCommand();
@@ -107,6 +108,7 @@ public class Robot extends IterativeRobot {
     		autoCommand.cancel();
     	}
     	// Turn off the drive PIDs
+    	Robot.oi.setMotorPidToggle(false);
     	chassisSubsystem.disableDrivePids();
     	shooterSubsystem.setShooterAngleAdjustSetpoint(0);
     }

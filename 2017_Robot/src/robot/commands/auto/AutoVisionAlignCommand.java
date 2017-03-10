@@ -219,6 +219,9 @@ public class AutoVisionAlignCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
+		
+    	// Always check for operator cancel
+    	if (Robot.oi.getCancel()) { return true; }
 
 		// Check for a timeout
 		if (timeSinceInitialized() > timeout) {

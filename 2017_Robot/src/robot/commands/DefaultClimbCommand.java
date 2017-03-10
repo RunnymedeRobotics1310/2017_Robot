@@ -25,6 +25,12 @@ public class DefaultClimbCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		
+    	// Always check for operator cancel
+    	if (Robot.oi.getCancel()) { 
+    		Robot.climbSubsystem.stop();
+    		return;
+		}
+
     	if (Robot.oi.getClimbCatch()) {
     		Robot.climbSubsystem.catchRope();
     	} 

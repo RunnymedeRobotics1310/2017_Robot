@@ -1,6 +1,7 @@
 package robot.commands.auto;
 
 import edu.wpi.first.wpilibj.command.Command;
+import robot.Robot;
 
 /**
  *
@@ -23,6 +24,10 @@ public class AutoPauseCommand extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+
+    	// Always check for a cancel
+    	if (Robot.oi.getCancel()) { return true; }
+    	
         return timeSinceInitialized() >= pauseTime;
     }
 

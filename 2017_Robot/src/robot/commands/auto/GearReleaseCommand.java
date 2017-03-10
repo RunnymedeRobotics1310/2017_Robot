@@ -34,6 +34,10 @@ public class GearReleaseCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
+		
+    	// Always check for operator cancel
+    	if (Robot.oi.getCancel()) { return true; }
+
 		return timeSinceInitialized() > 0.3;
 	}
 

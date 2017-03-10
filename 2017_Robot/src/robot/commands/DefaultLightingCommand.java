@@ -7,11 +7,11 @@ import robot.Robot;
  * @author riku
  *
  */
-public class LightingCommand extends Command {
+public class DefaultLightingCommand extends Command {
 
 	DriverStation ds;
 	
-	public LightingCommand() {
+	public DefaultLightingCommand() {
 		requires(Robot.lightingSubsystem);
 	}
 	
@@ -20,6 +20,7 @@ public class LightingCommand extends Command {
 	}
 	
 	protected void execute() {
+		
 		if (Robot.gearSubsystem.gearSensor.atLimit()) {
 			Robot.lightingSubsystem.setYellow();
 		} else if (ds.getAlliance() == DriverStation.Alliance.Blue) {

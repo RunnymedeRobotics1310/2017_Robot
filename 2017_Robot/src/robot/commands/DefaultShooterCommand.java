@@ -25,6 +25,12 @@ public class DefaultShooterCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		
+    	// Always check for operator cancel
+    	if (Robot.oi.getCancel()) {
+    		Robot.gearSubsystem.close();
+    		return; 
+		}
+
 		//*******************************************
 		// Shooter Speed Control 
 		//*******************************************

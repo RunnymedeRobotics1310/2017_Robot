@@ -4,7 +4,7 @@ import com.toronto.subsystems.T_Subsystem;
 import com.mindsensors.CANLight;
 
 import robot.RobotMap;
-import robot.commands.LightingCommand;
+import robot.commands.DefaultLightingCommand;
 
 /**
  * @author riku
@@ -17,7 +17,7 @@ public class LightingSubsystem extends T_Subsystem {
 	 * @see com.toronto.subsystems.T_Subsystem#robotInit()
 	 */
 	public void initDefaultCommand() {
-		setDefaultCommand(new LightingCommand());
+		setDefaultCommand(new DefaultLightingCommand());
 	}
 	
 	public void robotInit() {
