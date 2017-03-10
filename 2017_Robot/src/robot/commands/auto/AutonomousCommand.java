@@ -52,6 +52,7 @@ public class AutonomousCommand extends CommandGroup {
         		}
         	}
         	
+     
         	if (robotPosition == RobotPosition.LEFT) {
         
         		// Start the shooter motors
@@ -114,7 +115,7 @@ public class AutonomousCommand extends CommandGroup {
 	        		addSequential(new AutoShootWindupCommand(RobotConst.SHOOTER_SPEED_CLOSE));
 	        		
 	        		// Rotate to a heading
-	        		addSequential(new RotateToHeadingCommand(124));
+	        		addSequential(new RotateToHeadingCommand(136));
          			
 	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
 	        		

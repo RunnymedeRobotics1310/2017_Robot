@@ -12,7 +12,7 @@ public class RobotConst {
 
 	/** The current Robot number */
 	// FIXME: Should be able to get this from the driver station.
-	public static int ROBOT = 0;
+	public static int ROBOT = 1310;
 	
 	/** WpiLib compatible inverted indicator {@code boolean true} which can be 
 	 * used to make the robot code more readable */
@@ -96,7 +96,7 @@ public class RobotConst {
     	// SET THE ROBOT NUMBER HERE
     	//****************************
     	
-    	ROBOT = 1311;
+    	ROBOT = 1310;
     	
     	// Robot 1310 is the production robot
     	if (ROBOT == 1310 || ROBOT == 1311) {
