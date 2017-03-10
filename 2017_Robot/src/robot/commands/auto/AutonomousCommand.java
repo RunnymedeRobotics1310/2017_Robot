@@ -23,6 +23,8 @@ public class AutonomousCommand extends CommandGroup {
 
 
     public AutonomousCommand() {
+
+    	// FIXME: can we get the boiler position from the alliance colour?
     	
     	RobotPosition  robotPosition  = Robot.oi.autoSelector.getRobotPostion();
     	BoilerPosition boilerPosition = Robot.oi.autoSelector.getBoilerPostion();

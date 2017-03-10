@@ -202,6 +202,10 @@ public class OI {
 		return shooterToggle.getToggleState();
 	}
 
+	public void setShooterToggleState(boolean state) {
+		shooterToggle.setToggleState(state);
+	}
+
 //	public boolean getShootAngleUpCommand() {
 //		return operatorController.getPov() == 0;
 //	}
