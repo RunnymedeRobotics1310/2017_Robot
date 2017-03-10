@@ -4,14 +4,7 @@ package robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
-import robot.RobotConst;
-import robot.RobotConst.VisionDistance;
-import robot.commands.auto.AutoVisionAlignCommand;
-import robot.commands.drive.DriveToEncoderDistanceCommand;
 import robot.commands.drive.RotateToHeadingCommand;
-import robot.commands.shooter.AutoShootAngleAdjustCommand;
-import robot.commands.shooter.AutoShootCommand;
-import robot.commands.shooter.AutoShootWindupCommand;
 import robot.oi.AutoSelector.BoilerPosition;
 
 /**
@@ -170,9 +163,9 @@ public class DefaultDriveCommand extends Command {
 			}
 		}
 
-//		if (Robot.oi.getVisionTrackButton()) {
-//			Scheduler.getInstance().add(new VisionTrackCommand());
-//		}
+		if (Robot.oi.getVisionTrackButton()) {
+			Scheduler.getInstance().add(new VisionTrackCommand(5));
+		}
 //
 //
 //		if (Robot.oi.getShooterVisionAlignButton()){
