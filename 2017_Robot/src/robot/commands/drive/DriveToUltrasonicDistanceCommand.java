@@ -42,6 +42,9 @@ public class DriveToUltrasonicDistanceCommand extends DriveOnHeadingCommand {
 	@Override
 	protected boolean isFinished() {
 		
+    	// Always check for operator cancel
+    	if (Robot.oi.getCancel()) { return true; }
+
 		// Stop if you are there (beware of direction)
 		double currentDistance = Robot.chassisSubsystem.ultrasonicSensor.getDistance();
 		if (direction==Direction.BACKWARDS)

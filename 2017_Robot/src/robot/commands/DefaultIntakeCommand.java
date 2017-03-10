@@ -1,6 +1,8 @@
 
 package robot.commands;
 
+import com.toronto.oi.T_OiController.RumbleState;
+
 import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
 
@@ -20,14 +22,33 @@ public class DefaultIntakeCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		if (Robot.oi.getIntakeToggleState()) {
-			Robot.oi.setDriverRumble(0.3);
-			Robot.intakeSubsystem.intake();
-		} else if (Robot.oi.getOuttakeCommand()) {
-			Robot.intakeSubsystem.outtake();
-		} else {
-			Robot.intakeSubsystem.stop();
+
+		// Always check for operator cancel
+    	if (Robot.oi.getCancel()) {
+    		Robot.intakeSubsystem.stop();
 			Robot.oi.setDriverRumble(0);
+    		return; 
+		}
+		
+		if (Robot.oi.getIntakeToggleState()) {
+			
+			// Do not override pulses
+			if (Robot.oi.getDriverRumbleState() == RumbleState.OFF) {
+				Robot.oi.setDriverRumble(0.3);
+			}
+			Robot.intakeSubsystem.intake();
+			
+		} else if (Robot.oi.getOuttakeCommand()) {
+		
+			Robot.intakeSubsystem.outtake();
+		
+		} else {
+
+			// Do not override pulses
+			if (Robot.oi.getDriverRumbleState() == RumbleState.ON) {
+				Robot.oi.setDriverRumble(0);
+			}
+			Robot.intakeSubsystem.stop();
 		}
 	}
 

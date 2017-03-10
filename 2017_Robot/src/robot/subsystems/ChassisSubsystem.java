@@ -46,7 +46,6 @@ public class ChassisSubsystem extends T_Subsystem {
 	private boolean drivePidsEnabled = false;
 
 	public T_LimitSwitch towerSensor = new T_LimitSwitch(RobotMap.FRONT_LIMIT_SWITCH_DIO_PORT, DefaultState.TRUE);
-	public T_LimitSwitch gearSensor = new T_LimitSwitch(RobotMap.FRONT_GEAR_SWITCH_DIO_PORT, DefaultState.FALSE);
 	
 	public T_UltrasonicSensor ultrasonicSensor = new T_UltrasonicSensor(1);
 
@@ -149,11 +148,6 @@ public class ChassisSubsystem extends T_Subsystem {
 	
 	public T_LimitSwitch getTowerSensor() {
 		return towerSensor;
-	}
-	
-
-	public T_LimitSwitch getGearSensor() {
-		return gearSensor;
 	}
 	
 	/* ****************************************************************************

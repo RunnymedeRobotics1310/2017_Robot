@@ -30,6 +30,9 @@ public class DriveToEncoderDistanceCommand extends DriveOnHeadingCommand {
 	@Override
 	protected boolean isFinished() {
 
+    	// Always check for operator cancel
+    	if (Robot.oi.getCancel()) { return true; }
+
 		if (Math.abs(Robot.chassisSubsystem.getEncoderDistanceInches()) > Math.abs(this.encoderDistanceInches)) {
 			if (!coastAtEnd) {
 				Robot.chassisSubsystem.setMotorSpeeds(0, 0);

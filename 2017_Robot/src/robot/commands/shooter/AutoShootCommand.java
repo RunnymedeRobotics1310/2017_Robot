@@ -42,7 +42,7 @@ public class AutoShootCommand extends Command {
 		// Shooter must be up to speed to feed balls
 		if (Robot.shooterSubsystem.isShooterAtSpeed()) {
 			Robot.shooterSubsystem.startAgitator();
-			Robot.shooterSubsystem.setFeederSpeed(.4);
+			Robot.shooterSubsystem.startFeeder();
 		} else {
 			Robot.shooterSubsystem.stopFeeder();
 		}
@@ -67,13 +67,12 @@ public class AutoShootCommand extends Command {
 			Robot.shooterSubsystem.stopShooter();
 			Robot.shooterSubsystem.stopFeeder();
 			Robot.shooterSubsystem.stopAgitator();
+			Robot.shooterSubsystem.closeShooterAngleAdjuster();
 		}
 	}
 
 	@Override
 	protected void interrupted() {
-		Robot.shooterSubsystem.stopShooter();
-		Robot.shooterSubsystem.stopFeeder();
-		Robot.shooterSubsystem.stopAgitator();
+		end();
 	}
 }

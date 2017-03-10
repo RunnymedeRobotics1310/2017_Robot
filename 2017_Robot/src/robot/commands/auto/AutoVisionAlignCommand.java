@@ -27,7 +27,7 @@ public class AutoVisionAlignCommand extends Command {
 	private double targetHeading = 0;
 	private double calculateStartTime = 0;
 
-	private double TARGET_CENTER_PIXELS_CLOSE = 161.0;
+	private double TARGET_CENTER_PIXELS_CLOSE = 127;
 	private double TARGET_CENTER_PIXELS_FAR = 175;
 
 	private boolean disableGyroPidWhenAligned = true;
@@ -219,6 +219,9 @@ public class AutoVisionAlignCommand extends Command {
 
 	@Override
 	protected boolean isFinished() {
+		
+    	// Always check for operator cancel
+    	if (Robot.oi.getCancel()) { return true; }
 
 		// Check for a timeout
 		if (timeSinceInitialized() > timeout) {
