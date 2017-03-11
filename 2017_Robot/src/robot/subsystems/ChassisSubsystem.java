@@ -156,9 +156,9 @@ public class ChassisSubsystem extends T_Subsystem {
 	/* ****************************************************************************
 	 * Ultrasonic Sensor
 	 ******************************************************************************/
-//	public boolean atTower() {
-//		return ultrasonicSensor.getDistance() < AT_TOWER__ULTRASONIC_DISTANCE;
-//	}
+	public boolean atTower() {
+		return ultrasonicSensor.getDistance() < AT_TOWER__ULTRASONIC_DISTANCE;
+	}
 	
 	public T_UltrasonicSensor getUltrasonicSensor() {
 		return ultrasonicSensor;
