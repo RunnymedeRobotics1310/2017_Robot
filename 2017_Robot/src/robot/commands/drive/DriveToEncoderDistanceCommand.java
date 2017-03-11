@@ -25,6 +25,9 @@ public class DriveToEncoderDistanceCommand extends DriveOnHeadingCommand {
     protected void initialize() {
     	super.initialize();
     	Robot.chassisSubsystem.resetEncoders();
+    	
+    	System.out.println("Start to drive to encoder distance at heading " + heading + 
+    			" current heading " + Robot.chassisSubsystem.getGyroAngle());
     }
     
 	@Override
@@ -37,6 +40,9 @@ public class DriveToEncoderDistanceCommand extends DriveOnHeadingCommand {
 			if (!coastAtEnd) {
 				Robot.chassisSubsystem.setMotorSpeeds(0, 0);
 			}
+			
+			System.out.println("Drive to encoder distance ended. Distance " + Robot.chassisSubsystem.getEncoderDistanceInches()
+				+ " heading " + Robot.chassisSubsystem.getGyroAngle());
 			return true;
 			
 		}

@@ -90,6 +90,7 @@ public class Robot extends IterativeRobot {
     	// Turn on the drive pids
     	Robot.oi.setMotorPidToggle(true);
     	chassisSubsystem.enableDrivePids();
+    	Robot.chassisSubsystem.setGyroAngle(0);
     	
     	autoCommand = new AutonomousCommand();
     	autoCommand.start();

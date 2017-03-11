@@ -59,11 +59,15 @@ public abstract class DriveOnHeadingCommand extends Command {
 		rampPercent = 0;
 
 		double angleError = Robot.chassisSubsystem.getGyroAngleError(heading);
-
+		
 		if (Math.abs(angleError) < 30.0d) {
 			step = Step.FINE;
 			enableGyroPid();
 		}
+
+		System.out.println("Start Drive On Heading Command " +  
+				"heading " + heading + " Error " + angleError + " Step " + step);
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -129,7 +133,7 @@ public abstract class DriveOnHeadingCommand extends Command {
 					rampPercent += 0.04;
 				}
 				
-				leftSpeed = setSpeed * rampPercent;
+				leftSpeed  = setSpeed * rampPercent;
 				rightSpeed = setSpeed * rampPercent;
 
 				// Slow down one motor based on the PID output.

@@ -73,7 +73,7 @@ public class DriveToUltrasonicDistanceCommand extends DriveOnHeadingCommand {
     			+ currentDistance + " to " + setpointDistance);
 
     	// Set the direction
-    	super.setDirection(direction);   	    
+    	super.setDirection(direction);
     	
     }
     

@@ -19,7 +19,6 @@ public class RotateToHeadingCommand extends Command {
 	protected double heading;
 	
 	private double angleError;
-	
 	private double angleRate;
 	
 	private Step step = Step.COARSE;
@@ -45,12 +44,16 @@ public class RotateToHeadingCommand extends Command {
     	// cause the robot to pivot before continuing on the selected direction.
     	step = Step.COARSE;
     	
-    	double angleError = Robot.chassisSubsystem.getGyroAngleError(heading);
-    	
+    	angleError = Robot.chassisSubsystem.getGyroAngleError(heading);
+    	angleRate = Robot.chassisSubsystem.getGyroAngleRate();
+
     	if (Math.abs(angleError) < RobotConst.GYRO_COARSE_ADJUSTMENT_CUTOFF) { 
     		step = Step.FINE;
     		enableGyroPid();
     	}
+    	
+    	System.out.println("Rotate to Heading " + heading + " current angle " 
+    			+ Robot.chassisSubsystem.getGyroAngle());
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -61,7 +64,6 @@ public class RotateToHeadingCommand extends Command {
     	double rightSpeed = 0d;
     	
     	angleError = Robot.chassisSubsystem.getGyroAngleError(heading);
-    	
     	angleRate = Robot.chassisSubsystem.getGyroAngleRate();
     	
     	SmartDashboard.putNumber("heading", heading);
@@ -137,7 +139,11 @@ public class RotateToHeadingCommand extends Command {
     	// Always check for operator cancel
     	if (Robot.oi.getCancel()) { return true; }
 
-    	if(Math.abs(angleRate)<3 && Math.abs(angleError)<1.5){
+    	if(Math.abs(angleRate) < 3 && Math.abs(angleError) < 1.5) {
+    		
+    		System.out.println("Rotate to heading complete.  Target heading " + heading
+    				+ " current heading " + Robot.chassisSubsystem.getGyroAngle() +
+    				" error " + angleError + " rate " + angleRate);
     		return true;
     	}
     	
