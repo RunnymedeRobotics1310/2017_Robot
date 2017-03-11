@@ -33,6 +33,9 @@ public class RobotMap {
 	// Analog Input Ports
 	public static final int GYRO_ANALOG_INPUT_PORT = 0;
 
+	// Relay Ports
+	public static final int SPOTLIGHT_RELAY_PORT = 1;
+
 	// Can bus Addresses
 	public static final int POWER_DISTRIBUTION_CAN_ADDRESS = 0;
 	public static final int LEFT_MOTOR_CAN_ADDRESS = 1;
@@ -46,6 +49,5 @@ public class RobotMap {
 	public static final int GEAR_SOLENOID_A = 1;
 	public static final int GEAR_SOLENOID_B = 2;
 
-	// Shooter Ports
 
 }
