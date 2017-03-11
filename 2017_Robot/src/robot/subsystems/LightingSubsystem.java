@@ -48,7 +48,7 @@ public class LightingSubsystem extends T_Subsystem {
 	public void endGame() {
 		frameLights.writeRegister(0, 0.5, 0, 221, 192);
 		frameLights.writeRegister(1, 0.3, 0, 0, 0);
-		frameLights.writeRegister(2, 0.5, 250, 0, 255);
+		frameLights.writeRegister(2, 0.5, 216, 35, 88);
 		frameLights.writeRegister(3, 0.3, 0, 0, 0);
 		frameLights.writeRegister(4, 0.5, 255, 225, 49);
 		frameLights.writeRegister(5, 0.3, 0, 0, 0);
