@@ -4,6 +4,7 @@ package robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
+import robot.commands.drive.DriveToUltrasonicDistanceCommand;
 import robot.commands.drive.RotateToHeadingCommand;
 import robot.oi.AutoSelector.BoilerPosition;
 
@@ -59,16 +60,12 @@ public class DefaultDriveCommand extends Command {
 			break;
 		}
 
-		if (Robot.oi.getDriverRumbleStart()) {
+		if (Robot.oi.getDriverHighGear()) {
+			Robot.chassisSubsystem.setHighGear();
 			Robot.oi.setDriverRumble(0.8);
 		} else {
-			Robot.oi.setDriverRumble(0);
-		}
-
-		if (Robot.oi.getDriverRumbleStart()) {
-			Robot.chassisSubsystem.setHighGear();
-		} else {
 			Robot.chassisSubsystem.setLowGear();
+			Robot.oi.setDriverRumble(0);
 		}
 
 		switch (calibrateState) {
@@ -98,13 +95,20 @@ public class DefaultDriveCommand extends Command {
 			}
 			break;
 		case PRESSED:
-			if(!Robot.oi.getNudgeLeft()&&!Robot.oi.getNudgeRight()){
+			if (!Robot.oi.getNudgeLeft() && !Robot.oi.getNudgeRight()) {
 				nudgeState = ButtonState.RELEASED;
 			}
 			break;
 
 		}
 
+		// Set the robot to the gear load distance
+		// Use the current robot angle as the drive angle
+		if (Robot.oi.gearLoadingDistanceButton()) {
+			Scheduler.getInstance().add(new DriveToUltrasonicDistanceCommand(
+					Robot.chassisSubsystem.getGyroAngle(), .3, 12.0, Robot.chassisSubsystem.getUltrasonicSensor()));
+		}
+		
 		// Turn and shoot after hanging a gear
 		if (Robot.oi.turnAndShootButton()) {
 			Scheduler.getInstance().add(new TurnAndShootCommand());
@@ -163,9 +167,9 @@ public class DefaultDriveCommand extends Command {
 			}
 		}
 
-		if (Robot.oi.getVisionTrackButton()) {
-			Scheduler.getInstance().add(new VisionTrackCommand(5));
-		}
+//		if (Robot.oi.getVisionTrackButton()) {
+//			Scheduler.getInstance().add(new VisionTrackCommand());
+//		}
 //
 //
 //		if (Robot.oi.getShooterVisionAlignButton()){
