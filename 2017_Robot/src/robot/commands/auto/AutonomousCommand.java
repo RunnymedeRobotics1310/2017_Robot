@@ -5,7 +5,6 @@ import robot.Robot;
 import robot.RobotConst;
 import robot.RobotConst.VisionDistance;
 import robot.commands.drive.DriveToEncoderDistanceCommand;
-import robot.commands.drive.DriveToLimitSwitchCommand;
 import robot.commands.drive.DriveToUltrasonicDistanceCommand;
 import robot.commands.drive.RotateToHeadingCommand;
 import robot.commands.shooter.AutoShootAngleAdjustCommand;
