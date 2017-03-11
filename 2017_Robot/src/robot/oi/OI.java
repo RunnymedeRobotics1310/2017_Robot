@@ -1,5 +1,8 @@
 package robot.oi;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.toronto.oi.T_Axis;
 import com.toronto.oi.T_Button;
 import com.toronto.oi.T_Logitech_GameController;
@@ -64,16 +67,72 @@ public class OI {
 	private NetworkTable closeVisionTable = NetworkTable.getTable("GRIP/closeBoilerData");
 	private NetworkTable farVisionTable = NetworkTable.getTable("GRIP/farBoilerData");
 
-	public double getVisionTargetCenterX(VisionDistance visionDistance) {
-		double[] xValue = null;
-		if (visionDistance == VisionDistance.FAR) {
-			xValue = farVisionTable.getNumberArray("centerX", new double[0]);
-		} else if (visionDistance == VisionDistance.CLOSE) {
-			 xValue= closeVisionTable.getNumberArray("centerX", new double[0]);
+	class Coordinate {
+		double x, y;
+		Coordinate(double x, double y) {
+			this.x = x;
+			this.y = y;
 		}
-		return xValue.length >= 1 ? xValue[0] : -1;
 	}
 	
+	List<Coordinate> coordinates = new ArrayList<Coordinate>();
+	
+	public double getVisionTargetCenterX(VisionDistance visionDistance) {
+		
+		double[] xValues = null;
+		double[] yValues = null;
+		
+		if (visionDistance == VisionDistance.FAR) {
+			
+			xValues = farVisionTable.getNumberArray("centerX", new double[0]);
+			yValues = farVisionTable.getNumberArray("centerY", new double[0]);
+			
+		} else if (visionDistance == VisionDistance.CLOSE) {
+			
+			xValues = closeVisionTable.getNumberArray("centerX", new double[0]);
+			yValues = closeVisionTable.getNumberArray("centerY", new double[0]);
+			
+		}
+		
+		coordinates.clear();
+		
+		for (int i=0; i<xValues.length; i++) {
+			coordinates.add(new Coordinate(xValues[i], yValues[i]));
+		}
+		
+		if (coordinates.isEmpty()) { return -1; }
+		
+		// Close Algorithm
+		if (visionDistance == VisionDistance.FAR) {
+			
+			//return getFarVisionTargetCenterX(coordinates);
+			// Return the first one
+			return coordinates.get(0).x;
+			
+		} else {
+			
+			return getCloseVisionTargetCenterX();
+			
+		}
+	}
+
+	private double getCloseVisionTargetCenterX() {
+		
+		// Filter out any coordinates where y > 80
+		int i=0;
+		while (i<coordinates.size()) {
+			
+			if (coordinates.get(i).y > 50) {
+				coordinates.remove(i);
+				continue;
+			}
+			i++;
+		}
+		
+		if (coordinates.isEmpty()) { return -1; }
+		
+		return coordinates.get(0).x;
+	}
 	
 	/* ************************************************************************
 	 * Driver Joystick Action / Cancel
