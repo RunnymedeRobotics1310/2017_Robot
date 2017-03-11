@@ -21,7 +21,7 @@ public class DefaultLightingCommand extends Command {
 	
 	protected void execute() {
 		if (ds.getMatchTime() <= 30) {
-			
+			Robot.lightingSubsystem.endGame();
 		} else if (Robot.gearSubsystem.gearSensor.atLimit()) {
 			Robot.lightingSubsystem.setYellow();
 		} else if (ds.getAlliance() == DriverStation.Alliance.Blue) {
