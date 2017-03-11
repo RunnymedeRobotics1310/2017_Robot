@@ -7,11 +7,11 @@ import robot.Robot;
  * @author riku
  *
  */
-public class LightingCommand extends Command {
+public class DefaultLightingCommand extends Command {
 
 	DriverStation ds;
 	
-	public LightingCommand() {
+	public DefaultLightingCommand() {
 		requires(Robot.lightingSubsystem);
 	}
 	
@@ -20,9 +20,8 @@ public class LightingCommand extends Command {
 	}
 	
 	protected void execute() {
-		if (ds.getMatchTime() <= 30) {
-			
-		} else if (Robot.gearSubsystem.gearSensor.atLimit()) {
+		
+		if (Robot.gearSubsystem.gearSensor.atLimit()) {
 			Robot.lightingSubsystem.setYellow();
 		} else if (ds.getAlliance() == DriverStation.Alliance.Blue) {
 			Robot.lightingSubsystem.setBlueAlliance();
@@ -31,6 +30,10 @@ public class LightingCommand extends Command {
 		} else if (ds.getAlliance() == DriverStation.Alliance.Invalid) {
 			Robot.lightingSubsystem.setTeal();
 		}
+		
+		//if (ds.getLocation() == 3) {
+		//	Robot.lightingSubsystem.setTeal();
+		//}
 	}
 	
 	/* (non-Javadoc)

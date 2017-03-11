@@ -133,9 +133,14 @@ public class RotateToHeadingCommand extends Command {
     
     @Override
     public boolean isFinished() {
+    	
+    	// Always check for operator cancel
+    	if (Robot.oi.getCancel()) { return true; }
+
     	if(Math.abs(angleRate)<3 && Math.abs(angleError)<1.5){
     		return true;
     	}
-    	return Robot.oi.getCancel();
+    	
+    	return false;
     }
 }

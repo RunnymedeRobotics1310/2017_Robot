@@ -4,6 +4,7 @@ import com.toronto.oi.T_Axis;
 import com.toronto.oi.T_Button;
 import com.toronto.oi.T_Logitech_GameController;
 import com.toronto.oi.T_OiController;
+import com.toronto.oi.T_OiController.RumbleState;
 import com.toronto.oi.T_Stick;
 import com.toronto.oi.T_Toggle;
 import com.toronto.oi.T_Trigger;
@@ -96,6 +97,10 @@ public class OI {
 		return driverController.getButton(T_Button.LEFT_BUMPER);
 	}
 
+	public RumbleState getDriverRumbleState() {
+		return driverController.getRumbleState();
+	}
+
 	public double getSpeed() {
 		double speed = driverController.getAxis(T_Stick.LEFT, T_Axis.Y);
 		return speed * Math.abs(speed);
@@ -119,6 +124,10 @@ public class OI {
 
 	public boolean getMotorPidEnabled() {
 		return motorPidToggle.getToggleState();
+	}
+
+	public void setMotorPidToggle(boolean state) {
+		motorPidToggle.setToggleState(state);
 	}
 
 	public int getRotateToAngle() {
@@ -193,6 +202,10 @@ public class OI {
 		return shooterToggle.getToggleState();
 	}
 
+	public void setShooterToggleState(boolean state) {
+		shooterToggle.setToggleState(state);
+	}
+
 //	public boolean getShootAngleUpCommand() {
 //		return operatorController.getPov() == 0;
 //	}
@@ -222,6 +235,15 @@ public class OI {
 	
 	public void updatePeriodic() {
 
+		//Update the joysticks
+		driverController.updatePeriodic();
+		operatorController.updatePeriodic();
+		
+		// FIXME: move the Toggle into the base joystick code.
+		//        you should be able to get any button as a 
+		//        toggle instead of a button.
+		//        setToggle(), getToggle();
+		
 		// Update all toggles
 		driverTestToggle.update();
 		motorPidToggle.update();

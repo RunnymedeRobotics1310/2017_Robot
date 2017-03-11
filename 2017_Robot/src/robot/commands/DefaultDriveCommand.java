@@ -4,14 +4,7 @@ package robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
-import robot.RobotConst;
-import robot.RobotConst.VisionDistance;
-import robot.commands.auto.AutoVisionAlignCommand;
-import robot.commands.drive.DriveToEncoderDistanceCommand;
 import robot.commands.drive.RotateToHeadingCommand;
-import robot.commands.shooter.AutoShootAngleAdjustCommand;
-import robot.commands.shooter.AutoShootCommand;
-import robot.commands.shooter.AutoShootWindupCommand;
 import robot.oi.AutoSelector.BoilerPosition;
 
 /**
@@ -41,22 +34,14 @@ public class DefaultDriveCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		/*
-    	switch (driveStraightState) {
-    	case RELEASED:
-	    	if (Robot.oi.getStartDriveStraightCommand()) {
-	    		Scheduler.getInstance().add(new DriveToEncoderDistanceCommand(0, .6, 50.0));
-	    		driveStraightState = ButtonState.PRESSED;
-	    		return;
-	    	}
-        	break;
-    	case PRESSED:
-    		if (! Robot.oi.getStartDriveStraightCommand()) {
-    			driveStraightState = ButtonState.RELEASED;
-    		}
-    		break;
-    	}
-		 */
+		
+    	// Always check for operator cancel
+    	if (Robot.oi.getCancel()) {
+    		Robot.oi.setDriverRumble(0);
+			Robot.chassisSubsystem.disableDrivePids();
+			Robot.chassisSubsystem.setMotorSpeeds(0, 0);
+    		return; 
+		}
 
 		switch (povState) {
 		case RELEASED:
@@ -178,17 +163,14 @@ public class DefaultDriveCommand extends Command {
 			}
 		}
 
-//		if (Robot.oi.getVisionTrackButton()) {
-//			Scheduler.getInstance().add(new VisionTrackCommand());
-//		}
+		if (Robot.oi.getVisionTrackButton()) {
+			Scheduler.getInstance().add(new VisionTrackCommand(5));
+		}
 //
 //
 //		if (Robot.oi.getShooterVisionAlignButton()){
 //			Scheduler.getInstance().add(new AutoVisionAlignCommand(VisionDistance.CLOSE, 4));
 //		}
-
-
-		
 
 		Robot.chassisSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
 	}

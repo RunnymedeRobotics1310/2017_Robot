@@ -45,6 +45,7 @@ public class ShooterSubsystem extends T_Subsystem {
 	
 	private int shooterAngleAdjustSetpoint;
 	
+	private int shooterAngleAdjustPidSetpoint;
 	private boolean shooterAnglePidEnabled = false;
 
 	//***********************************************
@@ -64,7 +65,7 @@ public class ShooterSubsystem extends T_Subsystem {
 	}
 
 	//***********************************************
-	//  Shooter Methods 
+	//  Shooter Speed Methods 
 	//***********************************************
 	
 	public double getShooterSpeed() {
@@ -115,6 +116,10 @@ public class ShooterSubsystem extends T_Subsystem {
 		return false;
 	}
 	
+	public void startShooter() {
+		shooterController.enable();
+	}
+	
 	public void stopShooter() {
 		shooterController.disable();
 		shooterMotor.set(0);
@@ -124,8 +129,8 @@ public class ShooterSubsystem extends T_Subsystem {
 	//  Feeder Methods 
 	//***********************************************
 	
-	public void setFeederSpeed(double speed){
-		shooterFeederMotor.set(speed);
+	public void startFeeder(){
+		shooterFeederMotor.set(.4);
 	}
 	
 	public void stopFeeder(){
@@ -136,24 +141,58 @@ public class ShooterSubsystem extends T_Subsystem {
 	//  Shooter Angle Adjustment Methods 
 	//***********************************************
 	
-	public int getShooterAngleAdjustEncoder() {
-		return shooterAngleEncoder.get();
+	public void closeShooterAngleAdjuster() {
+		shooterAnglePidEnabled = true;
+		this.shooterAngleAdjustPidSetpoint = 0;
 	}
-
-	public boolean isShooterAdjustPidEnabled() { return shooterAnglePidEnabled; }
-
+	
+	public void openShooterAngleAdjuster() {
+		shooterAnglePidEnabled = true;
+		this.shooterAngleAdjustPidSetpoint = shooterAngleAdjustSetpoint;
+	}
+	
 	public void setShooterAngleAdjustSpeed(double speed) {
-		shooterAnglePidEnabled = false;
-		shooterAngleMotor.set(speed);
+
+		if (Math.abs(speed) > 0) {
+			shooterAnglePidEnabled = false;
+			shooterAngleMotor.set(speed);
+		}
+		
+		// If the encoder is at the limit, then stop turning.
+		if (Math.abs(speed) > 0 && shooterAngleEncoder.get() >= RobotConst.SHOOTER_ANGLE_ENCODER_UPPER_LIMIT) {
+			speed = 0;
+		}
+		if (Math.abs(speed) < 0 && shooterAngleEncoder.get() <= RobotConst.SHOOTER_ANGLE_ENCODER_LOWER_LIMIT) {
+			speed = 0;
+		}
+		
+		// When the user stops moving the angle, then set this
+		// as the new setpoint
+		if (speed == 0 && !shooterAnglePidEnabled) {
+			shooterAngleAdjustSetpoint = shooterAngleEncoder.get();
+			shooterAngleAdjustPidSetpoint = shooterAngleAdjustSetpoint;
+			shooterAnglePidEnabled = true;
+		}
 	}
 
 	public void resetShooterAngleAdjustEncoder() {
 		shooterAngleEncoder.reset();
+		shooterAngleAdjustSetpoint = 0;
+		shooterAngleAdjustPidSetpoint = shooterAngleAdjustSetpoint;
 	}
 
 	public void setShooterAngleAdjustSetpoint(int setpoint) {
+		
+		// Update the Pid value
 		shooterAnglePidEnabled = true;
-		this.shooterAngleAdjustSetpoint = setpoint;
+
+		// Do not save the setpoint if the value is zero so that
+		// the user can go back to the previous value
+		if (setpoint != 0) {
+			this.shooterAngleAdjustSetpoint = setpoint;
+		}
+		shooterAngleAdjustPidSetpoint = shooterAngleAdjustSetpoint;
+
 	}
 	
 	public boolean atShooterAngleAdjustSetpoint() {
@@ -164,9 +203,13 @@ public class ShooterSubsystem extends T_Subsystem {
 		}
 	}
 	
-	public int getShooterAngleAdjustError() {
+	private int getShooterAngleAdjustEncoder() {
+		return shooterAngleEncoder.get();
+	}
+
+	private int getShooterAngleAdjustError() {
 		if (shooterAnglePidEnabled) { 
-			return shooterAngleAdjustSetpoint - getShooterAngleAdjustEncoder();
+			return shooterAngleAdjustPidSetpoint - getShooterAngleAdjustEncoder();
 		} else {
 			return 0;
 		}

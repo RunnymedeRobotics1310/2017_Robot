@@ -25,22 +25,33 @@ public class DefaultShooterCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		
+    	// Always check for operator cancel
+    	if (Robot.oi.getCancel()) {
+    		Robot.oi.setShooterToggleState(false);
+			Robot.shooterSubsystem.stopShooter();
+			Robot.shooterSubsystem.closeShooterAngleAdjuster();
+			shooterState = ShooterState.OFF;
+    		return; 
+		}
+
 		//*******************************************
 		// Shooter Speed Control 
 		//*******************************************
 		if(!Robot.oi.isShooterOn()) {
 			
-			Robot.shooterSubsystem.stopShooter();
+			if (shooterState == ShooterState.ON) {
+				Robot.shooterSubsystem.stopShooter();
+				Robot.shooterSubsystem.closeShooterAngleAdjuster();
+			}
 			shooterState = ShooterState.OFF;
 			
 		} else {
 			
 			// If the shooter was previously off, then start
 			// the shooter at the last setpoint.
-			// This initial update of the speed starts the shooter.
 			if (shooterState == ShooterState.OFF) {
-				Robot.shooterSubsystem.setShooterSpeed(
-						Robot.shooterSubsystem.getShooterSpeedSetpoint());
+				Robot.shooterSubsystem.startShooter();
+				Robot.shooterSubsystem.openShooterAngleAdjuster();
 			}
 			
 			// Adjust the speed up or down based on user input
@@ -68,20 +79,19 @@ public class DefaultShooterCommand extends Command {
 		//*******************************************
 		// Update the shooter angle 
 		//*******************************************
-		// Reset the shooter angle encoder
-		// FIXME: The shooter angle encoder should auto adjust
-		//        when at a limit switch
-		if(Robot.oi.getResetShooterAdjustEncoder()){
-			Robot.shooterSubsystem.resetShooterAngleAdjustEncoder();
+		if (shooterState == ShooterState.OFF) {
+
+			// Reset the shooter angle encoder
+			if(Robot.oi.getResetShooterAdjustEncoder()){
+				Robot.shooterSubsystem.resetShooterAngleAdjustEncoder();
+			}
 		}
 		
 		double speed = Robot.oi.getShooterAngleAdjustmentSpeed();
 		if(Math.abs(speed) > 0.2){
 			Robot.shooterSubsystem.setShooterAngleAdjustSpeed(speed);
 		} else {
-			if (!Robot.shooterSubsystem.isShooterAdjustPidEnabled()) {
-				Robot.shooterSubsystem.setShooterAngleAdjustSpeed(0);
-			}
+			Robot.shooterSubsystem.setShooterAngleAdjustSpeed(0);
 		}
 		
 		//*******************************************
@@ -91,7 +101,7 @@ public class DefaultShooterCommand extends Command {
 		if (       Robot.oi.isShooterOn() 
 				&& Robot.oi.getShootButton()
 				&& Robot.shooterSubsystem.isShooterAtSpeed()) {
-			Robot.shooterSubsystem.setFeederSpeed(.3);
+			Robot.shooterSubsystem.startFeeder();
 		} else {
 			Robot.shooterSubsystem.stopFeeder();
 		}

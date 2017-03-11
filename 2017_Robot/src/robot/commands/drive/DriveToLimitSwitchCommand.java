@@ -25,6 +25,9 @@ public class DriveToLimitSwitchCommand extends DriveToEncoderDistanceCommand {
 	@Override
 	protected boolean isFinished() {
 		
+    	// Always check for operator cancel
+    	if (Robot.oi.getCancel()) { return true; }
+
 		// If at the limit, this command is finished
 		if (limitSwitch.atLimit()) {
 			Robot.chassisSubsystem.setMotorSpeeds(0, 0);
