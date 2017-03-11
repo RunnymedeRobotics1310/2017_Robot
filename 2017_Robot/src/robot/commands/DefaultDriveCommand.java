@@ -106,7 +106,7 @@ public class DefaultDriveCommand extends Command {
 		// Use the current robot angle as the drive angle
 		if (Robot.oi.gearLoadingDistanceButton()) {
 			Scheduler.getInstance().add(new DriveToUltrasonicDistanceCommand(
-					Robot.chassisSubsystem.getGyroAngle(), .3, 12.0, Robot.chassisSubsystem.getUltrasonicSensor()));
+					Robot.chassisSubsystem.getGyroAngle(), .3, 16.0, Robot.chassisSubsystem.getUltrasonicSensor()));
 		}
 		
 		// Turn and shoot after hanging a gear

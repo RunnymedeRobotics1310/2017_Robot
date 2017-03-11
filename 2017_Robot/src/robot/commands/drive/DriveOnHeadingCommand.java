@@ -52,6 +52,8 @@ public abstract class DriveOnHeadingCommand extends Command {
 	@Override
 	protected void initialize() {
 
+		Robot.chassisSubsystem.disableGyroPid();
+		
 		// Coarse adjustment is used if the error is > 30 degrees. This will
 		// cause the robot to pivot before continuing on the selected direction.
 		step = Step.COARSE;
@@ -155,6 +157,7 @@ public abstract class DriveOnHeadingCommand extends Command {
 						leftSpeed = -setSpeed;
 					}
 				}
+				
 				break;
 
 			}

@@ -19,7 +19,7 @@ import robot.commands.DefaultLightingCommand;
 public class LightingSubsystem extends T_Subsystem {
 	
 	private CANLight frameLights;
-	private Relay spotlightRelay = new Relay(RobotMap.SPOTLIGHT_RELAY_PORT);
+//	private Relay spotlightRelay = new Relay(RobotMap.SPOTLIGHT_RELAY_PORT);
 
 	private String color = "Default";
 	
@@ -33,7 +33,7 @@ public class LightingSubsystem extends T_Subsystem {
 	public void robotInit() {
 		// TODO Auto-generated method stub
 		frameLights = new CANLight(RobotMap.CANLIGHT_CAN_ADDRESS);
-		spotlightRelay.setDirection(Direction.kForward);
+//		spotlightRelay.setDirection(Direction.kForward);
 		setSpotlight(false);
 	}
 	
@@ -63,11 +63,11 @@ public class LightingSubsystem extends T_Subsystem {
 	}
 	
 	public void setSpotlight(boolean on) {
-		if (on) {
-			spotlightRelay.set(Value.kOn);
-		} else {
-			spotlightRelay.set(Value.kOff);
-		}
+//		if (on) {
+//			spotlightRelay.set(Value.kOn);
+//		} else {
+//			spotlightRelay.set(Value.kOff);
+//		}
 	}
 	
 	public void endGame() {
@@ -86,7 +86,7 @@ public class LightingSubsystem extends T_Subsystem {
 	public void updatePeriodic() {
 
 		SmartDashboard.putString("Framelights", color);
-		SmartDashboard.putString("Spotlight", (spotlightRelay.get() == Value.kOn ? "On":"Off"));
+//		SmartDashboard.putString("Spotlight", (spotlightRelay.get() == Value.kOn ? "On":"Off"));
 	}
 
 }
