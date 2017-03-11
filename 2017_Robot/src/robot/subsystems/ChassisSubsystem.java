@@ -156,9 +156,9 @@ public class ChassisSubsystem extends T_Subsystem {
 	/* ****************************************************************************
 	 * Ultrasonic Sensor
 	 ******************************************************************************/
-//	public boolean atTower() {
-//		return ultrasonicSensor.getDistance() < AT_TOWER__ULTRASONIC_DISTANCE;
-//	}
+	public boolean atTower() {
+		return ultrasonicSensor.getDistance() < AT_TOWER__ULTRASONIC_DISTANCE;
+	}
 	
 	public T_UltrasonicSensor getUltrasonicSensor() {
 		return ultrasonicSensor;
@@ -320,6 +320,12 @@ public class ChassisSubsystem extends T_Subsystem {
 
 		SmartDashboard.putNumber("Ultrasonic voltage", ultrasonicSensor.getVoltage());
 		SmartDashboard.putNumber("Ultrasonic distance", ultrasonicSensor.getDistance());
+	}
+
+	public void setGyroAngle(int angle) {
+		gyro.setAngle(angle);
+		// TODO Auto-generated method stub
+		
 	}
 
 }

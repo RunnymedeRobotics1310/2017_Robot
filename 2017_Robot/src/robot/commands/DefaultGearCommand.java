@@ -37,6 +37,11 @@ public class DefaultGearCommand extends Command {
     	if (Robot.oi.getGearCommand() && Robot.chassisSubsystem.atTower()) {
     		Robot.gearSubsystem.open();
     	}
+	
+    	if (Robot.oi.getGearCommand()) {
+    		Robot.gearSubsystem.open();
+    	}
+    	
     	
     	//..and close it if the user no longer presses the button
     	if (!Robot.oi.getGearCommand() && !Robot.oi.getGearOverrideCommand()) {

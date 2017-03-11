@@ -5,7 +5,7 @@ import robot.Robot;
 import robot.RobotConst;
 import robot.RobotConst.VisionDistance;
 import robot.commands.drive.DriveToEncoderDistanceCommand;
-import robot.commands.drive.DriveToLimitSwitchCommand;
+import robot.commands.drive.DriveToUltrasonicDistanceCommand;
 import robot.commands.drive.RotateToHeadingCommand;
 import robot.commands.shooter.AutoShootAngleAdjustCommand;
 import robot.commands.shooter.AutoShootCommand;
@@ -20,8 +20,6 @@ import robot.oi.AutoSelector.ShootMode;
  */
 public class AutonomousCommand extends CommandGroup {
 	
-
-
     public AutonomousCommand() {
 
     	// FIXME: can we get the boiler position from the alliance colour?
@@ -34,12 +32,15 @@ public class AutonomousCommand extends CommandGroup {
     	System.out.println("Boiler Position " + boilerPosition);
     	System.out.println("Shoot Mode " + shootMode);
     	
+    	Robot.chassisSubsystem.setGyroAngle(0);
+    	
     	if (boilerPosition == BoilerPosition.RIGHT) {
 
         	if (robotPosition == RobotPosition.CENTER) {
         		
         		// Do Gear
-           		addSequential(new DriveToLimitSwitchCommand(0, .6, Robot.chassisSubsystem.getTowerSensor(), 84));
+//           		addSequential(new DriveToLimitSwitchCommand(0, .6, Robot.chassisSubsystem.getTowerSensor(), 84));
+        		addSequential(new DriveToUltrasonicDistanceCommand(0, .6, 14, Robot.chassisSubsystem.ultrasonicSensor));
         		addSequential(new GearReleaseCommand());
         		addSequential(new DriveToEncoderDistanceCommand(0, -.8, 24));
         		
@@ -64,7 +65,8 @@ public class AutonomousCommand extends CommandGroup {
         		addSequential(new DriveToEncoderDistanceCommand(0, .8, 89));
         		addSequential(new RotateToHeadingCommand(60));
         		addSequential(new DriveToEncoderDistanceCommand(60, .8, 15, true));
-        		addSequential(new DriveToLimitSwitchCommand(60, .6, Robot.chassisSubsystem.getTowerSensor(), 38));
+//        	    addSequential(new DriveToLimitSwitchCommand(60, .6, Robot.chassisSubsystem.getTowerSensor(), 38));
+        		addSequential(new DriveToUltrasonicDistanceCommand(60, .6, 14, Robot.chassisSubsystem.ultrasonicSensor));
         		addSequential(new GearReleaseCommand());
         		addSequential(new DriveToEncoderDistanceCommand(60, -.8, 28));
         		
@@ -100,7 +102,8 @@ public class AutonomousCommand extends CommandGroup {
         		addSequential(new DriveToEncoderDistanceCommand(0, .8, 84));
         		addSequential(new RotateToHeadingCommand(300));
         		addSequential(new DriveToEncoderDistanceCommand(300, .8, 20, true));
-        		addSequential(new DriveToLimitSwitchCommand(300, .6, Robot.chassisSubsystem.getTowerSensor(), 36));
+//        		addSequential(new DriveToLimitSwitchCommand(300, .6, Robot.chassisSubsystem.getTowerSensor(), 36));
+        		addSequential(new DriveToUltrasonicDistanceCommand(300, .6, 14, Robot.chassisSubsystem.ultrasonicSensor));
         		addSequential(new GearReleaseCommand());
         		addSequential(new DriveToEncoderDistanceCommand(300, -.8, 26));
         		
@@ -134,7 +137,8 @@ public class AutonomousCommand extends CommandGroup {
         	if (robotPosition == RobotPosition.CENTER) {
         		
         		// Do Gear
-           		addSequential(new DriveToLimitSwitchCommand(0, .6, Robot.chassisSubsystem.getTowerSensor(), 80));
+//           		addSequential(new DriveToLimitSwitchCommand(0, .6, Robot.chassisSubsystem.getTowerSensor(), 80));
+        		addSequential(new DriveToUltrasonicDistanceCommand(0, .6, 14, Robot.chassisSubsystem.ultrasonicSensor));
         		addSequential(new GearReleaseCommand());
         		addSequential(new DriveToEncoderDistanceCommand(0, -.8, 24));
         		
@@ -156,10 +160,11 @@ public class AutonomousCommand extends CommandGroup {
     			addSequential(new AutoShootAngleAdjustCommand(RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_CLOSE));
     			
         		// Do Gear
-        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 87));
+        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 92));
         		addSequential(new RotateToHeadingCommand(60));
         		addSequential(new DriveToEncoderDistanceCommand(60, .8, 18, true));
-        		addSequential(new DriveToLimitSwitchCommand(60, .6, Robot.chassisSubsystem.getTowerSensor(), 38));
+//        		addSequential(new DriveToLimitSwitchCommand(60, .6, Robot.chassisSubsystem.getTowerSensor(), 38));
+        		addSequential(new DriveToUltrasonicDistanceCommand(60, .6, 14, Robot.chassisSubsystem.ultrasonicSensor));
         		addSequential(new GearReleaseCommand());
         		addSequential(new DriveToEncoderDistanceCommand(60, -.8, 28));
         		
@@ -194,7 +199,8 @@ public class AutonomousCommand extends CommandGroup {
         		// Do Gear
         		addSequential(new DriveToEncoderDistanceCommand(0, .8, 9));
         		addSequential(new RotateToHeadingCommand(301));
-    			addSequential(new DriveToLimitSwitchCommand(301, .6, Robot.chassisSubsystem.getTowerSensor(), 28));
+//    			addSequential(new DriveToLimitSwitchCommand(301, .6, Robot.chassisSubsystem.getTowerSensor(), 28));
+        		addSequential(new DriveToUltrasonicDistanceCommand(301, .6, 14, Robot.chassisSubsystem.ultrasonicSensor));
     			addSequential(new GearReleaseCommand());
     			addSequential(new DriveToEncoderDistanceCommand(295, -.8, 25));
     			
