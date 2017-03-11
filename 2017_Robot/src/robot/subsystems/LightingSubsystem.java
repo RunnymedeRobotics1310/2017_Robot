@@ -52,6 +52,7 @@ public class LightingSubsystem extends T_Subsystem {
 		frameLights.writeRegister(3, 0.3, 0, 0, 0);
 		frameLights.writeRegister(4, 0.5, 255, 225, 49);
 		frameLights.writeRegister(5, 0.3, 0, 0, 0);
+		frameLights.cycle(0, 5);
 	}
 	/* (non-Javadoc)
 	 * @see com.toronto.subsystems.T_Subsystem#updatePeriodic()
