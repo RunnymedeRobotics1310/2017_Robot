@@ -307,5 +307,11 @@ public class ChassisSubsystem extends T_Subsystem {
 		SmartDashboard.putNumber("Ultrasonic distance", ultrasonicSensor.getDistance());
 	}
 
+	public void setGyroAngle(int angle) {
+		gyro.setAngle(angle);
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 

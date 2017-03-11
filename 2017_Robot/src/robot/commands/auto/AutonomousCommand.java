@@ -20,8 +20,6 @@ import robot.oi.AutoSelector.ShootMode;
  */
 public class AutonomousCommand extends CommandGroup {
 	
-
-
     public AutonomousCommand() {
 
     	// FIXME: can we get the boiler position from the alliance colour?
@@ -33,6 +31,8 @@ public class AutonomousCommand extends CommandGroup {
     	System.out.println("Robot Position " + robotPosition);
     	System.out.println("Boiler Position " + boilerPosition);
     	System.out.println("Shoot Mode " + shootMode);
+    	
+    	Robot.chassisSubsystem.setGyroAngle(0);
     	
     	if (boilerPosition == BoilerPosition.RIGHT) {
 
@@ -156,7 +156,7 @@ public class AutonomousCommand extends CommandGroup {
     			addSequential(new AutoShootAngleAdjustCommand(RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_CLOSE));
     			
         		// Do Gear
-        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 87));
+        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 92));
         		addSequential(new RotateToHeadingCommand(60));
         		addSequential(new DriveToEncoderDistanceCommand(60, .8, 18, true));
         		addSequential(new DriveToLimitSwitchCommand(60, .6, Robot.chassisSubsystem.getTowerSensor(), 38));
