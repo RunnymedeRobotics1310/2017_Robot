@@ -52,6 +52,8 @@ public abstract class DriveOnHeadingCommand extends Command {
 	@Override
 	protected void initialize() {
 
+		Robot.chassisSubsystem.disableGyroPid();
+		
 		// Coarse adjustment is used if the error is > 30 degrees. This will
 		// cause the robot to pivot before continuing on the selected direction.
 		step = Step.COARSE;
@@ -59,11 +61,15 @@ public abstract class DriveOnHeadingCommand extends Command {
 		rampPercent = 0;
 
 		double angleError = Robot.chassisSubsystem.getGyroAngleError(heading);
-
+		
 		if (Math.abs(angleError) < 30.0d) {
 			step = Step.FINE;
 			enableGyroPid();
 		}
+
+		System.out.println("Start Drive On Heading Command " +  
+				"heading " + heading + " Error " + angleError + " Step " + step);
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -129,7 +135,7 @@ public abstract class DriveOnHeadingCommand extends Command {
 					rampPercent += 0.04;
 				}
 				
-				leftSpeed = setSpeed * rampPercent;
+				leftSpeed  = setSpeed * rampPercent;
 				rightSpeed = setSpeed * rampPercent;
 
 				// Slow down one motor based on the PID output.
@@ -151,6 +157,7 @@ public abstract class DriveOnHeadingCommand extends Command {
 						leftSpeed = -setSpeed;
 					}
 				}
+				
 				break;
 
 			}

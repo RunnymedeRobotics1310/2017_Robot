@@ -1,18 +1,36 @@
 package robot.commands.drive;
 
+import com.toronto.sensors.T_UltrasonicSensor;
+
 import robot.Robot;
 import robot.RobotConst.Direction;
 
 public class DriveToUltrasonicDistanceCommand extends DriveOnHeadingCommand {
 
-	private double setpointDistance;
+	private static final double STOPPING_DISTANCE = 1.0; // Stopping distance in inches
+
+	private final double setpointDistance;
+	private final T_UltrasonicSensor ultrasonicSensor;
+	private final boolean isFrontMounted;
+
 	private Direction direction;
-	
-    public DriveToUltrasonicDistanceCommand(double heading, double speed, double setpointDistance) {
+
+    public DriveToUltrasonicDistanceCommand(double heading, double speed, double setpointDistance,
+    		T_UltrasonicSensor ultrasonicSensor) {
+    	// the default is that the ultrasonic is mounted on the front of the robot.
+    	this(heading, speed, setpointDistance, ultrasonicSensor, true);
+    }
+
+    public DriveToUltrasonicDistanceCommand(double heading, double speed, double setpointDistance, 
+    		T_UltrasonicSensor ultrasonicSensor, boolean isFrontMounted) {
     	
     	super(heading, speed);
     	this.setpointDistance = setpointDistance;
-    	direction = Direction.FORWARD;
+    	this.ultrasonicSensor = ultrasonicSensor;
+    	this.isFrontMounted   = isFrontMounted;
+
+    	//FIXME: Calculate the stopping distance based on the speed.
+
     }
 
     @Override
@@ -21,21 +39,41 @@ public class DriveToUltrasonicDistanceCommand extends DriveOnHeadingCommand {
     	super.initialize();
     	
     	// Where am I now?
-    	double currentDistance = Robot.chassisSubsystem.ultrasonicSensor.getDistance();
+    	double currentDistance = ultrasonicSensor.getDistance();
     	
-    	// Check whether to go forward or backward to get to the desired distance
-    	if (currentDistance >= setpointDistance)
-    	{
-    		System.out.println("BACKWARDS");
-    		direction = Direction.BACKWARDS;
-    	}
-    	else{
-    		System.out.println("FORWARD");
-    		direction=Direction.FORWARD;
+    	// Check whether to go forward or backward to get to the desired distance depending on
+    	// whether the ultrasonic is in the front or rear of the robot
+    	if (isFrontMounted) {
+    		
+	    	if (currentDistance >= setpointDistance) {
+	    		
+	    		direction=Direction.FORWARD;
+	    		
+	    	} else {
+
+	    		direction = Direction.BACKWARDS;
+	    	
+	    	}
+	    	
+    	} else {
+    		
+    		// Sensor is rear mounted
+
+    		if (currentDistance <= setpointDistance) {
+	    		
+	    		direction=Direction.FORWARD;
+		    	
+		    	} else  {
+		    	
+	    		direction = Direction.BACKWARDS;
+	    	}
     	}
     		
+    	System.out.println("Drive " + direction + " from distance "  
+    			+ currentDistance + " to " + setpointDistance);
+
     	// Set the direction
-    	super.setDirection(direction);   	    
+    	super.setDirection(direction);
     	
     }
     
@@ -45,35 +83,63 @@ public class DriveToUltrasonicDistanceCommand extends DriveOnHeadingCommand {
     	// Always check for operator cancel
     	if (Robot.oi.getCancel()) { return true; }
 
-		// Stop if you are there (beware of direction)
-		double currentDistance = Robot.chassisSubsystem.ultrasonicSensor.getDistance();
-		if (direction==Direction.BACKWARDS)
-		{
-			if (currentDistance<=setpointDistance)
-			{
-				System.out.println("Finished");
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else if (direction==Direction.FORWARD)
-		{
-			if (currentDistance>=setpointDistance)
-			{
-				System.out.println("Finished");
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-					
-		}
-		return false;	
+		// Stop if you are there
+		double currentDistance = ultrasonicSensor.getDistance();
+
+		if (isFrontMounted) {
+			
+			switch (direction) {
+			
+			case FORWARD:
+	
+		    	if (currentDistance <= setpointDistance + STOPPING_DISTANCE) {
+					System.out.println("Finished distance " + currentDistance);
+		    		return true;
+		    	}
+
+		    	break;
+			
+			case BACKWARDS:
+				
+				if (currentDistance >= setpointDistance - STOPPING_DISTANCE) {
+					System.out.println("Finished distance " + currentDistance);
+					return true;
+				} 
+				break;
 		
+			default:
+				System.out.println("Unknown direction " + direction);
+				break;
+			}
+			
+		} else {
+		
+			// The sensor is rear mounted
+			switch (direction) {
+			
+			case FORWARD:
+	
+		    	if (currentDistance >= setpointDistance - STOPPING_DISTANCE) {
+					System.out.println("Finished distance " + currentDistance);
+		    		return true;
+		    	}
+
+		    	break;
+			
+			case BACKWARDS:
+				
+				if (currentDistance <= setpointDistance + STOPPING_DISTANCE) {
+					System.out.println("Finished distance " + currentDistance);
+					return true;
+				} 
+					
+			default:
+				System.out.println("Unknown direction " + direction);
+				break;
+			}
+		}
+		
+		return false;
 	}		
 	
 	@Override

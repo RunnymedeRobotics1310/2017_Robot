@@ -51,6 +51,8 @@ public class ChassisSubsystem extends T_Subsystem {
 
 	public Solenoid shifterSolenoid = new Solenoid(RobotMap.SHIFTER_SOLENOID);
 	
+	public static final double AT_TOWER__ULTRASONIC_DISTANCE = 15.0; 
+	
 	public ChassisSubsystem() {
 
 		// Use the robot number to determine which type of motor drive to use.  The
@@ -139,16 +141,29 @@ public class ChassisSubsystem extends T_Subsystem {
 		enableDrivePids();
 	}
 
+	
 	/* ****************************************************************************
 	 * Tower Limit Switch (at Tower)
 	 ******************************************************************************/
-	public boolean atTower() {
-		return towerSensor.atLimit();
-	}
+//	public boolean atTower() {
+//		return towerSensor.atLimit();
+//	}
 	
 	public T_LimitSwitch getTowerSensor() {
 		return towerSensor;
 	}
+	
+	/* ****************************************************************************
+	 * Ultrasonic Sensor
+	 ******************************************************************************/
+	public boolean atTower() {
+		return ultrasonicSensor.getDistance() < AT_TOWER__ULTRASONIC_DISTANCE;
+	}
+	
+	public T_UltrasonicSensor getUltrasonicSensor() {
+		return ultrasonicSensor;
+	}
+	
 	
 	/* ****************************************************************************
 	 * Motor Movement Commands
@@ -305,6 +320,12 @@ public class ChassisSubsystem extends T_Subsystem {
 
 		SmartDashboard.putNumber("Ultrasonic voltage", ultrasonicSensor.getVoltage());
 		SmartDashboard.putNumber("Ultrasonic distance", ultrasonicSensor.getDistance());
+	}
+
+	public void setGyroAngle(int angle) {
+		gyro.setAngle(angle);
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -21,6 +21,9 @@ public class DefaultLightingCommand extends Command {
 	
 	protected void execute() {
 		
+		//if (ds.getMatchTime() <= 30.0) {
+		//	Robot.lightingSubsystem.endGame();
+		//} 
 		if (Robot.gearSubsystem.gearSensor.atLimit()) {
 			Robot.lightingSubsystem.setYellow();
 		} else if (ds.getAlliance() == DriverStation.Alliance.Blue) {
@@ -28,12 +31,8 @@ public class DefaultLightingCommand extends Command {
 		} else if (ds.getAlliance() == DriverStation.Alliance.Red) {
 			Robot.lightingSubsystem.setRedAlliance();
 		} else if (ds.getAlliance() == DriverStation.Alliance.Invalid) {
-			Robot.lightingSubsystem.setTeal();
+			Robot.lightingSubsystem.setGreen();
 		}
-		
-		//if (ds.getLocation() == 3) {
-		//	Robot.lightingSubsystem.setTeal();
-		//}
 	}
 	
 	/* (non-Javadoc)
