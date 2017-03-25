@@ -146,8 +146,8 @@ public class AutonomousCommand extends CommandGroup {
         			addSequential(new AutoShootAngleAdjustCommand(11057));
 	        		addSequential(new AutoShootWindupCommand(RobotConst.SHOOTER_SPEED_CLOSE));
 	        		
-	        		addSequential(new RotateToHeadingCommand(237));
-	        		addSequential(new DriveToEncoderDistanceCommand(237, .8, 44));
+	        		addSequential(new RotateToHeadingCommand(241));
+	        		addSequential(new DriveToEncoderDistanceCommand(241, .8, 42));
 	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
 	        		addSequential(new AutoShootCommand(RobotConst.SHOOTER_SPEED_CLOSE, RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_CLOSE, 60));
         		}
@@ -181,7 +181,7 @@ public class AutonomousCommand extends CommandGroup {
 	        		addSequential(new AutoShootWindupCommand(RobotConst.SHOOTER_SPEED_CLOSE));
 	        		
 	        		// Rotate to a heading
-	        		addSequential(new RotateToHeadingCommand(229));
+	        		addSequential(new RotateToHeadingCommand(219));
          			
 	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
 	        		
