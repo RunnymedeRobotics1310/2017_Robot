@@ -163,7 +163,7 @@ public class OI {
 		double turn = driverController.getAxis(T_Stick.RIGHT, T_Axis.X);
 		// Square the turn to reduce sensitivity
 		// keep the sign
-		return turn * Math.abs(turn);
+		return Math.pow(turn, 3);
 	}
 
 	public RumbleState getDriverRumbleState() {
