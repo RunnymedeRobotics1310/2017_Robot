@@ -104,7 +104,7 @@ public class OI {
 		
 		if (coordinates.isEmpty()) { return -1; }
 		
-		// Close Algorithm
+		// Far Algorithm
 		if (visionDistance == VisionDistance.FAR) {
 			
 			//return getFarVisionTargetCenterX(coordinates);
@@ -124,7 +124,7 @@ public class OI {
 		int i = 0;
 		while (i < coordinates.size()) {
 
-			if (coordinates.get(i).y > 50) {
+			if (coordinates.get(i).y > 200) {
 				coordinates.remove(i);
 				continue;
 			}
@@ -313,7 +313,10 @@ public class OI {
 	public boolean getNudgeRight(){
 		return operatorController.getPov() == 90;
 	}
-	
+
+	public boolean testDriveBack() {
+		return operatorController.getPov() == 0;
+	}
 	public void updatePeriodic() {
 
 		//Update the joysticks

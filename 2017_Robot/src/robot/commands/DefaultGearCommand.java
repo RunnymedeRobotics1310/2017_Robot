@@ -34,16 +34,17 @@ public class DefaultGearCommand extends Command {
     		return; 
 		}
 
-		// Rumble driver and operator controller for 1 second if there is a gear
+//		// Rumble driver and operator controller for 1 second if there is a gear
 		if (!hasGear && Robot.gearSubsystem.getGearSensor().atLimit()) {
+			
 			Robot.oi.setDriverRumble(1, 1);
 			Robot.oi.setOperatorRumble(1, 1);
 			hasGear = true;
 		}
 		
-		// If robot doesn't have the gear, make the hasgear false
+		// If robot doesn't have the gear, make the hasGear false
 		if (!Robot.gearSubsystem.getGearSensor().atLimit()) {
-			hasGear = false;
+//			hasGear = false;
 		}
 		
 		// Only open gear if robot is at tower

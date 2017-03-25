@@ -130,7 +130,7 @@ public class ShooterSubsystem extends T_Subsystem {
 	//***********************************************
 	
 	public void startFeeder(){
-		shooterFeederMotor.set(.4);
+		shooterFeederMotor.set(.6);
 	}
 	
 	public void stopFeeder(){

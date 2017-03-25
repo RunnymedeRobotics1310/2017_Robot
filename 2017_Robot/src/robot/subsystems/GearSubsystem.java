@@ -43,14 +43,13 @@ public class GearSubsystem extends T_Subsystem {
 		return gearSensor;
 	}
 	
-	public void openFlap() {
+	public void closeFlap() {
 		gearFlapSolenoid.set(Value.kForward);
 	} 
 	
-	public void closeFlap() {
+	public void openFlap() {
 		gearFlapSolenoid.set(Value.kReverse);
 	}
-	
 	
 	public GearState getCurrentState() {
 		return gearSolenoid.get() == Value.kForward ? GearState.OPEN : GearState.CLOSED;

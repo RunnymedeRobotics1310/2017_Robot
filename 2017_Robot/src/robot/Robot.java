@@ -18,7 +18,7 @@ import robot.subsystems.ClimbSubsystem;
 import robot.subsystems.GearSubsystem;
 import robot.subsystems.IntakeSubsystem;
 import robot.subsystems.ShooterSubsystem;
-import robot.subsystems.LightingSubsystem;
+//import robot.subsystems.LightingSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot {
 	public static final ClimbSubsystem    	climbSubsystem   = new ClimbSubsystem();
 	public static final IntakeSubsystem 	intakeSubsystem  = new IntakeSubsystem();
 	public static final ShooterSubsystem 	shooterSubsystem = new ShooterSubsystem();
-	public static final LightingSubsystem	lightingSubsystem = new LightingSubsystem();
+//	public static final LightingSubsystem	lightingSubsystem = new LightingSubsystem();
 	public static OI oi;
 	
 
@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
     	subsystemLs.add(climbSubsystem);
     	subsystemLs.add(intakeSubsystem);
     	subsystemLs.add(shooterSubsystem);
-    	subsystemLs.add(lightingSubsystem);
+//    	subsystemLs.add(lightingSubsystem);
 
 		oi = new OI();
 
@@ -91,6 +91,7 @@ public class Robot extends IterativeRobot {
     	Robot.oi.setMotorPidToggle(true);
     	chassisSubsystem.enableDrivePids();
     	Robot.chassisSubsystem.setGyroAngle(0);
+    	Robot.chassisSubsystem.resetEncoders();
     	
     	autoCommand = new AutonomousCommand();
     	autoCommand.start();

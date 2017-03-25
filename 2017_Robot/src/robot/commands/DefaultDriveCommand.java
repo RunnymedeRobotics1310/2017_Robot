@@ -3,9 +3,11 @@ package robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.Robot;
 import robot.commands.drive.DriveToUltrasonicDistanceCommand;
 import robot.commands.drive.RotateToHeadingCommand;
+import robot.commands.shooter.AutoShootAngleAdjustCommand;
 import robot.oi.AutoSelector.BoilerPosition;
 
 /**
@@ -171,6 +173,10 @@ public class DefaultDriveCommand extends Command {
 		if (Robot.oi.getVisionTrackButton()) {
 			Scheduler.getInstance().add(new VisionTrackCommand(5));
 		}
+		
+		if (Robot.oi.testDriveBack()) {
+			Scheduler.getInstance().add(new AutoShootAngleAdjustCommand(13748));
+		}
 
 		// if (Robot.oi.getShooterVisionAlignButton()){
 		// 		Scheduler.getInstance().add(new AutoVisionAlignCommand(VisionDistance.CLOSE, 4));
@@ -186,6 +192,8 @@ public class DefaultDriveCommand extends Command {
 //		}
 
 
+		SmartDashboard.putNumber("Robot Speed", (leftSpeed + rightSpeed) / 2);
+		
 		Robot.chassisSubsystem.setMotorSpeeds(leftSpeed, rightSpeed);
 	}
 

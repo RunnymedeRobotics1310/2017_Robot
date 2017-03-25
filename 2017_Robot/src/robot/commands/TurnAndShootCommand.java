@@ -18,24 +18,29 @@ public class TurnAndShootCommand extends CommandGroup {
 
     public TurnAndShootCommand() {
     
-    	double currentAngle = Robot.chassisSubsystem.getGyroAngle();
-
-    	double targetAngle = currentAngle + 180;
-    	
-    	if (targetAngle >= 360) { targetAngle -= 360; }
-    	
+    	if (Robot.oi.testDriveBack()) {
+    		addSequential(new DriveToEncoderDistanceCommand(0, .5, 20));
+    	}
    
-    	// Start the windup
-		addSequential(new AutoShootAngleAdjustCommand(11057));
-		addSequential(new AutoShootWindupCommand(SHOOTER_SPEED));
-
-		// Backup, rotate and start tracking for one second
-    	addSequential(new DriveToEncoderDistanceCommand(currentAngle, -.8, 25));
-    	addSequential(new RotateToHeadingCommand(targetAngle));
-    	addSequential(new VisionTrackCommand(1));
     	
-    	// Start shooting until the driver moves.
-    	addParallel(new AutoShootCommand(SHOOTER_SPEED, 11057, 60));
-    	addSequential(new VisionTrackCommand(60));
+//    	double currentAngle = Robot.chassisSubsystem.getGyroAngle();
+//
+//    	double targetAngle = currentAngle + 180;
+//    	
+//    	if (targetAngle >= 360) { targetAngle -= 360; }
+//    	
+//   
+//    	// Start the windup
+//		addSequential(new AutoShootAngleAdjustCommand(11057));
+//		addSequential(new AutoShootWindupCommand(SHOOTER_SPEED));
+//
+//		// Backup, rotate and start tracking for one second
+//    	addSequential(new DriveToEncoderDistanceCommand(currentAngle, -.8, 25));
+//    	addSequential(new RotateToHeadingCommand(targetAngle));
+//    	addSequential(new VisionTrackCommand(1));
+//    	
+//    	// Start shooting until the driver moves.
+//    	addParallel(new AutoShootCommand(SHOOTER_SPEED, 11057, 60));
+//    	addSequential(new VisionTrackCommand(60));
     }
 }
