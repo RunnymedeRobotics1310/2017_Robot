@@ -64,6 +64,8 @@ public class OI {
 	
 	private T_Toggle shooterToggle = new T_Toggle(operatorController, T_Button.X, false);
 	
+//	private T_Toggle gearFlapToggle = new T_Toggle(operatorController, T_Axis)
+	
 	private NetworkTable closeVisionTable = NetworkTable.getTable("GRIP/closeBoilerData");
 	private NetworkTable farVisionTable = NetworkTable.getTable("GRIP/farBoilerData");
 
@@ -96,7 +98,7 @@ public class OI {
 		
 		coordinates.clear();
 		
-		for (int i=0; i<xValues.length; i++) {
+		for (int i = 0; i < xValues.length; i++) {
 			coordinates.add(new Coordinate(xValues[i], yValues[i]));
 		}
 		
@@ -119,18 +121,20 @@ public class OI {
 	private double getCloseVisionTargetCenterX() {
 		
 		// Filter out any coordinates where y > 80
-		int i=0;
-		while (i<coordinates.size()) {
-			
+		int i = 0;
+		while (i < coordinates.size()) {
+
 			if (coordinates.get(i).y > 50) {
 				coordinates.remove(i);
 				continue;
 			}
 			i++;
 		}
-		
-		if (coordinates.isEmpty()) { return -1; }
-		
+
+		if (coordinates.isEmpty()) {
+			return -1;
+		}
+
 		return coordinates.get(0).x;
 	}
 	
@@ -205,13 +209,22 @@ public class OI {
 	 * Rumble the Joysticks
 	 **************************************************************************/
 	public void setDriverRumble(double rumble) {
-//		DriverStation.getInstance().getMatchTime();
 		driverController.setRumble(rumble);
 	}
 	
 	public void setOperatorRumble(double rumble) {
 		operatorController.setRumble(rumble);
 	}
+	
+	// With timeout
+	public void setDriverRumble(double rumble, double timeout) {
+		driverController.setRumblePulse(rumble, timeout);
+	}
+	
+	public void setOperatorRumble(double rumble, double timeout) {
+		operatorController.setRumblePulse(rumble, timeout);
+	}
+	
 
 	/* ************************************************************************
 	 * Calibration
@@ -250,6 +263,10 @@ public class OI {
 	
 	public boolean getGearOverrideCommand() {
 		return operatorController.getButton(T_Button.LEFT_STICK);
+	}
+	
+	public boolean getGearFlapCommand() {
+		return operatorController.getPov() == 180;
 	}
 
 	/* ************************************************************************

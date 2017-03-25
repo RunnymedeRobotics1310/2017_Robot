@@ -1,9 +1,5 @@
 package robot;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
-
-import edu.wpi.first.wpilibj.Timer.StaticInterface;
-
 /**
  * The RobotConst is a set of Robot constants that are determined by measuring
  * the ouput of the robot.

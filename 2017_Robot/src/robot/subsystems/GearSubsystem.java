@@ -8,7 +8,6 @@ import com.toronto.subsystems.T_Subsystem;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import robot.Robot;
 import robot.RobotMap;
 import robot.commands.DefaultGearCommand;
 
@@ -24,6 +23,9 @@ public class GearSubsystem extends T_Subsystem {
 	private DoubleSolenoid gearSolenoid = 
 			new DoubleSolenoid(RobotMap.GEAR_SOLENOID_A, RobotMap.GEAR_SOLENOID_B);
 	public T_LimitSwitch gearSensor = new T_LimitSwitch(RobotMap.FRONT_GEAR_SWITCH_DIO_PORT, DefaultState.TRUE);
+	
+	private DoubleSolenoid gearFlapSolenoid = 
+			new DoubleSolenoid(RobotMap.GEAR_FLAP_SOLENOID_A, RobotMap.GEAR_FLAP_SOLENOID_B);
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new DefaultGearCommand());
@@ -41,15 +43,14 @@ public class GearSubsystem extends T_Subsystem {
 		return gearSensor;
 	}
 	
-	public void rumbleControllers() {
-		if (getGearSensor().atLimit()) {
-			Robot.oi.setDriverRumble(1);
-			Robot.oi.setOperatorRumble(1);
-		} else {
-			Robot.oi.setDriverRumble(0);
-			Robot.oi.setOperatorRumble(0);
-		}
+	public void openFlap() {
+		gearFlapSolenoid.set(Value.kForward);
+	} 
+	
+	public void closeFlap() {
+		gearFlapSolenoid.set(Value.kReverse);
 	}
+	
 	
 	public GearState getCurrentState() {
 		return gearSolenoid.get() == Value.kForward ? GearState.OPEN : GearState.CLOSED;
