@@ -142,13 +142,6 @@ public class ChassisSubsystem extends T_Subsystem {
 	}
 
 	
-	/* ****************************************************************************
-	 * Tower Limit Switch (at Tower)
-	 ******************************************************************************/
-//	public boolean atTower() {
-//		return towerSensor.atLimit();
-//	}
-	
 	public T_LimitSwitch getTowerSensor() {
 		return towerSensor;
 	}
@@ -324,8 +317,6 @@ public class ChassisSubsystem extends T_Subsystem {
 
 	public void setGyroAngle(int angle) {
 		gyro.setAngle(angle);
-		// TODO Auto-generated method stub
-		
 	}
 
 }

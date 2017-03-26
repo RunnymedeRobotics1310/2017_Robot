@@ -1,9 +1,5 @@
 package robot;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
-
-import edu.wpi.first.wpilibj.Timer.StaticInterface;
-
 /**
  * The RobotConst is a set of Robot constants that are determined by measuring
  * the ouput of the robot.
@@ -12,7 +8,7 @@ public class RobotConst {
 
 	/** The current Robot number */
 	// FIXME: Should be able to get this from the driver station.
-	public static int ROBOT = 1310;
+	public static int ROBOT = 1311;
 	
 	/** WpiLib compatible inverted indicator {@code boolean true} which can be 
 	 * used to make the robot code more readable */
@@ -70,9 +66,9 @@ public class RobotConst {
 	/** Shooter **/
 	public static final double SHOOTER_ENCODER_MAX_SPEED = 140;
 	
-	public static final double DEFAULT_SHOOTER_SPEED = 65;
+	public static final double DEFAULT_SHOOTER_SPEED = 60.8;
 
-	public static final double HOPPER_AGITATOR_SPEED = .5;
+	public static final double HOPPER_AGITATOR_SPEED = 1;
 	
 	// Vision Tracking 
 	public enum VisionDistance { CLOSE, FAR };
@@ -99,7 +95,7 @@ public class RobotConst {
     	// SET THE ROBOT NUMBER HERE
     	//****************************
     	
-    	ROBOT = 1310;
+    	ROBOT = 1311;
     	
     	// Robot 1310 is the production robot
     	if (ROBOT == 1310 || ROBOT == 1311) {
@@ -134,6 +130,22 @@ public class RobotConst {
     	    
     	}
     	
+    	
+    	if (ROBOT == 1307){
+    		DRIVE_ENCODER_MAX_SPEED = 900;
+    	    DRIVE_ENCODER_COUNTS_PER_IN = 73.18;
+    	    
+    	    GYRO_PID_PROPORTIONAL_GAIN = 3.0;
+    	    GYRO_PID_INTEGRAL_GAIN = .15;
+    	    GYRO_PIVOT_MAX_SPEED = .35; 
+    	    
+    	    DRIVE_PID_PROPORTIONAL_GAIN = 1.0;
+    	    DRIVE_PID_INTEGRAL_GAIN = 0.0;
+    	    
+    	    GYRO_SENSITIVITY = .00161;
+    	    
+    	}
+    	
     	// Robot 1321 has larger 6" wheels
     	if (ROBOT == 1321) {
     	    
@@ -150,5 +162,6 @@ public class RobotConst {
     	    GYRO_SENSITIVITY = .00161;
     	    
     	}
+    
     }
 }

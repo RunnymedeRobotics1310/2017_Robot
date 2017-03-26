@@ -100,7 +100,9 @@ public class DefaultShooterCommand extends Command {
 		// Shooter must be up to speed to feed balls
 		if (       Robot.oi.isShooterOn() 
 				&& Robot.oi.getShootButton()
-				&& Robot.shooterSubsystem.isShooterAtSpeed()) {
+//				&& Robot.shooterSubsystem.isShooterAtSpeed()
+				) 
+		{
 			Robot.shooterSubsystem.startFeeder();
 		} else {
 			Robot.shooterSubsystem.stopFeeder();

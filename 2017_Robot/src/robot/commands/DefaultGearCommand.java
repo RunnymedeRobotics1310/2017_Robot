@@ -13,6 +13,7 @@ import robot.subsystems.GearSubsystem.GearState;
 public class DefaultGearCommand extends Command {
 
 	ButtonState gearButtonState = ButtonState.RELEASED;
+	boolean hasGear = false;
 
 	public DefaultGearCommand() {
 		// Use requires() here to declare subsystem dependencies
@@ -26,19 +27,28 @@ public class DefaultGearCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		
+
     	// Always check for operator cancel
     	if (Robot.oi.getCancel()) {
     		Robot.gearSubsystem.close();
     		return; 
 		}
 
+//		// Rumble driver and operator controller for 1 second if there is a gear
+		if (!hasGear && Robot.gearSubsystem.getGearSensor().atLimit()) {
+			
+			Robot.oi.setDriverRumble(1, 1);
+			Robot.oi.setOperatorRumble(1, 1);
+			hasGear = true;
+		}
+		
+		// If robot doesn't have the gear, make the hasGear false
+		if (!Robot.gearSubsystem.getGearSensor().atLimit()) {
+//			hasGear = false;
+		}
+		
 		// Only open gear if robot is at tower
-    	if (Robot.oi.getGearCommand() && Robot.chassisSubsystem.atTower()) {
-    		Robot.gearSubsystem.open();
-    	}
-	
-    	if (Robot.oi.getGearCommand()) {
+    	if (Robot.oi.getGearCommand() && Robot.chassisSubsystem.atTower() && Robot.chassisSubsystem.getSpeed() >= 0) {
     		Robot.gearSubsystem.open();
     	}
     	
@@ -53,12 +63,22 @@ public class DefaultGearCommand extends Command {
     		Robot.gearSubsystem.open();
     	}
     	
+    	// Open / close the flap
+    	if (Robot.oi.getGearFlapCommand()) {
+    		Robot.gearSubsystem.openFlap();
+    	} else {
+    		Robot.gearSubsystem.closeFlap();
+    	}
+    	
     	
 		if (       Robot.gearSubsystem.getCurrentState() == GearState.OPEN
 				&& Robot.chassisSubsystem.getSpeed() > 0.2 * RobotConst.DRIVE_ENCODER_MAX_SPEED) {
 			Robot.gearSubsystem.close();
 			return;
 		}
+		
+
+		
 
 	}
 

@@ -34,7 +34,7 @@ public class DefaultIntakeCommand extends Command {
 			
 			// Do not override pulses
 			if (Robot.oi.getDriverRumbleState() == RumbleState.OFF) {
-				Robot.oi.setDriverRumble(0.3);
+				Robot.oi.setDriverRumble(1);
 			}
 			Robot.intakeSubsystem.intake();
 			

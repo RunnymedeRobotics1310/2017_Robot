@@ -124,6 +124,7 @@ public class AutoVisionAlignCommand extends Command {
 				// Wait 2 seconds for the target on the first loop only
 				// If more than 2 seconds, then no target is found.
 				if (timeSinceInitialized() - calculateStartTime > 2.0) {
+					System.out.print("No target found... Time out with no target");
 					step = Step.DONE;
 					return;
 				}

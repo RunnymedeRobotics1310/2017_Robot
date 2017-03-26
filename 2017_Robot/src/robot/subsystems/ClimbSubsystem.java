@@ -24,7 +24,7 @@ public class ClimbSubsystem extends T_Subsystem {
 	}
 	
 	public void catchRope() { 
-		climbMotor.set(0.2);
+		climbMotor.set(0.15);
 	}
 
 	public void climb() {
