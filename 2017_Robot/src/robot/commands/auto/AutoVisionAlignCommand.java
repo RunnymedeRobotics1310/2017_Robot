@@ -214,7 +214,10 @@ public class AutoVisionAlignCommand extends Command {
 			return;
 
 		case DONE:
-			// Nothing to do here
+			// Vibrate controllers for 1 second and we are done
+			Robot.oi.setDriverRumble(1, 1);
+			Robot.oi.setOperatorRumble(1, 1);
+			
 			return;
 
 		}
