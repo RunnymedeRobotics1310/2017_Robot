@@ -29,6 +29,18 @@ public class DefaultIntakeCommand extends Command {
 			Robot.oi.setDriverRumble(0);
     		return; 
 		}
+    	
+    	if(Robot.oi.getGearFlapCommand()){
+    		if (Robot.oi.getDriverRumbleState() == RumbleState.OFF) {
+				Robot.oi.setDriverRumble(1);
+			}
+			Robot.intakeSubsystem.intake();
+    	} else {
+    		if (Robot.oi.getDriverRumbleState() == RumbleState.ON) {
+				Robot.oi.setDriverRumble(0);
+			}
+			Robot.intakeSubsystem.stop();
+    	}
 		
 		if (Robot.oi.getIntakeToggleState()) {
 			
