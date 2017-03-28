@@ -14,6 +14,7 @@ import com.toronto.oi.T_Trigger;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import robot.Robot;
 import robot.RobotConst.VisionDistance;
 
 /**
@@ -64,8 +65,6 @@ public class OI {
 	
 	private T_Toggle shooterToggle = new T_Toggle(operatorController, T_Button.X, false);
 	
-//	private T_Toggle gearFlapToggle = new T_Toggle(operatorController, T_Axis)
-	
 	private NetworkTable closeVisionTable = NetworkTable.getTable("GRIP/closeBoilerData");
 	private NetworkTable farVisionTable = NetworkTable.getTable("GRIP/farBoilerData");
 
@@ -97,7 +96,13 @@ public class OI {
 		}
 		
 		coordinates.clear();
-		
+
+		// If the length of x and y are not equal, return -1 so we don't get an
+		// array out of bounds exception moving forward
+		if (xValues.length != yValues.length) {
+			return -1;
+		}
+
 		for (int i = 0; i < xValues.length; i++) {
 			coordinates.add(new Coordinate(xValues[i], yValues[i]));
 		}
@@ -173,10 +178,6 @@ public class OI {
 	public RumbleState getDriverRumbleState() {
 		return driverController.getRumbleState();
 	}
-
-//	public boolean getStartDriveStraightCommand() {
-//	return driverController.getButton(T_Button.Y);
-//}
 
 	public void setMotorPidToggle(boolean state) {
 		motorPidToggle.setToggleState(state);
@@ -263,6 +264,8 @@ public class OI {
 	/**
 	 * This command opens/closes the gear ONLY if the robot is at tower
 	 * @return
+	 * 
+	 * 
 	 */
 	public boolean getGearCommand() {
 		return operatorController.getButton(T_Button.LEFT_BUMPER);

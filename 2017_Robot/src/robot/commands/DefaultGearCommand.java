@@ -44,7 +44,7 @@ public class DefaultGearCommand extends Command {
 		
 		// If robot doesn't have the gear, make the hasGear false
 		if (!Robot.gearSubsystem.getGearSensor().atLimit()) {
-//			hasGear = false;
+			hasGear = false;
 		}
 		
 		// Only open gear if robot is at tower
@@ -76,8 +76,6 @@ public class DefaultGearCommand extends Command {
 			Robot.gearSubsystem.close();
 			return;
 		}
-		
-
 		
 
 	}

@@ -219,7 +219,6 @@ public class AutoVisionAlignCommand extends Command {
 			Robot.oi.setOperatorRumble(1, 1);
 			
 			return;
-
 		}
 	}
 
