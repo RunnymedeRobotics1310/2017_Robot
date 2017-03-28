@@ -25,6 +25,10 @@ public class DefaultShooterCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		
+		if (Robot.oi.getVisionTrackButton()) {
+			shooterState = ShooterState.ON;
+		}
+		
     	// Always check for operator cancel
     	if (Robot.oi.getCancel()) {
     		Robot.oi.setShooterToggleState(false);

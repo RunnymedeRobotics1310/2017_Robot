@@ -197,6 +197,13 @@ public class OI {
 		return driverController.getButton(T_Button.A);
 	}
 
+	public double getY() {
+		double[] yValue = closeVisionTable.getNumberArray("centerY", new double[0]);
+		if (yValue.length >=1 ) {
+			return yValue[0];	
+		}
+		return -1;
+	}
 	public boolean turnAndShootButton() {
 		return operatorController.getButton(T_Button.BACK);
 	}
