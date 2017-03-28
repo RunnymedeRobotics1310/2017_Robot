@@ -30,17 +30,6 @@ public class DefaultIntakeCommand extends Command {
     		return; 
 		}
     	
-    	if(Robot.oi.getGearFlapCommand()){
-    		if (Robot.oi.getDriverRumbleState() == RumbleState.OFF) {
-				Robot.oi.setDriverRumble(1);
-			}
-			Robot.intakeSubsystem.intake();
-    	} else {
-    		if (Robot.oi.getDriverRumbleState() == RumbleState.ON) {
-				Robot.oi.setDriverRumble(0);
-			}
-			Robot.intakeSubsystem.stop();
-    	}
 		
 		if (Robot.oi.getIntakeToggleState()) {
 			
@@ -54,7 +43,12 @@ public class DefaultIntakeCommand extends Command {
 		
 			Robot.intakeSubsystem.outtake();
 		
-		} else {
+		} else if(Robot.oi.getGearFlapCommand()){
+    		if (Robot.oi.getDriverRumbleState() == RumbleState.OFF) {
+				Robot.oi.setDriverRumble(1);
+			}
+			Robot.intakeSubsystem.intake();
+    	} else {
 
 			// Do not override pulses
 			if (Robot.oi.getDriverRumbleState() == RumbleState.ON) {

@@ -209,7 +209,7 @@ public class OI {
 	}
 	
 	public boolean gearLoadingDistanceButton() {
-		return driverController.getButton(T_Trigger.RIGHT);
+		return driverController.getButton(T_Button.Y);
 	}
 
 	/* ************************************************************************
@@ -273,7 +273,7 @@ public class OI {
 	}
 	
 	public boolean getGearFlapCommand() {
-		return operatorController.getPov() == 180;
+		return operatorController.getButton(T_Trigger.LEFT);
 	}
 
 	/* ************************************************************************
@@ -285,7 +285,7 @@ public class OI {
 
 	// Outtake balls
 	public boolean getOuttakeCommand() {
-		return driverController.getButton(T_Trigger.LEFT);
+		return driverController.getButton(T_Trigger.RIGHT);
 	}
 
 	/* ************************************************************************
