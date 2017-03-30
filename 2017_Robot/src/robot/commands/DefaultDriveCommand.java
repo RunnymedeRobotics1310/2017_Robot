@@ -173,7 +173,11 @@ public class DefaultDriveCommand extends Command {
 			Scheduler.getInstance().add(new VisionTrackCommand(5));
 			Scheduler.getInstance().add(new AutoShootAngleAdjustCommand(13748));
 			if (Robot.oi.getY() > 0) {
-				Robot.shooterSubsystem.setShooterSpeed(Robot.oi.getY() * 0.11 + 55.8);
+				
+				Robot.shooterSubsystem.setShooterSpeed(Robot.oi.getY() * 0.11 + 54.8);
+				
+				// old formula before march 29 tuesday
+//				Robot.shooterSubsystem.setShooterSpeed(Robot.oi.getY() * 0.11 + 55.8);
 				//TODO check if it automatically starts shooter
 				Robot.shooterSubsystem.startShooter();
 			}

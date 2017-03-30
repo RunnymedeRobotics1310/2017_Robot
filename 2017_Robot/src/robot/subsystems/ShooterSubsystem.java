@@ -55,6 +55,7 @@ public class ShooterSubsystem extends T_Subsystem {
 	@Override
 	public void robotInit() {
 		shooterMotor.setInverted(true);
+		hopperAgitatorMotor.setInverted(true);
 		stopShooter();
 		stopFeeder();
 		stopAgitator();
@@ -130,7 +131,7 @@ public class ShooterSubsystem extends T_Subsystem {
 	//***********************************************
 	
 	public void startFeeder(){
-		shooterFeederMotor.set(.7);
+		shooterFeederMotor.set(.6);
 	}
 	
 	public void stopFeeder(){
