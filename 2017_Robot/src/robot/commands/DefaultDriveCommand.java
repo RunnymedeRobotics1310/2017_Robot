@@ -186,21 +186,7 @@ public class DefaultDriveCommand extends Command {
 		if (Robot.oi.testDriveBack()) {
 			Scheduler.getInstance().add(new AutoShootAngleAdjustCommand(13748));
 		}
-
-		// if (Robot.oi.getShooterVisionAlignButton()){
-		// Scheduler.getInstance().add(new
-		// AutoVisionAlignCommand(VisionDistance.CLOSE, 4));
-		// }
-
-		// if (Robot.oi.getVisionTrackButton()) {
-		// Scheduler.getInstance().add(new VisionTrackCommand());
-		// }
-		//
-		//
-		// if (Robot.oi.getShooterVisionAlignButton()){
-		// Scheduler.getInstance().add(new
-		// AutoVisionAlignCommand(VisionDistance.CLOSE, 4));
-		// }
+		
 
 		SmartDashboard.putNumber("Robot Speed", (leftSpeed + rightSpeed) / 2);
 

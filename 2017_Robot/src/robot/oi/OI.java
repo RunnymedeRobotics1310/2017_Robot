@@ -14,7 +14,6 @@ import com.toronto.oi.T_Trigger;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import robot.Robot;
 import robot.RobotConst.VisionDistance;
 
 /**
@@ -66,7 +65,7 @@ public class OI {
 	private T_Toggle shooterToggle = new T_Toggle(operatorController, T_Button.X, false);
 	
 	private NetworkTable closeVisionTable = NetworkTable.getTable("GRIP/closeBoilerData");
-	private NetworkTable farVisionTable = NetworkTable.getTable("GRIP/farBoilerData");
+	
 
 	class Coordinate {
 		double x, y;
@@ -79,22 +78,17 @@ public class OI {
 	List<Coordinate> coordinates = new ArrayList<Coordinate>();
 	
 	public double getVisionTargetCenterX(VisionDistance visionDistance) {
-		
+
 		double[] xValues = null;
 		double[] yValues = null;
-		
-		if (visionDistance == VisionDistance.FAR) {
-			
-			xValues = farVisionTable.getNumberArray("centerX", new double[0]);
-			yValues = farVisionTable.getNumberArray("centerY", new double[0]);
-			
-		} else if (visionDistance == VisionDistance.CLOSE) {
-			
+
+		if (visionDistance == VisionDistance.CLOSE) {
+
 			xValues = closeVisionTable.getNumberArray("centerX", new double[0]);
 			yValues = closeVisionTable.getNumberArray("centerY", new double[0]);
-			
+
 		}
-		
+
 		coordinates.clear();
 
 		// If the length of x and y are not equal, return -1 so we don't get an
@@ -106,21 +100,13 @@ public class OI {
 		for (int i = 0; i < xValues.length; i++) {
 			coordinates.add(new Coordinate(xValues[i], yValues[i]));
 		}
-		
-		if (coordinates.isEmpty()) { return -1; }
-		
-		// Far Algorithm
-		if (visionDistance == VisionDistance.FAR) {
-			
-			//return getFarVisionTargetCenterX(coordinates);
-			// Return the first one
-			return coordinates.get(0).x;
-			
-		} else {
-			
-			return getCloseVisionTargetCenterX();
-			
+
+		if (coordinates.isEmpty()) {
+			return -1;
 		}
+
+		return getCloseVisionTargetCenterX();
+
 	}
 
 	private double getCloseVisionTargetCenterX() {

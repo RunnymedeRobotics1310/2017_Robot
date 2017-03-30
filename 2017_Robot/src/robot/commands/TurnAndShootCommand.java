@@ -3,10 +3,6 @@ package robot.commands;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import robot.Robot;
 import robot.commands.drive.DriveToEncoderDistanceCommand;
-import robot.commands.drive.RotateToHeadingCommand;
-import robot.commands.shooter.AutoShootAngleAdjustCommand;
-import robot.commands.shooter.AutoShootCommand;
-import robot.commands.shooter.AutoShootWindupCommand;
 
 
 /**
@@ -14,8 +10,6 @@ import robot.commands.shooter.AutoShootWindupCommand;
  */
 public class TurnAndShootCommand extends CommandGroup {
 	
-	private final static double SHOOTER_SPEED = 61.5;
-
     public TurnAndShootCommand() {
     
     	if (Robot.oi.testDriveBack()) {

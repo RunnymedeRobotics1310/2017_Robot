@@ -71,17 +71,15 @@ public class RobotConst {
 	public static final double HOPPER_AGITATOR_SPEED = 1;
 	
 	// Vision Tracking 
-	public enum VisionDistance { CLOSE, FAR };
+	public enum VisionDistance { CLOSE };
 	
 	public static final int SHOOTER_SHOT_ENCODER_COUNT_RESET = -15547;
 	public static final int SHOOTER_CLOSE_SHOT_ENCODER_COUNT = -7477;
 	public static final double SHOOTER_CLOSE_SHOT_SHOOTER_SPEED = 63.75;
 	
-	public final static double SHOOTER_SPEED_FAR = 79.15;
 	public final static double SHOOTER_SPEED_CLOSE = 60.8;
 	
 	public final static int SHOOTER_ANGLE_ENCODER_COUNT_CLOSE = 13748;
-	public final static int SHOOTER_ANGLE_ENCODER_COUNT_FAR = 22026;
 	
 	public final static int SHOOTER_ANGLE_ENCODER_UPPER_LIMIT = 25000;
 	public final static int SHOOTER_ANGLE_ENCODER_LOWER_LIMIT = -25000;

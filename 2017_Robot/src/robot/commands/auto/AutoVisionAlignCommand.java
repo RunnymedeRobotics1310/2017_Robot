@@ -28,9 +28,8 @@ public class AutoVisionAlignCommand extends Command {
 	private double calculateStartTime = 0;
 
 	private double TARGET_CENTER_PIXELS_CLOSE = 128;
-	private double TARGET_CENTER_PIXELS_FAR = 175;
-	
-	//y value for close: less than 50 (40 and 20)
+
+	// y value for close: less than 50 (40 and 20)
 
 	private boolean disableGyroPidWhenAligned = true;
 
@@ -217,16 +216,18 @@ public class AutoVisionAlignCommand extends Command {
 			// Vibrate controllers for 1 second and we are done
 			Robot.oi.setDriverRumble(1, 1);
 			Robot.oi.setOperatorRumble(1, 1);
-			
+
 			return;
 		}
 	}
 
 	@Override
 	protected boolean isFinished() {
-		
-    	// Always check for operator cancel
-    	if (Robot.oi.getCancel()) { return true; }
+
+		// Always check for operator cancel
+		if (Robot.oi.getCancel()) {
+			return true;
+		}
 
 		// Check for a timeout
 		if (timeSinceInitialized() > timeout) {
@@ -263,13 +264,8 @@ public class AutoVisionAlignCommand extends Command {
 			return 0;
 		}
 
-		if (visionDistance == VisionDistance.FAR) {
-			double error = TARGET_CENTER_PIXELS_FAR - xValue;
-			return error * -0.17;
-		} else {
-			double error = TARGET_CENTER_PIXELS_CLOSE - xValue;
-			return error * -0.15;
-		}
+		double error = TARGET_CENTER_PIXELS_CLOSE - xValue;
+		return error * -0.15;
 
 	}
 
