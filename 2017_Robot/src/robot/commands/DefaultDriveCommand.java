@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.Robot;
+import robot.RobotConst;
 import robot.commands.drive.DriveToUltrasonicDistanceCommand;
 import robot.commands.drive.RotateToHeadingCommand;
 import robot.commands.shooter.AutoShootAngleAdjustCommand;
@@ -170,11 +171,32 @@ public class DefaultDriveCommand extends Command {
 		}
 
 		if (Robot.oi.getVisionTrackButton()) {
-			Scheduler.getInstance().add(new VisionTrackCommand(5));
+			
+
 			Scheduler.getInstance().add(new AutoShootAngleAdjustCommand(13748));
+			Scheduler.getInstance().add(new VisionTrackCommand(5));
+			
+			
 			if (Robot.oi.getY() > 0) {
 				
-				Robot.shooterSubsystem.setShooterSpeed(Robot.oi.getY() * 0.11 + 54.8);
+				
+				double distance = RobotConst.SHOOTER_VISION_Y_DISTANCE_SLOPE * Robot.oi.getY() + RobotConst.SHOOTER_VISION_Y_DISTANCE_B;
+				double shooterSpeed = 0.2 * distance + 42.2;
+			
+				
+				Robot.shooterSubsystem.setShooterSpeed(shooterSpeed);
+				
+				
+				SmartDashboard.putNumber("Vision Shooter" , shooterSpeed);
+				
+				SmartDashboard.putNumber("Vision Old Shooter" , Robot.oi.getY() * 0.11 + 54.8);
+				
+//				System.out.println("Previous / Current Shooter Speed: " + Robot.oi.getY() * 0.11 + 54.8 + ", " + shooterSpeed);
+				
+				
+				SmartDashboard.putNumber("Vision Distance", distance);
+//				
+//				Robot.shooterSubsystem.setShooterSpeed(Robot.oi.getY() * 0.11 + 54.8);
 				
 				// old formula before march 29 tuesday
 //				Robot.shooterSubsystem.setShooterSpeed(Robot.oi.getY() * 0.11 + 55.8);

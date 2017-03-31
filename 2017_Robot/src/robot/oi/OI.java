@@ -185,6 +185,8 @@ public class OI {
 	}
 
 	public double getY() {
+		
+		// 
 		double[] yValue = closeVisionTable.getNumberArray("centerY", new double[0]);
 		if (yValue.length >=1 ) {
 			return yValue[0];	

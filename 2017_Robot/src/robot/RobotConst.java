@@ -85,6 +85,12 @@ public class RobotConst {
 	public final static int SHOOTER_ANGLE_ENCODER_LOWER_LIMIT = -25000;
 	
 	
+	public final static int SHOOTER_VISION_Y74 = 26;
+	public final static int SHOOTER_VISION_Y133 = 123;
+	
+	public final static double SHOOTER_VISION_Y_DISTANCE_SLOPE = 59 / (RobotConst.SHOOTER_VISION_Y133 - RobotConst.SHOOTER_VISION_Y74);
+	public final static double SHOOTER_VISION_Y_DISTANCE_B = 133 - SHOOTER_VISION_Y_DISTANCE_SLOPE * 123;
+	
     // This static initializer is used to adjust the constants for the 
     // robot based on which robot is selected.
     static {
