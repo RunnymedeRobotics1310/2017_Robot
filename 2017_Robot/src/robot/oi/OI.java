@@ -14,6 +14,7 @@ import com.toronto.oi.T_Trigger;
 
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import robot.RobotConst;
 import robot.RobotConst.VisionDistance;
 
 /**
@@ -67,8 +68,8 @@ public class OI {
 	private NetworkTable closeVisionTable = NetworkTable.getTable("GRIP/closeBoilerData");
 	
 
-	class Coordinate {
-		double x, y;
+	public class Coordinate {
+		public double x, y;
 		Coordinate(double x, double y) {
 			this.x = x;
 			this.y = y;
@@ -80,7 +81,7 @@ public class OI {
 	/* ************************************************************************
 	 * Vision Tracking 
 	 **************************************************************************/
-	public double getVisionTargetCenterX(VisionDistance visionDistance) {
+	public Coordinate getVisionTarget(VisionDistance visionDistance) {
 
 		double[] xValues = null;
 		double[] yValues = null;
@@ -97,7 +98,7 @@ public class OI {
 		// If the length of x and y are not equal, return -1 so we don't get an
 		// array out of bounds exception moving forward
 		if (xValues.length != yValues.length) {
-			return -1;
+			return null;
 		}
 
 		for (int i = 0; i < xValues.length; i++) {
@@ -105,31 +106,28 @@ public class OI {
 		}
 
 		if (coordinates.isEmpty()) {
-			return -1;
+			return null;
 		}
 
-		return getCloseVisionTargetCenterX();
+		return getCloseVisionTarget();
 
 	}
 
-	private double getCloseVisionTargetCenterX() {
-		
-		// Filter out any coordinates where y > 80
-		int i = 0;
-		while (i < coordinates.size()) {
+	private Coordinate getCloseVisionTarget() {
 
-			if (coordinates.get(i).y > 200) {
-				coordinates.remove(i);
-				continue;
+		// Get the coordinate with the lowest y value
+		Coordinate lowestYCoordinate = coordinates.get(0);
+		int i = 1;
+		while (i < coordinates.size()) {
+			
+			Coordinate coordinate = coordinates.get(i);
+			if (coordinate.y < lowestYCoordinate.y) {
+				lowestYCoordinate = coordinate;
 			}
 			i++;
 		}
 
-		if (coordinates.isEmpty()) {
-			return -1;
-		}
-
-		return coordinates.get(0).x;
+		return lowestYCoordinate;
 	}
 	
 	/* ************************************************************************
@@ -337,6 +335,17 @@ public class OI {
 		SmartDashboard.putString("Driver Controller", driverController.toString());
 		SmartDashboard.putString("Operator Controller", operatorController.toString());
 		SmartDashboard.putBoolean("MotorPidToggle", getMotorPidEnabled());
+		
+		Coordinate target = getVisionTarget(VisionDistance.CLOSE);
+		if (target != null) {
+			SmartDashboard.putNumber("Vision Target X", target.x);
+			SmartDashboard.putNumber("Vision Target Y", target.y);
+			
+			double distance = RobotConst.SHOOTER_VISION_DISTANCE_SLOPE * target.y + RobotConst.SHOOTER_VISION_DISTANCE_B;
+			SmartDashboard.putNumber("Vision Distance", distance);
+
+			
+		}
 
 	}
 

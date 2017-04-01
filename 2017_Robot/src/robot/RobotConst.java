@@ -89,8 +89,8 @@ public class RobotConst {
 	 *
 	 * In order to calibrate this equal
 	 */
-	public final static int SHOOTER_VISION_YPIXELS_74  = 84;  // Y pixel value at 74"
-	public final static int SHOOTER_VISION_YPIXELS_133 = 169; // Y pixel value at 133"
+	public final static int SHOOTER_VISION_YPIXELS_74  = 75;  // Y pixel value at 74"
+	public final static int SHOOTER_VISION_YPIXELS_133 = 167; // Y pixel value at 133"
 	
 	/** Slope = rise/run = change in distance / change in Y pixel value */
 	public final static double SHOOTER_VISION_DISTANCE_SLOPE = 

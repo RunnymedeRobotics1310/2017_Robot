@@ -2,9 +2,11 @@
 package robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import robot.Robot;
 import robot.RobotConst;
 import robot.commands.DefaultDriveCommand.ButtonState;
+import robot.commands.auto.DropGearCommand;
 import robot.subsystems.GearSubsystem.GearState;
 
 /**
@@ -49,7 +51,8 @@ public class DefaultGearCommand extends Command {
 		
 		// Only open gear if robot is at tower
     	if (Robot.oi.getGearCommand() && Robot.chassisSubsystem.atTower() && Robot.chassisSubsystem.getSpeed() >= 0) {
-    		Robot.gearSubsystem.open();
+    		Scheduler.getInstance().add(new DropGearCommand());
+//    		Robot.gearSubsystem.open();
     	}
     	
     	

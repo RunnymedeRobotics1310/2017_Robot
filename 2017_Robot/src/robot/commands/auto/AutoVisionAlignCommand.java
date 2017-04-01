@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import robot.Robot;
 import robot.RobotConst;
 import robot.RobotConst.VisionDistance;
+import robot.oi.OI.Coordinate;
 
 /**
  * The DriveOnHeading command is the base class for all of the auto commands as
@@ -27,7 +28,7 @@ public class AutoVisionAlignCommand extends Command {
 	private double targetHeading = 0;
 	private double calculateStartTime = 0;
 
-	private double TARGET_CENTER_PIXELS_CLOSE = 128;
+	private double TARGET_CENTER_PIXELS_CLOSE = 120;
 
 	// y value for close: less than 50 (40 and 20)
 
@@ -117,7 +118,12 @@ public class AutoVisionAlignCommand extends Command {
 		case CALCULATE:
 			// Determine the amount of movement required to align with the gyro
 
-			double targetX = Robot.oi.getVisionTargetCenterX(visionDistance);
+			Coordinate target = Robot.oi.getVisionTarget(visionDistance);
+			
+			double targetX = -1;
+			if (target != null) {
+				targetX = target.x;
+			}
 
 			if (firstLoop) {
 				// Wait 2 seconds for the target on the first loop only

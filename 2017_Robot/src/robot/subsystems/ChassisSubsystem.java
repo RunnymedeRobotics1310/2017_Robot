@@ -44,6 +44,7 @@ public class ChassisSubsystem extends T_Subsystem {
 	T_MotorSpeedPidController rightMotorPidController;
 
 	private boolean drivePidsEnabled = false;
+	private boolean highSpeedEnabled = false;
 
 	public T_LimitSwitch towerSensor = new T_LimitSwitch(RobotMap.FRONT_LIMIT_SWITCH_DIO_PORT, DefaultState.TRUE);
 	
@@ -196,11 +197,11 @@ public class ChassisSubsystem extends T_Subsystem {
 	}
 
 	public void setHighGear() {
-		shifterSolenoid.set(false);
+		highSpeedEnabled = true;
 	}
 
 	public void setLowGear() {
-		shifterSolenoid.set(true);
+		highSpeedEnabled = false;
 	}
 
 	public void setMotorSpeeds(double leftSpeed, double rightSpeed) {
@@ -287,12 +288,25 @@ public class ChassisSubsystem extends T_Subsystem {
 			leftMotor .set(leftMotorPidController .get());
 			rightMotor.set(rightMotorPidController.get());
 		}
+
+		// Switch to high gear when enabled
+		if (highSpeedEnabled) {
+			if (Math.abs(getSpeed()) > 1500) {
+				shifterSolenoid.set(false);
+			} 
+			else {
+				shifterSolenoid.set(true);
+			}
+		} else {
+			shifterSolenoid.set(true);
+		}
 		
 		// Update all SmartDashboard values
 		SmartDashboard.putNumber("Left Encoder Distance",  leftEncoder.get());
 		SmartDashboard.putNumber("Left Encoder Speed",     leftEncoder.getRate());
 		SmartDashboard.putNumber("Right Encoder Distance", rightEncoder.get());
 		SmartDashboard.putNumber("Right Encoder Speed",    rightEncoder.getRate());
+		SmartDashboard.putNumber("Robot Encoder Speed",    getSpeed());
 		SmartDashboard.putNumber("Robot Distance", getEncoderDistanceInches());
 
 		SmartDashboard.putData("Left Motor PID", leftMotorPidController);
