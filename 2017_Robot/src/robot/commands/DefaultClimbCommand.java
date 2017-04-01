@@ -45,7 +45,7 @@ public class DefaultClimbCommand extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		return timeSinceInitialized() > 1.0;
+		return false;
 	}
 
 	@Override

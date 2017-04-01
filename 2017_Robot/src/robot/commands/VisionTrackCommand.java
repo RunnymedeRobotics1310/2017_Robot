@@ -19,6 +19,11 @@ public class VisionTrackCommand extends AutoVisionAlignCommand {
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		
+    	// Always check for operator cancel
+    	if (Robot.oi.getCancel()) { 
+    		return true;
+		}
+
 		// This command ends when the driver moves a joystick
 		if (Robot.oi.isDriverJoystickAction()) { return true; }
 		

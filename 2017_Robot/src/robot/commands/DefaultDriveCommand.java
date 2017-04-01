@@ -114,11 +114,6 @@ public class DefaultDriveCommand extends Command {
 					16.0, Robot.chassisSubsystem.getUltrasonicSensor()));
 		}
 
-		// Turn and shoot after hanging a gear
-		if (Robot.oi.turnAndShootButton()) {
-			Scheduler.getInstance().add(new TurnAndShootCommand());
-		}
-
 		// Turn on or off the PIDs
 		if (Robot.oi.getMotorPidEnabled()) {
 			Robot.chassisSubsystem.enableDrivePids();
@@ -170,39 +165,21 @@ public class DefaultDriveCommand extends Command {
 			}
 		}
 
+		/*
+		 * NOTE: Once the vision tracking is started, none of the other buttons above
+		 *       will work until the vision tracking ends.
+		 *       The only ways to end vision tracking are to wait for the timeout
+		 *       or move the robot using the joystick
+		 *       See: VisionTrackCommand
+
+		 * NOTE: The shooter speed adjustment based on the vision tracking is 
+		 *       moved to the DefaultShooterCommand      
+		 */
 		if (Robot.oi.getVisionTrackButton()) {
 			
-
 			Scheduler.getInstance().add(new AutoShootAngleAdjustCommand(13748));
 			Scheduler.getInstance().add(new VisionTrackCommand(5));
 			
-			
-			if (Robot.oi.getY() > 0) {
-				
-				
-				double distance = RobotConst.SHOOTER_VISION_Y_DISTANCE_SLOPE * Robot.oi.getY() + RobotConst.SHOOTER_VISION_Y_DISTANCE_B;
-				double shooterSpeed = 0.2 * distance + 42.2;
-			
-				
-				Robot.shooterSubsystem.setShooterSpeed(shooterSpeed);
-				
-				
-				SmartDashboard.putNumber("Vision Shooter" , shooterSpeed);
-				
-				SmartDashboard.putNumber("Vision Old Shooter" , Robot.oi.getY() * 0.11 + 54.8);
-				
-//				System.out.println("Previous / Current Shooter Speed: " + Robot.oi.getY() * 0.11 + 54.8 + ", " + shooterSpeed);
-				
-				
-				SmartDashboard.putNumber("Vision Distance", distance);
-//				
-//				Robot.shooterSubsystem.setShooterSpeed(Robot.oi.getY() * 0.11 + 54.8);
-				
-				// old formula before march 29 tuesday
-//				Robot.shooterSubsystem.setShooterSpeed(Robot.oi.getY() * 0.11 + 55.8);
-				//TODO check if it automatically starts shooter
-				Robot.shooterSubsystem.startShooter();
-			}
 		}
 
 		if (Robot.oi.testDriveBack()) {

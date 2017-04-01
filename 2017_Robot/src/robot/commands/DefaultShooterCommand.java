@@ -2,6 +2,7 @@
 package robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.Robot;
 import robot.RobotConst;
 
@@ -14,6 +15,8 @@ public class DefaultShooterCommand extends Command {
 	
 	private ShooterState shooterState = ShooterState.OFF;
 	
+	private double autoAlignStartTime = -1; 
+	
 	public DefaultShooterCommand() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.shooterSubsystem);
@@ -24,10 +27,6 @@ public class DefaultShooterCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		
-		if (Robot.oi.getVisionTrackButton()) {
-			shooterState = ShooterState.ON;
-		}
 		
     	// Always check for operator cancel
     	if (Robot.oi.getCancel()) {
@@ -56,28 +55,66 @@ public class DefaultShooterCommand extends Command {
 			if (shooterState == ShooterState.OFF) {
 				Robot.shooterSubsystem.startShooter();
 				Robot.shooterSubsystem.openShooterAngleAdjuster();
+				shooterState = ShooterState.ON;
+			}
+
+			// Autoset the shooter speed based on the distance for 5 seconds after the auto
+			// align button was pressed.
+			if (Robot.oi.getVisionTrackButton()) {
+				autoAlignStartTime = System.currentTimeMillis();
 			}
 			
-			// Adjust the speed up or down based on user input
-			// Only do this when the shooter is running.
-			double shooterSpeedSetpoint = 
-					Robot.shooterSubsystem.getShooterSpeedSetpoint();
-			
-			// Adjust the speed down until a minimum of zero
-			if(Robot.oi.getChangeSpeedDown()) {
-				shooterSpeedSetpoint = 
-						Math.max(0.0, shooterSpeedSetpoint - .05);
-				Robot.shooterSubsystem.setShooterSpeed(shooterSpeedSetpoint);
+			// Auto adjust the shooter speed for 5 seconds after autoalign was last released.
+			if (System.currentTimeMillis() - autoAlignStartTime < 5000) {
+
+				if (Robot.oi.getY() > 0) {
+					
+					// Determine the distance based on the yPixel value of the vision target.
+					// The closer the robot is to the target, the higher the target will appear
+					// in the image, and the lower the yPixel value (since the top of the screen
+					// is row zero)
+					double distance = RobotConst.SHOOTER_VISION_DISTANCE_SLOPE * Robot.oi.getY() + RobotConst.SHOOTER_VISION_DISTANCE_B;
+					
+					// Once the distance is known, set the shooter speed based on the distance.
+					double shooterSpeed = 0.2 * distance + 42.2;
+					
+					Robot.shooterSubsystem.setShooterSpeed(shooterSpeed);
+					
+					SmartDashboard.putNumber("Vision Distance", distance);
+					SmartDashboard.putNumber("Vision Shooter Speed Setpoint" , shooterSpeed);
+					SmartDashboard.putNumber("Vision Old Shooter Speed Setpoint" , Robot.oi.getY() * 0.11 + 54.8);
+					
+	//				Robot.shooterSubsystem.setShooterSpeed(Robot.oi.getY() * 0.11 + 54.8);
+					// old formula before march 29 tuesday
+	//				Robot.shooterSubsystem.setShooterSpeed(Robot.oi.getY() * 0.11 + 55.8);
+	
+				}
 			}
+			else {
+				
+				// Allow for manual adjustment of the shooter speed when not in auto align
+				
+				// Adjust the speed up or down based on user input
+				// Only do this when the shooter is running.
+				double shooterSpeedSetpoint = 
+						Robot.shooterSubsystem.getShooterSpeedSetpoint();
+				
+				// Adjust the speed down until a minimum of zero
+				if(Robot.oi.getChangeSpeedDown()) {
+					shooterSpeedSetpoint = 
+							Math.max(0.0, shooterSpeedSetpoint - .05);
+					Robot.shooterSubsystem.setShooterSpeed(shooterSpeedSetpoint);
+				}
+				
+				// Adjust the speed up until the max shooter speed
+				if(Robot.oi.getChangeSpeedUp()) {
+					shooterSpeedSetpoint = 
+							Math.min(RobotConst.SHOOTER_ENCODER_MAX_SPEED, shooterSpeedSetpoint + .05);
+					Robot.shooterSubsystem.setShooterSpeed(shooterSpeedSetpoint);
+				}
 			
-			// Adjust the speed up until the max shooter speed
-			if(Robot.oi.getChangeSpeedUp()) {
-				shooterSpeedSetpoint = 
-						Math.min(RobotConst.SHOOTER_ENCODER_MAX_SPEED, shooterSpeedSetpoint + .05);
-				Robot.shooterSubsystem.setShooterSpeed(shooterSpeedSetpoint);
 			}
-			
-			shooterState = ShooterState.ON;
+
 		}
 		
 		//*******************************************

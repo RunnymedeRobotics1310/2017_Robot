@@ -77,6 +77,9 @@ public class OI {
 	
 	List<Coordinate> coordinates = new ArrayList<Coordinate>();
 	
+	/* ************************************************************************
+	 * Vision Tracking 
+	 **************************************************************************/
 	public double getVisionTargetCenterX(VisionDistance visionDistance) {
 
 		double[] xValues = null;
@@ -181,7 +184,14 @@ public class OI {
 	}
 
 	public boolean getVisionTrackButton() {
-		return driverController.getButton(T_Button.A);
+		// If the vision track button is pressed, then 
+		// turn the shooter toggle on.  The vision track
+		// button autostarts the shooter
+		boolean visionTrackButton = driverController.getButton(T_Button.A);
+		if (visionTrackButton) {
+			setShooterToggleState(true);
+		}
+		return visionTrackButton;
 	}
 
 	public double getY() {
@@ -192,9 +202,6 @@ public class OI {
 			return yValue[0];	
 		}
 		return -1;
-	}
-	public boolean turnAndShootButton() {
-		return operatorController.getButton(T_Button.BACK);
 	}
 	
 	public boolean gearLoadingDistanceButton() {

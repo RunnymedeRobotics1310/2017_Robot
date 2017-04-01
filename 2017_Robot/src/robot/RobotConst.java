@@ -73,10 +73,6 @@ public class RobotConst {
 	// Vision Tracking 
 	public enum VisionDistance { CLOSE };
 	
-	public static final int SHOOTER_SHOT_ENCODER_COUNT_RESET = -15547;
-	public static final int SHOOTER_CLOSE_SHOT_ENCODER_COUNT = -7477;
-	public static final double SHOOTER_CLOSE_SHOT_SHOOTER_SPEED = 63.75;
-	
 	public final static double SHOOTER_SPEED_CLOSE = 60.8;
 	
 	public final static int SHOOTER_ANGLE_ENCODER_COUNT_CLOSE = 13748;
@@ -84,12 +80,25 @@ public class RobotConst {
 	public final static int SHOOTER_ANGLE_ENCODER_UPPER_LIMIT = 25000;
 	public final static int SHOOTER_ANGLE_ENCODER_LOWER_LIMIT = -25000;
 	
+	/*
+	 * Calculate the slope used to translate the Y pixels from the 
+	 * camera contour detection (height on the screen) to a
+	 * distance measurement (using a y=mx+b type equation).
+
+	 * shooterDistance = slope * yPixels + b
+	 *
+	 * In order to calibrate this equal
+	 */
+	public final static int SHOOTER_VISION_YPIXELS_74  = 26;  // Y pixel value at 74"
+	public final static int SHOOTER_VISION_YPIXELS_133 = 123; // Y pixel value at 133"
 	
-	public final static int SHOOTER_VISION_Y74 = 26;
-	public final static int SHOOTER_VISION_Y133 = 123;
-	
-	public final static double SHOOTER_VISION_Y_DISTANCE_SLOPE = 59 / (RobotConst.SHOOTER_VISION_Y133 - RobotConst.SHOOTER_VISION_Y74);
-	public final static double SHOOTER_VISION_Y_DISTANCE_B = 133 - SHOOTER_VISION_Y_DISTANCE_SLOPE * 123;
+	/** Slope = rise/run = change in distance / change in Y pixel value */
+	public final static double SHOOTER_VISION_DISTANCE_SLOPE = 
+			(133.0-74.0) / (double) (SHOOTER_VISION_YPIXELS_133 - SHOOTER_VISION_YPIXELS_74);
+
+	/** b (Offset) = distance_133 - slope * yPixels_133 */
+	public final static double SHOOTER_VISION_DISTANCE_B = 
+			133.0 - (SHOOTER_VISION_DISTANCE_SLOPE * SHOOTER_VISION_YPIXELS_133);
 	
     // This static initializer is used to adjust the constants for the 
     // robot based on which robot is selected.
