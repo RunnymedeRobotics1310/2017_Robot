@@ -264,7 +264,7 @@ public class OI {
 	}
 	
 	public boolean getGearFlapCommand() {
-		return operatorController.getButton(T_Trigger.LEFT);
+		return driverController.getButton(T_Trigger.LEFT);
 	}
 
 	/* ************************************************************************
