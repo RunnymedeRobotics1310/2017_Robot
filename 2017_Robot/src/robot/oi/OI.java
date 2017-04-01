@@ -184,14 +184,7 @@ public class OI {
 	}
 
 	public boolean getVisionTrackButton() {
-		// If the vision track button is pressed, then 
-		// turn the shooter toggle on.  The vision track
-		// button autostarts the shooter
-		boolean visionTrackButton = driverController.getButton(T_Button.A);
-		if (visionTrackButton) {
-			setShooterToggleState(true);
-		}
-		return visionTrackButton;
+		return driverController.getButton(T_Button.A);
 	}
 
 	public double getY() {

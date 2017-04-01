@@ -40,6 +40,13 @@ public class DefaultShooterCommand extends Command {
 		//*******************************************
 		// Shooter Speed Control 
 		//*******************************************
+		// Autostart the shooter and set the speed based on the distance for 5 seconds 
+    	// after the auto align button was pressed.
+		if (Robot.oi.getVisionTrackButton()) {
+			autoAlignStartTime = System.currentTimeMillis();
+    		Robot.oi.setShooterToggleState(true);
+		}
+		
 		if(!Robot.oi.isShooterOn()) {
 			
 			if (shooterState == ShooterState.ON) {
@@ -58,12 +65,6 @@ public class DefaultShooterCommand extends Command {
 				shooterState = ShooterState.ON;
 			}
 
-			// Autoset the shooter speed based on the distance for 5 seconds after the auto
-			// align button was pressed.
-			if (Robot.oi.getVisionTrackButton()) {
-				autoAlignStartTime = System.currentTimeMillis();
-			}
-			
 			// Auto adjust the shooter speed for 5 seconds after autoalign was last released.
 			if (System.currentTimeMillis() - autoAlignStartTime < 5000) {
 
