@@ -223,6 +223,10 @@ public class ShooterSubsystem extends T_Subsystem {
 		hopperAgitatorMotor.set(RobotConst.HOPPER_AGITATOR_SPEED);
 	}
 	
+	public void reverseAgitator() {
+		hopperAgitatorMotor.set(- RobotConst.HOPPER_AGITATOR_SPEED);
+	}
+
 	public void stopAgitator() {
 		hopperAgitatorMotor.set(0);
 	}

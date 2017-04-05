@@ -8,7 +8,7 @@ public class RobotConst {
 
 	/** The current Robot number */
 	// FIXME: Should be able to get this from the driver station.
-	public static int ROBOT = 1311;
+	public static int ROBOT = 1310;
 	
 	/** WpiLib compatible inverted indicator {@code boolean true} which can be 
 	 * used to make the robot code more readable */
@@ -68,7 +68,7 @@ public class RobotConst {
 	
 	public static final double DEFAULT_SHOOTER_SPEED = 60.8;
 
-	public static final double HOPPER_AGITATOR_SPEED = 1;
+	public static final double HOPPER_AGITATOR_SPEED = .7;
 	
 	// Vision Tracking 
 	public enum VisionDistance { CLOSE };
@@ -89,8 +89,8 @@ public class RobotConst {
 	 *
 	 * In order to calibrate this equal
 	 */
-	public final static int SHOOTER_VISION_YPIXELS_74  = 75;  // Y pixel value at 74"
-	public final static int SHOOTER_VISION_YPIXELS_133 = 167; // Y pixel value at 133"
+	public final static int SHOOTER_VISION_YPIXELS_74  = 44;  // Y pixel value at 74"
+	public final static int SHOOTER_VISION_YPIXELS_133 = 129; // Y pixel value at 133"
 	
 	/** Slope = rise/run = change in distance / change in Y pixel value */
 	public final static double SHOOTER_VISION_DISTANCE_SLOPE = 
@@ -108,7 +108,7 @@ public class RobotConst {
     	// SET THE ROBOT NUMBER HERE
     	//****************************
     	
-    	ROBOT = 1311;
+    	ROBOT = 1310;
     	
     	// Robot 1310 is the production robot
     	if (ROBOT == 1310 || ROBOT == 1311) {

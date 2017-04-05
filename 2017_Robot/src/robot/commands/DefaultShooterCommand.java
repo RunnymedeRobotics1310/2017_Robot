@@ -156,12 +156,19 @@ public class DefaultShooterCommand extends Command {
 		//*******************************************
 		// Agitator
 		//*******************************************
-		if (       Robot.oi.isShooterOn() 
-				&& Robot.oi.getShootButton()) {
+		if (Robot.oi.isShooterOn() && Robot.oi.getShootButton()) {
 			Robot.shooterSubsystem.startAgitator();
+			// Reverse agitator if they pressed the reverse agitator button
+		} else if (Robot.oi.getReverseAgitator()) {
+			Robot.shooterSubsystem.reverseAgitator();
 		} else {
+			// Stop agitator
 			Robot.shooterSubsystem.stopAgitator();
 		}
+		
+		
+	
+
 		
 	}
 

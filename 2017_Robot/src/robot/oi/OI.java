@@ -231,7 +231,7 @@ public class OI {
 	 * Climber
 	 **************************************************************************/
 	public boolean getClimbCatch() {
-		return operatorController.getButton(T_Trigger.RIGHT);
+		return operatorController.getPov() == 0;
 	}
 
 	public boolean getFastClimb() {
@@ -300,6 +300,10 @@ public class OI {
 	}
 	public boolean getResetShooterAdjustEncoder() {
 		return operatorController.getButton(T_Button.B);
+	}
+	
+	public boolean getReverseAgitator() {
+		return operatorController.getButton(T_Trigger.RIGHT);
 	}
 
 	public boolean getNudgeLeft(){
