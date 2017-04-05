@@ -50,8 +50,8 @@ public class RobotMap {
 	public static final int GEAR_SOLENOID_B = 2;
 	
 	// Pneumatic Solenoids for Gear flap
-	public static final int GEAR_FLAP_SOLENOID_A = 4;
-	public static final int GEAR_FLAP_SOLENOID_B = 5;
+	public static final int GEAR_FLAP_SOLENOID_A = 5;
+	public static final int GEAR_FLAP_SOLENOID_B = 4;
 
 
 }
