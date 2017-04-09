@@ -89,6 +89,7 @@ public class RobotConst {
 	 *
 	 * In order to calibrate this equal
 	 */
+	// 50 and 130 orig
 	public final static int SHOOTER_VISION_YPIXELS_74  = 50;  // Y pixel value at 74"
 	public final static int SHOOTER_VISION_YPIXELS_133 = 130; // Y pixel value at 133"
 	

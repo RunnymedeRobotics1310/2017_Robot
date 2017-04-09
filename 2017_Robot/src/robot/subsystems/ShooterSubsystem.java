@@ -7,6 +7,7 @@ import com.toronto.sensors.T_CounterEncoder;
 import com.toronto.sensors.T_Encoder;
 import com.toronto.subsystems.T_Subsystem;
 
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,6 +32,8 @@ public class ShooterSubsystem extends T_Subsystem {
 	private T_Encoder       shooterAngleEncoder  = new T_SrxEncoder((CANTalon) shooterAngleMotor);
 	private T_Encoder       shooterSpeedEncoder  = 
 			new T_CounterEncoder(RobotMap.SHOOTER_SPEED_ENCODER_DIO_PORT, RobotConst.SHOOTER_ENCODER_MAX_SPEED);
+	
+	private Servo hopperFlapServo = new Servo(RobotMap.HOPPER_FLAP_SERVO_PORT);
 	
 	public double shooterSpeedSetpoint = RobotConst.DEFAULT_SHOOTER_SPEED;
 
@@ -224,11 +227,21 @@ public class ShooterSubsystem extends T_Subsystem {
 	}
 	
 	public void reverseAgitator() {
-		hopperAgitatorMotor.set(- RobotConst.HOPPER_AGITATOR_SPEED);
+		hopperAgitatorMotor.set(-0.3);
 	}
 
 	public void stopAgitator() {
 		hopperAgitatorMotor.set(0);
+	}
+	
+	//***********************************************
+	//  Hopper Flap Method
+	//***********************************************
+	public void openFlap(){
+		hopperFlapServo.set(0.5);
+	}
+	public void setFlapValue(double value){
+		hopperFlapServo.set(value);
 	}
 	
 	//***********************************************

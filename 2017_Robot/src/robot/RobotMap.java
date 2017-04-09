@@ -16,6 +16,8 @@ public class RobotMap {
 	public static final int SHOOTER_MOTOR_PWM_PORT = 2;
 	public static final int SHOOTER_FEEDER_MOTOR_PWM_PORT = 3;
 	public static final int HOPPER_AGITATOR_MOTOR_PORT = 4;
+	
+	public static final int HOPPER_FLAP_SERVO_PORT = 5;
 
 	// Digital IO Ports
 	public static final int LEFT_ENCODER_A_DIO_PORT = 0;
@@ -29,6 +31,7 @@ public class RobotMap {
 	public static final int FRONT_GEAR_SWITCH_DIO_PORT = 3;
 
 	public static final int SHOOTER_SPEED_ENCODER_DIO_PORT = 2;
+	
 
 	// Analog Input Ports
 	public static final int GYRO_ANALOG_INPUT_PORT = 0;
@@ -53,5 +56,7 @@ public class RobotMap {
 	public static final int GEAR_FLAP_SOLENOID_A = 5;
 	public static final int GEAR_FLAP_SOLENOID_B = 4;
 
+	// Power Distribution Ports
+	public static final int AGITATOR_POWER_PORT = 8;
 
 }

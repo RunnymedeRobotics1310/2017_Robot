@@ -1,6 +1,7 @@
 
 package robot.commands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import robot.Robot;
@@ -18,6 +19,9 @@ public class DefaultShooterCommand extends Command {
 	private ShooterState shooterState = ShooterState.OFF;
 	
 	private double autoAlignStartTime = -1; 
+	
+	private boolean jamDetected = false;
+	private long jamStart;
 	
 	public DefaultShooterCommand() {
 		// Use requires() here to declare subsystem dependencies
@@ -81,7 +85,8 @@ public class DefaultShooterCommand extends Command {
 					double distance = RobotConst.SHOOTER_VISION_DISTANCE_SLOPE * target.y + RobotConst.SHOOTER_VISION_DISTANCE_B;
 					
 					// Once the distance is known, set the shooter speed based on the distance.
-					double shooterSpeed = 0.2 * distance + 42.2;
+//					double shooterSpeed = 0.2 * distance + 43.5;
+					double shooterSpeed = 0.14 * distance + 48;
 					
 					Robot.shooterSubsystem.setShooterSpeed(shooterSpeed);
 					
@@ -163,8 +168,21 @@ public class DefaultShooterCommand extends Command {
 				Robot.shooterSubsystem.reverseAgitator();
 			}
 			else if (Robot.oi.getShootButton()) {
-				// Agitate when shooting
-				Robot.shooterSubsystem.startAgitator();
+				if (jamDetected) {
+					Robot.shooterSubsystem.reverseAgitator();
+					if (System.currentTimeMillis() - jamStart > 300) {
+						jamDetected = false;
+					}
+				} else {
+					if (Robot.chassisSubsystem.getAgitatorCurrent() > 7) {
+						jamDetected = true;
+						jamStart = System.currentTimeMillis();
+						Robot.shooterSubsystem.reverseAgitator();
+					} else {
+						// Agitate when shooting
+						Robot.shooterSubsystem.startAgitator();
+					}
+				}
 			} else {
 				// Stop agitator
 				Robot.shooterSubsystem.stopAgitator();
@@ -174,9 +192,9 @@ public class DefaultShooterCommand extends Command {
 			Robot.shooterSubsystem.stopAgitator();
 		}
 		
-	
-
-		
+		if(DriverStation.getInstance().isOperatorControl()){
+			Robot.shooterSubsystem.setFlapValue(Robot.oi.getFlapServoValue());
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

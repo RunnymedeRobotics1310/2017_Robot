@@ -314,9 +314,11 @@ public class OI {
 		return operatorController.getPov() == 90;
 	}
 
-	public boolean testDriveBack() {
-		return operatorController.getPov() == 0;
+	public double getFlapServoValue(){
+		return Math.abs(operatorController.getAxis(T_Stick.LEFT, T_Axis.Y));
 	}
+	
+	
 	public void updatePeriodic() {
 
 		//Update the joysticks

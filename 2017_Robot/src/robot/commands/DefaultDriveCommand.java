@@ -180,10 +180,6 @@ public class DefaultDriveCommand extends Command {
 			Scheduler.getInstance().add(new VisionTrackCommand(5));
 			
 		}
-
-		if (Robot.oi.testDriveBack()) {
-			Scheduler.getInstance().add(new AutoShootAngleAdjustCommand(13748));
-		}
 		
 
 		SmartDashboard.putNumber("Robot Speed", (leftSpeed + rightSpeed) / 2);

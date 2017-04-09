@@ -13,6 +13,7 @@ import com.toronto.sensors.T_LimitSwitch.DefaultState;
 import com.toronto.sensors.T_UltrasonicSensor;
 import com.toronto.subsystems.T_Subsystem;
 
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.VictorSP;
@@ -53,6 +54,8 @@ public class ChassisSubsystem extends T_Subsystem {
 	public Solenoid shifterSolenoid = new Solenoid(RobotMap.SHIFTER_SOLENOID);
 	
 	public static final double AT_TOWER__ULTRASONIC_DISTANCE = 15.0; 
+	
+	public PowerDistributionPanel powerDistributionPanel = new PowerDistributionPanel(0);
 	
 	public ChassisSubsystem() {
 
@@ -265,6 +268,10 @@ public class ChassisSubsystem extends T_Subsystem {
 	}
 
 	
+	public double getAgitatorCurrent(){
+		return powerDistributionPanel.getCurrent(RobotMap.AGITATOR_POWER_PORT);
+	}
+	
 	/* ****************************************************************************
 	 * Ultrasonic Distance
 	 ******************************************************************************/
@@ -327,6 +334,8 @@ public class ChassisSubsystem extends T_Subsystem {
 
 		SmartDashboard.putNumber("Ultrasonic voltage", ultrasonicSensor.getVoltage());
 		SmartDashboard.putNumber("Ultrasonic distance", ultrasonicSensor.getDistance());
+		
+		SmartDashboard.putNumber("Hopper Current",  powerDistributionPanel.getCurrent(RobotMap.AGITATOR_POWER_PORT));
 	}
 
 	public void setGyroAngle(int angle) {
