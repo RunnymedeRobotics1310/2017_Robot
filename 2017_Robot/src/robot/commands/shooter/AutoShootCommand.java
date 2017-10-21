@@ -16,6 +16,10 @@ public class AutoShootCommand extends Command {
 	private final double shooterSpeed;
 	private final int    shooterAngleAdjustSetpoint;
 	private final double timeout;
+	 
+	// Reverse algorithm
+	private boolean jamDetected = false;
+	private long jamStart;
 	
 	public AutoShootCommand(double shooterSpeed, int shooterAngleAdjustSetpoint, double timeout) {
 		requires(Robot.shooterSubsystem);
@@ -37,7 +41,9 @@ public class AutoShootCommand extends Command {
 			double distance = RobotConst.SHOOTER_VISION_DISTANCE_SLOPE * target.y + RobotConst.SHOOTER_VISION_DISTANCE_B;
 			
 			// Once the distance is known, set the shooter speed based on the distance.
-			double shooterSpeed = 0.2 * distance + 42.2;
+			double shooterSpeed = 0.2 * distance + 42;// old
+//			double shooterSpeed = 0.14 * distance + 40.82;// new speed: 50 at 74"| 46.3 speed distance: 46
+			
 			
 			Robot.shooterSubsystem.setShooterSpeed(shooterSpeed);
 			
@@ -58,8 +64,12 @@ public class AutoShootCommand extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 
+		initialize();
+		
 		// Wait for the angle to be adjusted in order to shoot
 		if (!Robot.shooterSubsystem.atShooterAngleAdjustSetpoint()) {
+			
+
 			Robot.shooterSubsystem.stopFeeder();
 			Robot.shooterSubsystem.stopAgitator();
 			return;
@@ -70,8 +80,28 @@ public class AutoShootCommand extends Command {
 		//*******************************************
 		// Shooter must be up to speed to feed balls
 		if (Robot.shooterSubsystem.isShooterAtSpeed()) {
-			Robot.shooterSubsystem.startAgitator();
+			//working on
+			
 			Robot.shooterSubsystem.startFeeder();
+			
+			if (jamDetected) {
+				Robot.shooterSubsystem.reverseAgitator();
+				if (System.currentTimeMillis() - jamStart > 300) {
+					jamDetected = false;
+				}
+			} else {
+				if (Robot.chassisSubsystem.getAgitatorCurrent() > 7) {
+					jamDetected = true;
+					jamStart = System.currentTimeMillis();
+					Robot.shooterSubsystem.reverseAgitator();
+				} else {
+					// Agitate when shooting
+					Robot.shooterSubsystem.startAgitator();
+				}
+			}
+			
+//			Robot.shooterSubsystem.startAgitator();
+
 		} else {
 			Robot.shooterSubsystem.stopFeeder();
 		}

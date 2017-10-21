@@ -43,20 +43,22 @@ public class AutonomousCommand extends CommandGroup {
     		addSequential(new AutoShootWindupCommand(RobotConst.SHOOTER_SPEED_CLOSE));
     		
     		
-    		addSequential(new DriveToEncoderDistanceCommand(0, -0.8, 20));
+    		addSequential(new DriveToEncoderDistanceCommand(0, -0.8, 30));
+    		addSequential(new AutoOpenHopperFlapCommand());
     		addSequential(new RotateToHeadingCommand(30));
     		addSequential(new DriveToEncoderDistanceCommand(30, -1, 71));
 //    		addSequential(new RotateToHeadingCommand(0));
-    		addSequential(new DriveToEncoderDistanceCommand(10, -1, 35));
+    		addSequential(new DriveToEncoderDistanceCommand(15, -1, 30));
 //    		addSequential(new RotateToHeadingCommand(40));
 //    		addSequential(new DriveToEncoderDistanceCommand(40, -0.8, 93));
 //    		addSequential(new RotateToHeadingCommand(7));
 //    		addSequential(new DriveToEncoderDistanceCommand(7, -0.8, 24));
     		
-    		addSequential(new AutoOpenHopperFlapCommand());
+ 
+    		
     		
     		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
-    		addSequential(new AutoShootCommand(RobotConst.SHOOTER_SPEED_CLOSE , RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_CLOSE, 60));
+    		addSequential(new AutoShootCommand(62.3 , RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_CLOSE, 60));
     	
 
     
