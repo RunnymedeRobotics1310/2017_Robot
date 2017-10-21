@@ -114,7 +114,19 @@ public class AutonomousCommand extends CommandGroup {
         			addSequential(new DriveToEncoderDistanceCommand(0, .8, 36));
         		}
         		
-        		addSequential(new AutoOpenHopperFlapCommand());
+        		
+        		if (shootMode == ShootMode.GEAR_SHOOT) {
+        			addSequential(new AutoShootAngleAdjustCommand(11057));
+	        		addSequential(new AutoShootWindupCommand(RobotConst.SHOOTER_SPEED_CLOSE));
+	        		
+	        		addSequential(new RotateToHeadingCommand(113));
+	        		addSequential(new DriveToEncoderDistanceCommand(113, .8, 46));
+	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
+	        		addSequential(new AutoShootCommand(RobotConst.SHOOTER_SPEED_CLOSE + .5, RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_CLOSE, 60));
+	        		
+	        		addSequential(new AutoOpenHopperFlapCommand());
+        		}
+        		
         		
         		
         	}
@@ -187,7 +199,7 @@ public class AutonomousCommand extends CommandGroup {
     			addSequential(new AutoShootAngleAdjustCommand(RobotConst.SHOOTER_ANGLE_ENCODER_COUNT_CLOSE));
     			
         		// Do Gear
-        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 87));
+        		addSequential(new DriveToEncoderDistanceCommand(0, .8, 89));
         		addSequential(new RotateToHeadingCommand(60));
         		addSequential(new DriveToEncoderDistanceCommand(60, .8, 18, true));
         		addSequential(new DriveToUltrasonicDistanceCommand(60, .6, 14, Robot.chassisSubsystem.ultrasonicSensor));
@@ -207,7 +219,7 @@ public class AutonomousCommand extends CommandGroup {
 	        		addSequential(new AutoShootWindupCommand(RobotConst.SHOOTER_SPEED_CLOSE));
 	        		
 	        		// Rotate to a heading
-	        		addSequential(new RotateToHeadingCommand(219));
+	        		addSequential(new RotateToHeadingCommand(213)); //old 219
          			
 	        		addSequential(new AutoVisionAlignCommand(VisionDistance.CLOSE));
 	        		

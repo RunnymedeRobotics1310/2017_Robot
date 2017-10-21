@@ -28,7 +28,7 @@ public class AutoVisionAlignCommand extends Command {
 	private double targetHeading = 0;
 	private double calculateStartTime = 0;
 
-	private double TARGET_CENTER_PIXELS_CLOSE = 135;
+	private double TARGET_CENTER_PIXELS_CLOSE = 137; //old 135;
 
 	// y value for close: less than 50 (40 and 20)
 

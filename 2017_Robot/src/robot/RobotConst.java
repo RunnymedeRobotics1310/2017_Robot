@@ -73,7 +73,7 @@ public class RobotConst {
 	// Vision Tracking 
 	public enum VisionDistance { CLOSE };
 	
-	public final static double SHOOTER_SPEED_CLOSE = 60.8;
+	public final static double SHOOTER_SPEED_CLOSE = 55.8; // 58.8; //old 60.8 
 	
 	public final static int SHOOTER_ANGLE_ENCODER_COUNT_CLOSE = 13748;
 	
@@ -90,8 +90,8 @@ public class RobotConst {
 	 * In order to calibrate this equal
 	 */
 	// 41 and 121 orig
-	public final static int SHOOTER_VISION_YPIXELS_74  = 40;  // Y pixel value at 74"
-	public final static int SHOOTER_VISION_YPIXELS_133 = 129; // Y pixel value at 133"
+	public final static int SHOOTER_VISION_YPIXELS_74  = 46; //old at vic was 40  // Y pixel value at 74"
+	public final static int SHOOTER_VISION_YPIXELS_133 = 135; //old at vic was 129 // Y pixel value at 133"
 	
 	/** Slope = rise/run = change in distance / change in Y pixel value */
 	public final static double SHOOTER_VISION_DISTANCE_SLOPE = 
